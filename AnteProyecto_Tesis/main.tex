@@ -4,7 +4,7 @@
 \usepackage{natbib}
 \usepackage{graphicx}
 
-
+\usepackage{udp}
 
 
 
@@ -137,7 +137,7 @@ Para este nuevo método se introduce un nuevo micro descriptor basado en técnic
 La cadena de procedimientos ordenados o “pipeline” de este método se divide en cuatro grandes etapas:
     \begin{enumerate}
     \item Extracción de Micro-Descriptores\\
-    Éste proceso se centrará en encontrar las regiones de interés del rostro (ROI), luego para cada una de éstas se realizará un seguimiento con respecto al $i$ cuadro siguiente y se verá cual es el movimiento de éste con respecto al cuadro actual, esto permitirá realizar el cálculo de un rayo de flujo. Al realizar el cálculo de los rayos para cada cuadro se obtendrá un conjunto de rayos que representan la ROI de la imagen.
+    Éste proceso se centrará en encontrar las regiones de interés del rostro (ROI). Luego, para cada una de estas regiones se realizará un seguimiento con respecto al $i$avo cuadro siguiente, y se calculará cual es el movimiento de éste con respecto al cuadro actual. Este proceso permitirá realizar el cálculo de un rayo de flujo. El resultado es un conjunto de rayos que representan la ROI de la imagen.
     \item Normalización de rayos y creación del bag of features (BoF)\\
 Luego de la extracción del conjunto de rayos de cada una de las ROI se procede a realizar la normalización de los rayos de tal forma que cada conjunto pueda ser leído en el mismo espacio vectorial.
 
