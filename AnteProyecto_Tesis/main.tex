@@ -132,11 +132,11 @@ Técnica que permite estimar el movimiento de las regiones de interés en las im
 
 Para este nuevo método se introduce un nuevo micro descriptor basado en técnicas similares al optical flow, el cual nos permitirá realizar el seguimiento de las regiones de interés o ROI (por sus siglas en inglés) que denominaremos ``rayo de flujo'' o simplemente ``rayo''.
 
-La cadena de procedimientos ordenados o “pipeline” de este método se divide en cuatro grandes etapas:
+La cadena de procedimientos ordenados o ``pipeline'' de este método se divide en cuatro grandes etapas:
     \begin{enumerate}
     \item Extracción de Micro-Descriptores\\
     Éste proceso se centrará en encontrar las regiones de interés del rostro (ROI). Luego, para cada una de estas regiones se realizará un seguimiento con respecto al $i$avo cuadro siguiente, y se calculará cual es el movimiento de éste con respecto al cuadro actual. Este proceso permitirá realizar el cálculo de un rayo de flujo. El resultado es un conjunto de rayos que representan la ROI de la imagen.\\
-    Para esta etapa, los métodos contra los cuales se realizara la comparación de la efectividad serán los nombrados anteriormente LBP y LND.
+    Para esta etapa, los métodos contra los cuales se evaluará el método propuesto serán los nombrados anteriormente: LBP y LDN.
     \item Normalización de rayos y creación del bag of features (BoF)\\
 Luego de la extracción del conjunto de rayos de cada una de las ROI se procede a realizar la normalización de los rayos de tal forma que cada conjunto pueda ser leído en el mismo espacio vectorial.
 
