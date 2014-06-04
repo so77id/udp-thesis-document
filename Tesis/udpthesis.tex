@@ -6,7 +6,7 @@
 %
 \documentclass[thesis,final]{udpbook}
 %
-\usepackage[latin1]{inputenc}    % esto NO es portable
+\usepackage[utf8]{inputenc}
 
 \usepackage[T1]{fontenc}
 \usepackage{amsmath}
@@ -32,15 +32,12 @@
 
 
 
-%\providecommand{\abs}[1]{\lvert#1\rvert} 
-%\providecommand{\norm}[1]{\lVert#1\rVert} 
-
 
 %
 % ----------------------------------------------------------------
 % defina su escuela
 %
-\udpEscuela{Escuela Ingeniería Informática}{Facultad de Ingeniería}
+\udpEscuela{Escuela Ingeniera InformÃ¡tica}{Facultad de Ingeniera}
 %
 % ---------------------------------------------------------------
 % Comienzo del documento
@@ -58,12 +55,12 @@
 % ----------------------------------------------------------------
 %
 \begin{titlepage}
-\title{Título de tesis o memoria}
-\author{Nombre del autor}
-\degreedoc{Tesis/Memoria}{grado/título}{Ingeniero Civil en Informática y Telecomunicaciones}
-\chairperson{PROFESOR GUÍA}      %
-\committee{PROFESOR COMITÉ 1 \\ PROFESOR COMITÉ 2}     % separados por \\
-\date{(MES), (AÑO)}	% (Ej: Enero, 2006)
+\title{Reconocimiento de expresiones faciales en imÃ¡genes dinÃ¡micas utilizando un descriptor basado en rayos de flujo}
+\author{Miguel Antonio RodrÃ­guez Santander}
+\degreedoc{Tesis}{tÃ­tulo}{Ingeniero Civil en InformÃ¡tica y Telecomunicaciones}
+\chairperson{Adin Ramirez}      %
+\committee{Javier Pereira\\ PROFESOR COMIT 2}     % separados por \\
+\date{(Julio), (2014)}	% (Ej: Enero, 2006)
 \end{titlepage}                      %
 %
 % ----------------------------------------------------------------
@@ -72,8 +69,8 @@
 % (maximo seis firmas)
 %
 \begin{signaturepage}                   %
-\approval{NOMBRE\\Profesor guía}        %
-\approvaldouble{NOMBRE\\Comité}{NOMBRE\\Comité}%
+\approval{Adin Ramirez\\Profesor guÃ­a}        %
+\approvaldouble{Javier Pereira\\ComitÃ©}{NOMBRE\\ComitÃ©}%
 \end{signaturepage}                     %
 %
 % ----------------------------------------------------------------
@@ -82,7 +79,7 @@
 % separadas por \\ si es mas de una linea
 %
 \begin{dedicatory}                      %
-Una pequeña dedicatoria.                %
+Una pequea dedicatoria.                %
 \end{dedicatory}                        %
 %
 % ----------------------------------------------------------------
@@ -92,15 +89,15 @@ Una pequeña dedicatoria.                %
 % y lista de tablas.
 %
 \tableofcontents                        % tabla de contenido
-\listoffigures                          % índice de figuras
-\listoftables                           % índice de tablas
+\listoffigures                          % ndice de figuras
+\listoftables                           % ndice de tablas
 %
 % ----------------------------------------------------------------
 % pagina de agradecimientos
 % ----------------------------------------------------------------
 %
 \begin{acknowledgment}                  %
-(Nota redactada sobriamente en la cual se agradece a quienes han colaborado en la elaboración del trabajo.)
+(Nota redactada sobriamente en la cual se agradece a quienes han colaborado en la elaboraciÃ³n del trabajo.)
 \end{acknowledgment}                    %
 %
 % ----------------------------------------------------------------
@@ -108,7 +105,7 @@ Una pequeña dedicatoria.                %
 % ----------------------------------------------------------------
 %
 \begin{abstract}                        %
-(Abstract es el resumen en inglés que no debe exceder una página.)
+(Abstract es el resumen en inglÃ©s que no debe exceder una pÃ¡gina.)
 \end{abstract}                          %
 %
 % ----------------------------------------------------------------
@@ -127,17 +124,21 @@ Una pequeña dedicatoria.                %
 \mainmatter                             %
                                         %
 % ----------------------------------------------------------------
-% Capítulos y secciones del documento
+% Captulos y secciones del documento
 % ----------------------------------------------------------------
 % aca se incluyen los archivos con el texto de los capitulos
 % (Ej.: cha-intro.tex es el archivo con un capitulo)
 %
-\input{CapI}
 
+\input{Introduccion.tex}
+\input{Estado_del_arte.tex}
+\input{Algoritmo.tex}
+\input{Experimentos_y_resultados.tex}
+\input{Conclusion.tex}
 % ... mas archivos de capitulos
 %
 % ---------------------------------------------------------------
-% Bibliografía
+% Bibliografa
 % ---------------------------------------------------------------
 % tubiblio.bib es el archivo con la base de datos bibliografica
 %
@@ -145,7 +146,7 @@ Una pequeña dedicatoria.                %
 \bibliography{referencias}
 %
 % ---------------------------------------------------------------
-% Simbología y glosario
+% Simbologa y glosario
 % ---------------------------------------------------------------
 % simbolos.tex es el archivo de simbolos (y glosario)
 %
@@ -165,7 +166,7 @@ Una pequeña dedicatoria.                %
 %
 % ---------------------------------------------------------------
 % Fin del documento
-% NO ESCRIBIR DESPUÉS DE ESTA LINEA
+% NO ESCRIBIR DESPUS DE ESTA LINEA
 \backmatter
 \end{document}
 % ---------------------------------------------------------------
