@@ -1,0 +1,49 @@
+\chapter[Introducción]{Introducción}
+\label{ch:intro}
+
+\section{Motivación}
+\label{sec:motivacion}
+Con los actuales avances tecnológicos, el reconocimiento de expresiones faciales o FER (por sus siglas en inglés) forma parte importante de una rama de la inteligencia artificial, específicamente el reconocimiento de patrones.  Estas investigaciones permiten el desarrollo de futuras tecnologías ligadas al desarrollo de interfaces centradas en el humano. 
+Los estudios de Mehrabian sobre la comunicación oral indican que las expresiones faciales contribuyen con aproximadamente el 55\% de la transmisión del mensaje, lo cual es un valor mucho mayor que la parte verbal con 7\% y la parte vocal un 38\%~\cite{MEHRABIANA}.
+La motivación de este proyecto es buscar un nuevo descriptor espacio temporal para reconocer expresiones faciales. Para esto se propone un nuevo método utilizando imágenes dinámicas, el cual utilizaremos para reconocer las seis emociones típicas tales como: disgusto, cólera, felicidad, tristeza, miedo y sorpresa.
+
+\section{Solución propuesta}
+\label{sec:solucion}
+
+Para este nuevo método se introduce un nuevo micro descriptor basado en técnicas similares al optical flow, el cual nos permite realizar el seguimiento de las regiones de interés o ROI (por sus siglas en inglés) que denominaremos ``rayo de flujo'' o simplemente ``rayo''.
+La cadena de procedimientos ordenados o ``pipeline'' de este método se divide en cuatro grandes
+etapas: preprocesamiento de la base de datos, extracción de micro-descriptores, Creación de macro-descriptores y clasificación.
+
+\paragraph{Preprocesamiento de la base de datos}
+\label{ch1:par:preprocesamientobdd}
+
+\paragraph{Extracción de micro-descriptores}
+\label{ch1:par:microdescriptores}
+Éste proceso consiste en la extracción de los rayos de flujo de cada uno de los vídeos, para esto, primero se seleccionan las regiones de interés de la cara. Luego, para cada uno de los píxeles de está, se procede a calcular el movimiento de este píxel con respecto al cuadro siguiente, y así sucesivamente con cada uno de los cuadros del vídeo. Luego de calcular el movimiento para cada píxel en cada cuadro, se obtiene el conjunto de rayos o micro-descriptores que definen el vídeo. Esta etapa sera profundizada en el Capítulo~\ref{ch:algoritmo}.
+
+\paragraph{Creación de macro-descriptores}
+\label{ch1:par:macrodescriptores}
+Luego de extraer cada uno de los micro-descriptores, se procede a crear utilizar la técnica de la bolsa de palabras (bag of words por sus siglas en ingles), este método es utilizado para poder agrupar los rayos en $k$ grupos, los cuales definen el espacio de los macro-descriptores. Cada rayo extraído de los vídeos pertenece únicamente a un solo grupo, por lo tanto es posible para cada vídeo obtener un histograma de la frecuencia de aparición de cada uno de estos grupos en sus rayos. Este histograma obtenido es el macro-descriptor que se utiliza para poder entrenar y clasificar. Esta etapa sera profundizada en el Capítulo~\ref{ch:algoritmo}
+
+\paragraph{Clasificación}
+\label{ch1:par:clasificacion}
+
+
+
+\subsection{Objetivos}
+\label{subsec:objetivos}
+A continuación se describen los objetivos de este trabajo:
+
+\subsubsection{Objetivo general}
+\label{subsubsec:objgeneral}
+Crear un descriptor para el reconocimiento de expresiones faciales en vídeo utilizando micro patrones basados en el seguimiento del flujo de los movimientos del rostro.
+
+\subsubsection{Objetivos específicos}
+\label{subsubsec:objgeneral}
+	\begin{enumerate}
+		\item Lograr definir un método de elección de las regiones de interés del rostro.
+		\item Lograr definir una codificación que permita la normalización de los rayos de flujo.
+		\item Crear o encontrar una métrica que permita la comparación entre rayos luego del proceso de normalización.
+		\item Utilizar y probar distintos algoritmos de clasificación.
+		\item Evaluar y comparar el método creado con el estado del arte hasta antes de comenzar la memoria. 
+	\end{enumerate}

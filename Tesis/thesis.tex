@@ -1,0 +1,136 @@
+% Ejemplo del uso de latemplate para escribir tesis/memorias de la Universidad Diego Portales.
+%
+% Eviar bugs a: Adín Ramírez, adin.ramirez (at) mail.udp.cl
+
+% Puede generar borradores si omite la opción "final" de la clase.
+\documentclass{udpthesis}
+%\documentclass[final]{udpthesis}
+
+% Establecemos el sistema para uso del español
+% Babel ya esta cargado dentro de updthesis
+\usepackage[T1]{fontenc} % output
+\usepackage[utf8]{inputenc}% input
+\usepackage{lmodern}
+
+% Agregue aca otros packetes que le sean de utilidad
+% Matemáticas
+% \usepackage{amsmath}
+
+% Gráficos
+% \usepackage{graphicx}
+% \usepackage{subfig}
+
+% Código
+% \usepackage{listings}
+
+% Referencias
+\usepackage{cite}
+
+% Un paquete para generar texto, debe de remover este paquete en la versión final de su documento. No es necesario.
+\usepackage{blindtext}
+
+
+% Establecemos el tema a utilizar. 
+% Debe existir el archivo udpthesisEIT.sty en su sistema TeX para poder utilizarlo.
+\udptheme{EIT}
+
+
+\begin{document}
+%% Inicio de la portada
+\frontmatter
+% Título del tema
+\title{Reconocimiento de expresiones faciales en imágenes dinámicas utilizando un descriptor basado en rayos de flujo}
+
+% El autor(es) de la tesis
+\author{Miguel Antonio Rodríguez Santander}
+% o una lista de autores
+%\author{Juan Bar\\José Foo}
+
+% Fecha a aparecer en la tesis
+\date{Junio, 2014}
+
+% Profesor guía
+\professor{Adín Ramírez}
+% Comité evaluador
+% puede tener uno o dos evaluadoers (deje en blanco el parámetro que no utilizará)
+\committee{Javier Pereira}{}
+% \committee{Nicola Tesla}{Isaac Newton}
+
+% Dedicatoria
+\dedicatory{Utilice un par de oraciones para dedicar su tesis, o una frase de alguién importante.}
+
+% Agradecimientos
+\acknowledgment{Nota redactada sobriamente en la cual se agradece a quienes han colaborado en la elaboración del trabajo. No puede exceder más de una página.}
+
+% Generamos la portada
+\makecover
+
+% Indices y listas
+\tableofcontents% tabla de contenido
+\listoffigures%   índice de figuras
+\listoftables%    índice de tablas
+% puede agregar otras listas o índices acá de ser necesario
+
+% Abstrac en inglés
+\begin{abstract}
+Abstract is the summary in english of the subject your are presenting in this thesis. Should not exceed one page.
+\end{abstract}
+
+% Resumen
+\begin{resumen}
+El resumen no debe contener menos de 100 palabras ni mas de 300 palabras.
+\end{resumen}
+
+
+
+% Inicio del contenido
+\mainmatter
+
+% Capítulos y secciones del documento
+% Aca se incluyen los archivos con el texto de los capitulos
+% Incluyo el archivo cap-intro.tex
+\input{cap-intro}
+% Incluyo el archivo cap-tema.tex
+\input{cap-arte}
+
+\input{cap-algoritmo}
+
+\input{cap-exp_result}
+
+\input{cap-conclusion}
+
+\input{cap-tema}
+% incluya otros archivos según su necesidad
+% \input{archivo}
+
+
+
+% Iniciamos el resto de secciones adicionales al contenido: referencias y apendices
+\backmatter
+
+
+% Bibliografía
+% referencias.bib es el archivo con la base de datos bibliografica
+% se recomienda utilizar un manejador de referencias: Jabref (jabref.sourceforge.net)
+% El estilo por defecto es IEEE Transactions
+\bibliographystyle{ieeetr}
+% Acá puede incluir uno más archivos de referencia
+\bibliography{referencias}
+
+
+% Simbología y glosario
+% Utilice un paquete para generar símbolos y glosarios.
+% Por ejemplo: nomencl (http://texdoc.net/pkg/nomencl)
+
+
+% Anexos
+\appendix
+
+% Aca se incluyen los archivos con el texto de los anexos
+% Por ejemplo, anexo.tex
+\input{anexo}
+% puede incluir más archivos de anexos
+% \input{anexo-dos}
+
+\end{document}
+% that's all folks
