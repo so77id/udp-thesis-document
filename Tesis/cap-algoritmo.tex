@@ -13,25 +13,27 @@
 \label{sec:micro-descriptores}
 	\subsection{Introducción}
 	\label{algoritmo:extr_intro}
-		El proceso de extracción de micro-descriptores es el núcleo del algoritmo. Este proceso es el encargado de la extracción de características directas del vídeo o imagen dinámica. Para esto se introduce un nuevo termino que es denominado ``Rayo de flujo'' o simplemente ``Rayo'', este ``Rayo'' define cual es el movimiento de las regiones de interés en los cuadros del vídeo.
+		El proceso de extracción de micro-descriptores es el núcleo del algoritmo. Este proceso es el encargado de la extracción de características directas del vídeo o imagen dinámica. Para esto se introduce un nuevo término que es denominado ``Rayo de flujo'' o simplemente ``Rayo''. Éste define cual es el movimiento de las regiones de interés (ROI sigla en ingles) en los cuadros del vídeo.
 
 	\subsection{Elección de regiones de interés}
 	\label{algoritmo:elecc_roi}
-	Para cada uno de los vídeos que se requiera procesar, luego de realizar el preprocesamiento definido en la Sección~\ref{sec:proc_bdd}. Se seleccionan las regiones de interés o ROI (por sus siglas en ingles), que se requiera extraer los ``Rayos'', estas áreas son seleccionadas dependiendo de que es lo que se requiera seleccionar el seguimiento. Se define que para un video $V := \{ROI_i~\forall i \in \mathds{N} \land i \le N | N$ es numero de ROI del video$\}$. 
+	Para cada uno de los vídeos que se quiere procesar, despues de realizar el preprocesamiento definido en la Sección~\ref{sec:proc_bdd}. Se seleccionan las regiones de interés a las cuales se les quiere extraer los ``Rayos''. Las áreas son seleccionadas dependiendo de la cantidad de información que entregan. 
 	
-	Para esta parte del algoritmo se esta seleccionando solo una región, que es la imagen completa, para las siguientes iteraciones del algoritmo se espera poder seleccionar regiones que puedan proporcionar mayor información sobre el rostro, tales como: los ojos, la nariz, la boca, etc.
+	Se define que para un video $V := \{ROI_i~\forall i \in \mathds{N} \land i \le N | N$ es número de ROI del video$\}$. 
+	
+	En esta parte del algoritmo selecciona solo una región que corresponde a la imagen completa. Para las siguientes iteraciones del algoritmo se espera poder seleccionar regiones que puedan proporcionar mayor información sobre el rostro, tales como: los ojos, la nariz, la boca, etc.
 
 	\subsection{Extracción de rayos}
 	\label{algoritmo:ext_rayos}
-	Para esta sección se introducen dos términos, la ventana de soporte y ventana de búsqueda.
-	\paragraph{Región de soporte} es una sección de la ROI la cual es de tamaño $T :=\{~\forall~T \in \mathds{N} \land T~es~impar\}$ y esta centrada en el píxel $(x,y)$ en el cuadro $t$ del vídeo. Esta región es utilizada para calcular el movimiento de dicho píxel con respecto al cuadro $t+1$.
-	\paragraph{Ventana de búsqueda} al igual que la región de soporte es una sección del ROI de tamaño $2T+1$ y centrada en el píxel $(x,y)$, pero a diferencia de la anterior, esta se extrae del cuadro $t+1$. El objetivo de esta ventana es generar un espacio supuesto, donde se puede haber desplazo la ventana de soporte.
+	Para esta sección se introducen dos términos, la región de soporte y ventana de búsqueda.
+	\paragraph{Región de soporte} es una sección de la ROI la cual es de tamaño $T~:=~\{~\forall~T~\in~\mathds{N}~\land~T~es~impar\}$ y esta centrada en el píxel $(x,y)$ en el cuadro $t$ del vídeo. Esta región es utilizada para calcular el movimiento de dicho píxel con respecto al cuadro $t+1$.
+	\paragraph{Ventana de búsqueda} al igual que la región de soporte es una sección del ROI de tamaño $2T+1$ y centrada en el píxel $(x,y)$, pero a diferencia de la anterior, esta se extrae del cuadro $t+1$. El objetivo de esta ventana es generar un espacio supuesto, donde se puede haber desplazo la región de soporte.
 		\begin{equation}\label{algoritmo:eq:mse}	
 			MSE(RS, RS' \in WS) = \sum_{i=1}^{T} \sum_{j=1}^{T} (RS(i,j) - RS'(i,j))^2
 		\end{equation}
-	En si la extracción de rayos consiste en que para cada píxel de la región de interés, se obtenga una región de soporte en cada cuadro y esta sea buscada dentro de la ventana de búsqueda del cuadro siguiente. Esta búsqueda se realiza calculando el error Cuadrático Medio o MSE (por sus siglas en ingles) en la ecuación~\ref{algoritmo:eq:mse} , para cada uno de los desplazamientos que se puedan realizar de la región de soporte sobre la de búsqueda. Luego de calcular el MSE de cada píxel dentro de la región de búsqueda se procede a calcular el minMSE, el cual sera el cuadro donde la ventana de soporte se desplazo en el cuadro $t+1$, con esto se obtiene el píxel $(x',y')$ el cual es el centro de la ventana obtenida en el proceso anterior.
+	La extracción de rayos consiste en que para cada píxel de la región de interés, se obtenga una región de soporte en cada cuadro y esta sea buscada dentro de la ventana de búsqueda del cuadro siguiente. Esta búsqueda se realiza calculando el error Cuadrático Medio o MSE (sigla en ingles) detallado en la ecuación~\ref{algoritmo:eq:mse}, para cada uno de los desplazamientos que se puedan realizar de la región de soporte sobre la de búsqueda. Luego de calcular el MSE de cada píxel dentro de la región de búsqueda se procede a calcular el minMSE, el cual será el cuadro donde la ventana de soporte se desplazó en el cuadro $t+1$, con esto se obtiene el píxel $(x',y')$ que corresponde al centro de la ventana obtenida en el proceso anterior.
 	
-	Para calcular el desplazamiento en el cuadro $t$ de $(x,y)$ a $(x',y')$ en el cuadro $t+1$, se procede a realizar la resta de los ejes. De tal forma que  $\triangle x = x-x'$ y $ \triangle y = y-y'$. Estos $ \triangle x$ y $ \triangle y$ son definidos como ``Rayos de soporte'' y son la estructura básica de los ``Rayos de flujo'', dado que al juntar todos los desplazamientos del píxel $(x,y)$ a lo largo de los cuadros del vídeo, se obtiene un conjunto de variaciones de movimientos de estos, este conjunto es definido como el ``Rayo'' o micro-descriptor. 
+	Para calcular el desplazamiento en el cuadro $t$ de $(x,y)$ a $(x',y')$, se procede a realizar la resta de los ejes. De tal forma que  $\triangle x = x-x'$ y $ \triangle y = y-y'$. Estos $ \triangle x$ y $ \triangle y$ son definidos como ``Rayos de soporte'' y son la estructura básica de los ``Rayos de flujo'', dado que al juntar todos los desplazamientos del píxel $(x,y)$ a lo largo de los cuadros del vídeo, se obtiene un conjunto de variaciones de movimientos de estos, este conjunto es definido como el ``Rayo'' o micro-descriptor. 
 		%%HABLAR DE ventana de soporte, ventana de busqueda MSE
 		
 	\subsection{Normalización de rayos}
