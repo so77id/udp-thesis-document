@@ -15,7 +15,7 @@
 
 % Agregue aca otros packetes que le sean de utilidad
 % Matemáticas
-% \usepackage{amsmath}
+\usepackage{amsmath}
 
 % Gráficos
 \usepackage{graphicx}
@@ -27,14 +27,36 @@
 % Referencias
 \usepackage{cite}
 
-% Un paquete para generar texto, debe de remover este paquete en la versión final de su documento. No es necesario.
-\usepackage{blindtext}
 
 
 % Establecemos el tema a utilizar. 
 % Debe existir el archivo udpthesisEIT.sty en su sistema TeX para poder utilizarlo.
 \udptheme{EIT}
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{xspace}
+\makeatletter
+\DeclareRobustCommand\onedot{\futurelet\@let@token\@onedot}
+\def\@onedot{\ifx\@let@token.\else.\null\fi\xspace}
+
+\def\eg{\emph{e.g}\onedot} \def\Eg{\emph{E.g}\onedot}
+\def\ie{\emph{i.e}\onedot} \def\Ie{\emph{I.e}\onedot}
+\def\cf{\emph{c.f}\onedot} \def\Cf{\emph{C.f}\onedot}
+\def\etc{\emph{etc}\onedot} \def\vs{\emph{vs}\onedot}
+\def\wrt{w.r.t\onedot} \def\dof{d.o.f\onedot}
+\def\etal{\emph{et al}\onedot}
+\def\adhoc{\emph{ad hoc}\xspace}
+\makeatother
+
+\usepackage{amsthm}
+\newtheorem{definition}{Definición}[chapter]
+
+% declare my operator
+\usepackage{scalerel}
+\DeclareMathOperator*{\cat}{\scalerel*{\|}{\sum}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\cat_{i = 1} {N}
 
 \begin{document}
 %% Inicio de la portada

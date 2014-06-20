@@ -3,23 +3,28 @@
 
 \section{Reconocimiento de patrones}
 \label{sec:rec_patrones}
-	No existe una definición universalmente aceptada para el Reconocimiento de Patrones (RP). Esta puede recibir distintas definiciones dependiendo de la disciplina sobre la cual se quiere aplicar. Algunos autores como Duda et. al~\cite{Duda1973} definen el reconocimiento de patrones, junto con reconocimiento de máquina como un campo preocupado de las regularidades del ruido en entornos complejos. Sergios Theodoridis~\cite{Theodoridis2008} lo define como una disciplina científica que apunta a la clasificación de objetos dentro de un conjunto de categorías o clases, y también como una parte integral del sistema de inteligencia de la máquina construida para la toma de decisiones. Thomas González~\cite{Gonzalez1978} define RP como la clasificación de la entrada de datos a través de la extracción de importantes características de un conjunto de estos con ruido. 
+	No existe una definición universalmente aceptada para el Reconocimiento de Patrones (RP). Esta puede recibir distintas definiciones dependiendo de la disciplina sobre la cual se quiere aplicar. Algunos autores como Duda \etal~\cite{Duda1973} definen el reconocimiento de patrones, junto con reconocimiento de máquina como un campo preocupado de las regularidades del ruido en entornos complejos. Sergios Theodoridis~\cite{Theodoridis2008} lo define como una disciplina científica que apunta a la clasificación de objetos dentro de un conjunto de categorías o clases, y también como una parte integral del sistema de inteligencia de la máquina construida para la toma de decisiones. González y Thomason~\cite{Gonzalez1978} define el RP como la clasificación de la entrada de datos a través de la extracción de importantes características de un conjunto de estos con ruido. 
 
 \begin{figure}[b]
   \centering
    \includegraphics[width=1\textwidth]{Figuras/Diagramas/estado_del_arte/Reconocimiento_de_patrones.png}
-  \caption{Arquitectura básica de un sistema de reconocimiento de patrones}
+  \caption{Arquitectura básica de un sistema de reconocimiento de patrones.}
   \label{art:fig:arquitectura}
 \end{figure}
 
 
 En este trabajo se define el reconocimiento de patrones como un área de la Inteligencia Artificial (IA) enfocada en la extracción de características de un conjunto de imágenes o vídeos, las cuales definen los patrones que serán utilizados para la creación de un modelo que permita clasificar nuevas entradas. Podemos describir este procedimiento en tres procesos como se puede ver en la Figura~\ref{art:fig:arquitectura}: adquisición de datos, extracción de características y toma de decisiones. 
 
-Existen diversos métodos que permiten solucionar el problema de clasificación, entre los cuales se encuentran las Máquinas de Vectores de Soporte~\cite{Cortes1995}~\cite{Hearst1998}.
+	\paragraph{Adquisición de datos.} Este procedimiento es el encargado de sensar la información del mundo real, para esto se utilizan distintos sensores dependiendo del área al cual se quiera aplicar el RP. Estos sensores tienen distintas respuestas dependiendo de su calidad o las variables del medio ambiente como la luminosidad, ruido ambiental, \etc. Para este trabajo nos enfocaremos en los sensores de imágenes instalados en las cámaras que capturan los vídeos que luego serán clasificados por nuestro sistema.
+	
+	\paragraph{Extracción de características.} Primer proceso en el cual interviene la maquina, tiene como objetivo transformar las señales adquiridas por la etapa anterior a una representación vectorial capas de ser interpretada por los clasificadores para la toma de decisiones. Este procedimiento es el que mas varia a la hora de construir sistemas de reconocimiento de patrones, esto debido a que existe una gran variación de la implementación a realizar dependido del problema que se requiera atacar. Para esta etapa existen distintos métodos que se pueden utilizar para resolver el problema propuesto, estos serán mayormente estudiados en la Sección~\ref{sec:type_fe}.
+	
+	\paragraph{Toma de decisiones.} Ultima etapa del RP, esta se encarga de realizar la toma de decisiones utilizando las características extraídas en la etapa anterior. Para esto podemos dividir este bloque en dos sub-procesos, entrenamiento y clasificación. El entrenamiento consiste en tomar una gran cantidad de datos ya clasificados anteriormente de forma correcta por algún experto en el tema, y utilizar estos datos para poder crear un modelo el cual divida el espacio vectorial representado por las características de cada uno de los datos de entrenamiento. La clasificación consiste en utilizar el modelo creado en la etapa de entrenamiento para poder clasificar nuevas entradas no tomadas encuentra en el entrenamiento. Para la etapa de creación del modelo se pueden utilizar distintas técnicas que permiten dividir el espacio en distintas regiones dependiendo de las etiquetas o clases a las cuales se requiera clasificar, tales como: Redes bayesianas, técnicas de clustering, redes neuronales, Modelos Ocultos de Markov (HMM por sus siglas en inglés). Para el desarrollo de nuestro método utilizaremos las Maquinas de Soporte Vectorial~\cite{Cortes1995,Hearst1998}, las cuales permiten realizar una clasificación de muchas clases en un mismo espacio vectorial al mismo tiempo. 
+
 
 	\paragraph{Máquinas de vectores de soporte}
 	\label{sec:svm}
-	Las máquinas de vectores de soportes (SVM sus siglas en inglés) son herramientas fundamentales en sistemas de aprendizaje automático, se basan en  implementar reglas de decisión complejas, por medio de un kernel que permite mapear los puntos de entrenamiento a un espacio de mayor dimensión. Estas máquinas son utilizadas para la clasificación y análisis de regresión permitiendo generar un modelo de predicción dado un conjunto de datos de entrada, y posteriormente utilizar este modelo para clasificar nuevos datos.
+	Las Máquinas de Vectores de Soportes (SVM sus siglas en inglés) son herramientas fundamentales en sistemas de aprendizaje automático, se basan en  implementar reglas de decisión complejas, por medio de un kernel que permite mapear los puntos de entrenamiento a un espacio de mayor dimensión. Estas máquinas son utilizadas para la clasificación y análisis de regresión permitiendo generar un modelo de predicción dado un conjunto de datos de entrada, y posteriormente utilizar este modelo para clasificar nuevos datos.
 La idea del SVM es solucionar un problema de clasificación de dos clases mediante una barrera de decisión. Estos métodos evolucionaron con el tiempo y se utilizan para poder solucionar el problema de clasificación de múltiples clases.
 
 Para efectos de este trabajo, SVM es utilizado para poder generar el modelo final que permita clasificar las seis expresiones faciales canónicas, utilizando los descriptores obtenidos luego de la extracción de características.
@@ -47,11 +52,11 @@ Dado que el rostro humano tiene una infinita variedad de posibles expresiones, E
 
 		\paragraph{Local Binary Patterns.}
 		\label{sec:lbp}
-		Método introducido por Wang y He~\cite{Wang1990}, consiste en realizar una codificación del píxel de interés con respecto a los valores de sus vecinos. En simples palabras se realiza un proceso de máscara en el cual se restan los píxeles del vecindario con el píxel central, si la resta es negativa o cero se asigna un cero en la posición del vecino, por el contrario si es positiva se asigna un uno. Luego de esto, se realiza una concatenación de los vecinos y se obtiene un código binario que es transformado a base 10. Dicho número es asignado como nuevo valor del píxel visitado~\cite{Ojala1994}, \cite{Ojala2002}, \cite{Ahonen2004}, \cite{Shan2009}.
+		Método introducido por Wang y He~\cite{Wang1990}, consiste en realizar una codificación del píxel de interés con respecto a los valores de sus vecinos. En simples palabras se realiza un proceso de máscara en el cual se restan los píxeles del vecindario con el píxel central, si la resta es negativa o cero se asigna un cero en la posición del vecino, por el contrario si es positiva se asigna un uno. Luego de esto, se realiza una concatenación de los vecinos y se obtiene un código binario que es transformado a base 10. Dicho número es asignado como nuevo valor del píxel visitado~\cite{Ojala1994,Ojala2002,Ahonen2004,Shan2009}.
 
-Luego de realizar el proceso en todos los píxeles se procede a realizar un histograma de los valores el cual es definido como el descriptor de la imagen, siendo este utilizado una para posterior clasificación~\cite{Ahonen2006}.
+Luego de realizar el proceso en todos los píxeles se procede a realizar un histograma de los valores el cual es definido como el descriptor de la imagen, siendo este utilizado una para posterior clasificación.
 
-Otros métodos que utilizan LBP antes de la obtención del descriptor dividen la imagen en $n$ secciones de igual o distintas áreas, y realizan el cálculo del histograma para cada una de estas secciones. Luego concatenan cada uno de los histogramas en un orden específico y se obtiene un macro descriptor más detallado de la imagen.
+Otros métodos que utilizan LBP antes de la obtención del descriptor dividen la imagen en $n$ secciones de igual o distintas áreas, y realizan el cálculo del histograma para cada una de estas secciones. Luego concatenan cada uno de los histogramas en un orden específico y se obtiene un macro descriptor más detallado de la imagen~\cite{Ahonen2006}.
 
 		\paragraph{LND}
 		\label{sec:lnd}
@@ -67,7 +72,7 @@ El método VLBP consiste en realizar una codificación basada en LBP, ahora incl
 
 		\paragraph{Local Binary Patterns-Three Ortogonal Planes}
 		\label{sec:lbp-top}
-		 Es un método basado en LBP para imágenes dinámicas, consiste en crear tres planos ortogonales que se intersectan en el píxel de interés, siendo estos el plano $XY$ , $XT$ y $YT$ (cuadro actual , movimiento temporal en $X$ y en $Y$ respectivamente). 
+		 Es un método basado en LBP para imágenes dinámicas, consiste en crear tres planos ortogonales que se intersectan en el píxel de interés, siendo estos el plano $XY$, $XT$, y $YT$ (cuadro actual, movimiento temporal en $X$ y en $Y$ respectivamente). 
 
 Para poder obtener el patrón de la imagen se realiza el mismo proceso de resta con los píxeles del vecindario seleccionado, pero a diferencia de los métodos estáticos que solo se realizan en el plano $XY$, este también se realiza para los planos $XT$ e $YT$.\@ Con esto se obtiene un histograma para cada plano, los cuales son concatenados y forman el macro descriptor de la imagen~\cite{Zhao2007}.
 

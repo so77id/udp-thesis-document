@@ -19,20 +19,23 @@
 	
 	Se define un vídeo 
 	\begin{equation}\label{algoritmo:eq:video}		
-		V = \{Roi_i~|~\forall ~1~\leq~i~\le~N\}, 
+		V = \{\text{ROI}_i | 1 \leq i \le N\}, 
 	\end{equation}
 	donde $N$ es el número de regiones de interés en el vídeo.
 	
-	Se define un ROI, $R_i$ como
+	Se define un ROI, $\text{ROI}_i$ como
 	\begin{equation}\label{algoritmo:eq:roi}
-		Roi_i = \{(x,y,t) | (x,y,y) \in \mathds{R}(N)\},
+		\text{ROI}_i = \{(x,y,t) | (x,y,y) \in \mathds{R}(N)\},
 	\end{equation}
 	Donde $\mathds{R}(N)$, es la función que indica en cuantas regiones se divide la imagen.
 
 	\subsection{Extracción de rayos}
 	\label{algoritmo:ext_rayos}
+	
 	Para esta sección se introducen dos términos, la región de soporte y ventana de búsqueda.
-	\paragraph{Región de soporte.} es una sección de la ROI la cual es de tamaño $T$, donde $T$ es impar y esta centrada en el píxel $(x,y)$ en el cuadro $t$ del vídeo. Esta región es utilizada para calcular el movimiento de dicho píxel con respecto al cuadro $t+1$.
+	\begin{definition}[Región de soporte]	
+	{Región de soporte.} es una sección de la ROI la cual es de tamaño $T$, donde $T$ es impar y esta centrada en el píxel $(x,y)$ en el cuadro $t$ del vídeo. Esta región es utilizada para calcular el movimiento de dicho píxel con respecto al cuadro $t+1$.
+	\end{definition}
 	\paragraph{Ventana de búsqueda.} al igual que la región de soporte es una sección del ROI de tamaño $2T+1$ y centrada en el píxel $(x,y)$, pero a diferencia de la anterior, esta se extrae del cuadro $t+1$. El objetivo de esta ventana es generar un espacio supuesto, donde se puede haber desplazo la región de soporte.
 		
 	La extracción de rayos consiste en que para cada píxel de la región de interés, se obtenga una región de soporte en cada cuadro y esta sea buscada dentro de la ventana de búsqueda del cuadro siguiente. Esta búsqueda se realiza calculando el error Cuadrático Medio o MSE (por sus siglas en ingles), \begin{equation}\label{algoritmo:eq:mse}	
@@ -45,13 +48,11 @@
 	el cual será el cuadro donde la ventana de soporte se desplazó en el cuadro $t+1$, con esto se obtiene el píxel $(x',y')$ que corresponde al centro de la ventana obtenida en el proceso anterior.
 	
 	Para calcular el desplazamiento en el cuadro $t$ de $(x,y)$ a $(x',y')$, se procede a realizar la resta de los ejes. De tal forma que
-	\begin{equation}
-		\Delta x = x-x', 
-	\end{equation}		
-	\begin{equation}
-		\Delta y = y-y'.
-	\end{equation}		
-	Estos $ \Delta x$ y $ \Delta y$ son definidos como ``Rayos de soporte''
+	\begin{align}
+		\Delta x &= x-x*,\\ 
+		\Delta y &= y-y*.
+	\end{align}
+		Estos $ \Delta x$ y $ \Delta y$ son definidos como ``Rayos de soporte''
 	\begin{equation}
 		\rho_j = \{(\Delta x_j, \Delta y_j)~|~j~es~el~numero~de~píxeles~en~la~region~RS \}
 	\end{equation}		
@@ -114,6 +115,9 @@ La variable $K$ es muy importante a la hora de su elección, esto debido a la gr
 	
 \section{Entrenamiento y clasificación}
 \label{sec:clasificacion}
+Ultima etapa del algoritmo, se dedicada a la segmentación del espacio vectorial formado por los macro-descriptores. Para este proceso se utilizara las Maquinas de Soporte Vectorial explicadas en la Sección~\ref{sec:rec_patrones}. Estas maquinas, se utilizan para entrenar el modelo que luego es el que permite clasificar las nuevas entradas de vídeo. 
+Para poder probar la efectividad del clasificador se utilizaran técnicas de validación cruzada o $k$-fold-cross-validation (Por sus siglas en ingles), estas técnicas consisten en dividir el conjunto de datos de datos en dos grupos, uno de entrenamiento y uno de prueba, $k$ veces sin repetición. Se mostraran los resultados de esta técnica en la Capitulo~\ref{ch:exp_result}.
+
 
 	\subsection{Entrenamiento}
 	\label{algoritmo:entrenamiento}
