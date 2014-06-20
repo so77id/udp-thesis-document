@@ -19,20 +19,20 @@ Para este nuevo método se introduce un nuevo micro-descriptor basado en técnic
 La cadena de procedimientos ordenados o ``pipeline'' de este método se divide en cuatro grandes
 etapas: preprocesamiento de la base de datos, extracción de micro-descriptores, creación de macro-descriptores y clasificación.
 
-\paragraph{Preprocesamiento de la base de datos.}
+\textbf{Preprocesamiento de la base de datos.}
 \label{ch1:par:preprocesamientobdd}
 Antes de poder realizar la extracción de características de los vídeos, es necesario realizar un preprocesamiento sobre éstos, esto debido a que los vídeos pueden tener ciertos elementos que estropean la extracción de características. Para evitar agregar ruido al vídeo se utilizan dos técnicas que permiten obtener solo el rostro de la persona a representar su expresión y a su vez corregir los movimientos que éstos puedan tener. Esta etapa sera profundizada en la Sección~\ref{sec:proc_bdd}.
 
 
-\paragraph{Extracción de micro-descriptores.}
+\textbf{Extracción de micro-descriptores.}
 \label{ch1:par:microdescriptores}
 Éste proceso consiste en la extracción de los rayos de flujo de cada uno de los vídeos preprocesados, para esto, primero se seleccionan las regiones de interés de la cara. Luego, para cada uno de los píxeles de la región, se procede a calcular el movimiento de este píxel con respecto al cuadro siguiente, y así sucesivamente con cada uno de los cuadros del vídeo. Luego de calcular el movimiento para cada píxel en cada cuadro, se obtiene el conjunto de rayos o micro-descriptores que definen el vídeo. Esta etapa sera profundizada en la Sección~\ref{sec:micro-descriptores}.
 
-\paragraph{Creación de macro-descriptores.}
+\textbf{Creación de macro-descriptores.}
 \label{ch1:par:macrodescriptores}
 Luego de extraer cada uno de los micro-descriptores, se procede a crear utilizar la técnica de la bolsa de palabras (bag of words por sus siglas en ingles), este método es utilizado para poder agrupar los rayos en $k$ grupos, los cuales definen el espacio de los macro-descriptores. Cada rayo extraído de los vídeos pertenece únicamente a un solo grupo, por lo tanto es posible para cada vídeo obtener un histograma de la frecuencia de aparición de cada uno de estos grupos en sus rayos. Este histograma obtenido es el macro-descriptor que se utiliza para poder entrenar y clasificar. Esta etapa sera profundizada en la Sección~\ref{sec:macro-descriptores}.
 
-\paragraph{Entrenamiento y clasificación.}
+\textbf{Entrenamiento y clasificación.}
 \label{ch1:par:entrnamientoyclasificacion}
 Luego de obtener los los macro-des\-crip\-tores para cada uno de los vídeos, se procede a la etapa de entrenamiento y posterior clasificación. Para poder entrenar y clasificar con los macro-descriptores obtenidos en la etapa anterior, se utilizan las Maquinas de Vectores de Soporte (Support Vector Machines por sus siglas en ingles). Esta técnica permite dividir el espacio vectorial representado por los descriptores de entrenamiento, para luego ser probado por los descriptores que se obtienen en la clasificación o prueba del modelo creado. Para poder probar la efectividad de la clasificación se utiliza la técnica de validación cruzada, la cual permite realizar distintas pruebas de entrenamiento y clasificación, para obtener cual es el porcentaje de efectividad del método. Esta etapa sera profundizada en la Sección~\ref{sec:clasificacion}.
 

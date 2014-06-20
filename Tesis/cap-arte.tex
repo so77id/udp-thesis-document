@@ -15,14 +15,14 @@
 
 En este trabajo se define el reconocimiento de patrones como un área de la Inteligencia Artificial (IA) enfocada en la extracción de características de un conjunto de imágenes o vídeos, las cuales definen los patrones que serán utilizados para la creación de un modelo que permita clasificar nuevas entradas. Podemos describir este procedimiento en tres procesos como se puede ver en la Figura~\ref{art:fig:arquitectura}: adquisición de datos, extracción de características y toma de decisiones. 
 
-	\paragraph{Adquisición de datos.} Este procedimiento es el encargado de sensar la información del mundo real, para esto se utilizan distintos sensores dependiendo del área al cual se quiera aplicar el RP. Estos sensores tienen distintas respuestas dependiendo de su calidad o las variables del medio ambiente como la luminosidad, ruido ambiental, \etc. Para este trabajo nos enfocaremos en los sensores de imágenes instalados en las cámaras que capturan los vídeos que luego serán clasificados por nuestro sistema.
+	\textbf{Adquisición de datos.} Este procedimiento es el encargado de sensar la información del mundo real, para esto se utilizan distintos sensores dependiendo del área al cual se quiera aplicar el RP. Estos sensores tienen distintas respuestas dependiendo de su calidad o las variables del medio ambiente como la luminosidad, ruido ambiental, \etc. Para este trabajo nos enfocaremos en los sensores de imágenes instalados en las cámaras que capturan los vídeos que luego serán clasificados por nuestro sistema.
 	
-	\paragraph{Extracción de características.} Primer proceso en el cual interviene la maquina, tiene como objetivo transformar las señales adquiridas por la etapa anterior a una representación vectorial capas de ser interpretada por los clasificadores para la toma de decisiones. Este procedimiento es el que mas varia a la hora de construir sistemas de reconocimiento de patrones, esto debido a que existe una gran variación de la implementación a realizar dependido del problema que se requiera atacar. Para esta etapa existen distintos métodos que se pueden utilizar para resolver el problema propuesto, estos serán mayormente estudiados en la Sección~\ref{sec:type_fe}.
+	\textbf{Extracción de características.} Primer proceso en el cual interviene la maquina, tiene como objetivo transformar las señales adquiridas por la etapa anterior a una representación vectorial capas de ser interpretada por los clasificadores para la toma de decisiones. Este procedimiento es el que mas varia a la hora de construir sistemas de reconocimiento de patrones, esto debido a que existe una gran variación de la implementación a realizar dependido del problema que se requiera atacar. Para esta etapa existen distintos métodos que se pueden utilizar para resolver el problema propuesto, estos serán mayormente estudiados en la Sección~\ref{sec:type_fe}.
 	
-	\paragraph{Toma de decisiones.} Ultima etapa del RP, esta se encarga de realizar la toma de decisiones utilizando las características extraídas en la etapa anterior. Para esto podemos dividir este bloque en dos sub-procesos, entrenamiento y clasificación. El entrenamiento consiste en tomar una gran cantidad de datos ya clasificados anteriormente de forma correcta por algún experto en el tema, y utilizar estos datos para poder crear un modelo el cual divida el espacio vectorial representado por las características de cada uno de los datos de entrenamiento. La clasificación consiste en utilizar el modelo creado en la etapa de entrenamiento para poder clasificar nuevas entradas no tomadas encuentra en el entrenamiento. Para la etapa de creación del modelo se pueden utilizar distintas técnicas que permiten dividir el espacio en distintas regiones dependiendo de las etiquetas o clases a las cuales se requiera clasificar, tales como: Redes bayesianas, técnicas de clustering, redes neuronales, Modelos Ocultos de Markov (HMM por sus siglas en inglés). Para el desarrollo de nuestro método utilizaremos las Maquinas de Soporte Vectorial~\cite{Cortes1995,Hearst1998}, las cuales permiten realizar una clasificación de muchas clases en un mismo espacio vectorial al mismo tiempo. 
+	\textbf{Toma de decisiones.} Ultima etapa del RP, esta se encarga de realizar la toma de decisiones utilizando las características extraídas en la etapa anterior. Para esto podemos dividir este bloque en dos sub-procesos, entrenamiento y clasificación. El entrenamiento consiste en tomar una gran cantidad de datos ya clasificados anteriormente de forma correcta por algún experto en el tema, y utilizar estos datos para poder crear un modelo el cual divida el espacio vectorial representado por las características de cada uno de los datos de entrenamiento. La clasificación consiste en utilizar el modelo creado en la etapa de entrenamiento para poder clasificar nuevas entradas no tomadas encuentra en el entrenamiento. Para la etapa de creación del modelo se pueden utilizar distintas técnicas que permiten dividir el espacio en distintas regiones dependiendo de las etiquetas o clases a las cuales se requiera clasificar, tales como: Redes bayesianas, técnicas de clustering, redes neuronales, Modelos Ocultos de Markov (HMM por sus siglas en inglés). Para el desarrollo de nuestro método utilizaremos las Maquinas de Soporte Vectorial~\cite{Cortes1995,Hearst1998}, las cuales permiten realizar una clasificación de muchas clases en un mismo espacio vectorial al mismo tiempo. 
 
 
-	\paragraph{Máquinas de vectores de soporte}
+	\textbf{Máquinas de vectores de soporte}
 	\label{sec:svm}
 	Las Máquinas de Vectores de Soportes (SVM sus siglas en inglés) son herramientas fundamentales en sistemas de aprendizaje automático, se basan en  implementar reglas de decisión complejas, por medio de un kernel que permite mapear los puntos de entrenamiento a un espacio de mayor dimensión. Estas máquinas son utilizadas para la clasificación y análisis de regresión permitiendo generar un modelo de predicción dado un conjunto de datos de entrada, y posteriormente utilizar este modelo para clasificar nuevos datos.
 La idea del SVM es solucionar un problema de clasificación de dos clases mediante una barrera de decisión. Estos métodos evolucionaron con el tiempo y se utilizan para poder solucionar el problema de clasificación de múltiples clases.
@@ -50,7 +50,7 @@ Dado que el rostro humano tiene una infinita variedad de posibles expresiones, E
 	\label{sec:met_imagen}
 	
 
-		\paragraph{Local Binary Patterns.}
+		\subsubsection{Local Binary Patterns}
 		\label{sec:lbp}
 		Método introducido por Wang y He~\cite{Wang1990}, consiste en realizar una codificación del píxel de interés con respecto a los valores de sus vecinos. En simples palabras se realiza un proceso de máscara en el cual se restan los píxeles del vecindario con el píxel central, si la resta es negativa o cero se asigna un cero en la posición del vecino, por el contrario si es positiva se asigna un uno. Luego de esto, se realiza una concatenación de los vecinos y se obtiene un código binario que es transformado a base 10. Dicho número es asignado como nuevo valor del píxel visitado~\cite{Ojala1994,Ojala2002,Ahonen2004,Shan2009}.
 
@@ -58,19 +58,19 @@ Luego de realizar el proceso en todos los píxeles se procede a realizar un hist
 
 Otros métodos que utilizan LBP antes de la obtención del descriptor dividen la imagen en $n$ secciones de igual o distintas áreas, y realizan el cálculo del histograma para cada una de estas secciones. Luego concatenan cada uno de los histogramas en un orden específico y se obtiene un macro descriptor más detallado de la imagen~\cite{Ahonen2006}.
 
-		\paragraph{LND}
+		\textbf{LND}
 		\label{sec:lnd}
 
 	\subsubsection{Métodos sobre imágenes dinámicas}	
 	\label{sec:met_videos}
 
-		\paragraph{Volume Local Binary Patterns.}
+		\textbf{Volume Local Binary Patterns.}
 		\label{sec:vlbp}
 		Método introducido por Zhao y Pietikäinen~\cite{Zhao2006}, basado en LBP para imágenes dinámicas, el cual se basa en tres variables: $L$ la cantidad de cuadros que entran en la creación del patrón, $P$ el tamaño del vecindario a seleccionar y $R$ el radio del cual se escogen los vecinos. 
 El método VLBP consiste en realizar una codificación basada en LBP, ahora incluyendo la variable temporal $L$ que indica desde qué cuadro se comienza a realizar la resta del píxel seleccionado con el central.
 Éste es un proceso muy costoso debido a que mientras mayor sea la cantidad de vecinos a seleccionar, mayor será la cantidad de dígitos binarios, lo cual implica un mayor espectro de números resultantes en la codificación~\cite{Zhao2007a}, \cite{Zhao2007}.
 
-		\paragraph{Local Binary Patterns-Three Ortogonal Planes}
+		\textbf{Local Binary Patterns-Three Ortogonal Planes}
 		\label{sec:lbp-top}
 		 Es un método basado en LBP para imágenes dinámicas, consiste en crear tres planos ortogonales que se intersectan en el píxel de interés, siendo estos el plano $XY$, $XT$, y $YT$ (cuadro actual, movimiento temporal en $X$ y en $Y$ respectivamente). 
 
