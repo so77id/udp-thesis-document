@@ -31,19 +31,35 @@ Para efectos de este trabajo, SVM es utilizado para poder generar el modelo fina
 
 \section{Reconocimiento de expresiones faciales}
 \label{sec:fer}
-Las expresiones faciales constituyen una guía básica en la interacción social. Por ello, las alteraciones en su expresión o reconocimiento suponen una importante limitación para la comunicación. Ya que las expresiones del rostro son la variable que más se observa para obtener información de las emociones de nuestros interlocutores; si bien es cierto que tenemos un elevado control sobre nuestra expresividad facial, diversos estudios han demostrado que, cuando una persona está utilizando una expresión facial no acorde con su verdadero estado de ánimo, en su cara aparecen durante breves momentos señales de la emoción verdadera, que a menudo pasan desapercibidas para los demás.
+Las expresiones faciales constituyen una guía básica en la interacción social. Por ello, las alteraciones en su expresión o reconocimiento suponen una importante limitación para la comunicación. Ya que las expresiones del rostro son la variable que más se observa para obtener información de las emociones de nuestros interlocutores; si bien es cierto que tenemos un elevado control sobre nuestra expresividad facial, diversos estudios han demostrado que, cuando una persona está utilizando una expresión facial no acorde con su verdadero estado de ánimo, en su cara aparecen durante breves momentos señales de la expresión verdadera que a menudo pasan desapercibidas por las demás personas, estas se conocen como expresiones faciales universales.
+
+
+\subsection{Expresiones faciales universales}
+\label{sec:type_fe}
+
+Las expresiones faciales del rostro humano tienen una infinidad de posibles variaciones que permiten la comunicación, regulación y adecuación de las emociones en el contexto social.
+
+Darwin afirma en uno de  sus estudios publicado a fines del siglo XIX, que nosotros no podemos entender las expresiones emocionales humanas sin entender las expresiones emocionales de los animales, para esto, él argumenta que nuestras expresiones son determinadas en gran parte por nuestra evolución~\cite{Darwin1956,Darwin1998}. En la actualidad Paul Ekman, psicólogo pionero en el estudio de las emociones y su relación con la expresión facial, propone que las expresiones faciales están compuestas por micro-expresiones muy breves, que duran sólo una fracción de segundo. Estas se producen cuando una persona ya sea deliberadamente o inconscientemente esconde un sentimiento~\cite{Ekman1981}.
+
+Ekman define que existen seis expresiones universales: 
+
+\begin{enumerate}
+	\item Alegría (Happiness) : se produce mediante la contracción del músculo que va del pómulo al labio superior y del orbicular que rodea al ojo. También se elevan las mejillas. 
+	\item Asco (Disgust): Existe una ligera contracción del músculo que frunce la nariz y estrecha los ojos. El gesto de la nariz arrugada es simultáneo al de la elevación del labio superior. 
+	\item Ira (Anger): Se produce con una mirada fija, cejas juntas y hacia abajo, y existe una tendencia a apretar los dientes. 
+	\item Miedo (Fear): Es la expresión que se presenta después del sorpresa. Donde se observa los párpados superiores elevados al máximo e inferiores tensos. Las cejas levantadas se acercan y los labios se alargan hacia atrás. 
+	\item Sorpresa (Surprise): Los párpados superiores suben, pero los inferiores no están tensos, la mandíbula suele caer. 
+	\item Tristeza (Sadness): se manifiesta cuando los párpados superiores caen y las cejas se angulan hacia arriba. El entrecejo se arruga y los labios se estiran de forma horizontal.
+\end{enumerate}
+
+
+\subsection{Métodos de reconocimiento de expresiones faciales}
 El reconocimiento de expresiones faciales lo podemos dividir en dos grandes tipos según las características que se enfocan: la extracción de características geométricas y de características de apariencia, a su vez puede estar enfocado en reconocer las expresiones tanto en imágenes como en vídeos.  
 
-
-\subsection{Expresiones faciales canónicas}
-\label{sec:type_fe}
-Dado que el rostro humano tiene una infinita variedad de posibles expresiones, Ekman estableció seis expresiones base o canónicas~\cite{Ekman1981}, las cuales son excluyentes entre sí, además de una expresión neutra. Las cuales son: Sorpresa (Surprise), Felicidad (Happiness), Tristeza (Sadness), Miedo (Fear), Cólera (Anger) y Asco (Disgust).
-
-
-\subsection{Métodos basados en características geométricas}
+\subsubsection{Métodos basados en características geométricas}
 \label{sec:met_geo}
 
-\subsection{Métodos basados en características de apariencia}
+\subsubsection{Métodos basados en características de apariencia}
 \label{sec:met_apa}
 
 	\subsubsection{Métodos sobre imágenes}

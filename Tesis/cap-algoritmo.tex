@@ -96,11 +96,6 @@ Para poder solucionar el problema propuesto en la Sección~\ref{sec:problema}, s
 		\rho_{(x,y)} = \{(\Delta x^{t}, \Delta y^{t})~| \forall t\},
 	\end{equation}		
 %todo elminar la explicación de j y escribir respecto a (x,y)
-	donde j es el índice que equivale a enumerar los píxeles de la imagen de la forma:
-	\begin{equation}
-		j = Col*(y-1) + x,
-	\end{equation}
-	donde $Col$ es el numero columnas de píxeles que contiene la imagen.
 	
 	Los ``Rayos de soporte'' son la estructura básica de los ``Rayos de flujo'', dado que al juntar todos los desplazamientos del píxel $(x,y)$ a lo largo de los cuadros del vídeo, se obtiene un conjunto de variaciones de movimientos de estos. Este conjunto es definido como el ``Rayo'' o micro-descriptor.
 	\begin{equation}
@@ -114,9 +109,9 @@ Para poder solucionar el problema propuesto en la Sección~\ref{sec:problema}, s
 	\label{algoritmo:normalizacion}
 	Luego de obtener el total de micro-descriptores es necesario poder llevar todos los rayos al mismo espacio vectorial, esto debido a que el tamaño de cada conjunto depende de la cantidad de cuadros $T$ del vídeo. Para este proceso se introduce una variable muy importante para el algoritmo llamada $N$, esta sera la encargada de comandar el proceso de normalización, de tal forma que se obtiene una razón de normalización
 	\begin{equation}
-		Razon = \frac{T}{N},
+		Rn = \frac{T}{N},
 	\end{equation}
-	que permite relacionar la cantidad de ``Rayos de soporte'' $\rho_j$ del ``Rayo'' $R(x,y)$ original formaran parte de los $\rho_j '$ de $R(x,y)'$' normalizado. Este proceso puede ser visualizado en la Figura~\ref{algoritmo:fig:normalizacion}.
+	que permite relacionar la cantidad de ``Rayos de soporte'' $\rho$ del ``Rayo'' $R(x,y)$ original formaran parte de los $\rho'$ de $R(x,y)'$ normalizado. Este proceso puede ser visualizado en la Figura~\ref{algoritmo:fig:normalizacion}.
 	
 	\begin{figure}[bt]
 		\centering
