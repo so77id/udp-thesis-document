@@ -198,6 +198,9 @@ Para poder probar la efectividad del clasificador se utilizaran técnicas de val
 	\subsection{Entrenamiento}
 	\label{algoritmo:entrenamiento}
 		Luego de que el conjunto de datos de entrenamiento pasa por todas las etapas anteriores del algoritmo, se tiene para cada uno de los vídeos un macro-descriptor compuesto por la concatenación de los histogramas de de cada una de las regiones de interés y una etiqueta que indica a que clase pertenecen. Este conjunto de descriptores y las etiquetas son utilizados por las Maquinas de Vectores de Soporte para la creación de un modelo de clasificación, el permite poder etiquetar nuevas entradas, este proceso puede ser visto en la Figura~\ref{algoritmo:fig:entrenamiento}.
+	
+	SVM al ser un clasificador de dos clases, es necesario utilizar técnicas que permita realizar la clasificación utilizando muchas clases, para el caso de esta implementación es necesario poder generar un modelo que permita clasificar las seis expresiones universales. Con este motivo se utiliza la técnica ``Uno contra uno'', la cual consiste en generar $\frac{C(C-1)}{2}$ clasificadores, donde cada clase tiene una barrera de decisión asociada a cada una de las demás clases. Esto permite que la región de incertidumbre formada por las barreras de decisión sea mínima.
+		
 		
 	\begin{figure}[bt]
 		\centering
@@ -210,6 +213,7 @@ Para poder probar la efectividad del clasificador se utilizaran técnicas de val
 	\subsection{Clasificación}
 	\label{algoritmo:clasificacion}
 		Ya teniendo el modelo entrenado resultante de la etapa de clasificación, este es utilizado para la clasificación de nuevas entradas sin etiquetar, esto con la misión de poder asignar una etiqueta al nuevo descriptor, este proceso puede ser visto en la Figura~\ref{algoritmo:fig:clasificacion}. En esta etapa se puede medir cual es la precision del algoritmo, esta medición sera mayormente abordada en el Capitulo~\ref{ch:exp_result}.
+		
 	
 	\begin{figure}[bt]
 		\centering

@@ -54,19 +54,23 @@ Ekman define que existen seis expresiones universales:
 
 
 \subsection{Métodos de reconocimiento de expresiones faciales}
-El reconocimiento de expresiones faciales lo podemos dividir en dos grandes tipos según las características que se enfocan: la extracción de características geométricas y de características de apariencia, a su vez puede estar enfocado en reconocer las expresiones tanto en imágenes como en vídeos.  
+El reconocimiento de expresiones faciales lo podemos dividir en dos grandes tipos, según las características que se enfocan: la extracción de características geométricas y de características de apariencia, ver ~\cite{Pantic2000,Zeng2009} para mas información acerca de los tipos de métodos de reconocimiento de expresiones faciales. A su vez cada una de estas subdivisiones tiene métodos que ayudan a reconocer las expresiones en imágenes o en vídeos.
 
 \subsubsection{Métodos basados en características geométricas}
 \label{sec:met_geo}
+Los métodos geométricos se basan en detectar formas y regiones de la cara que se esta procesando, así como puntos de características faciales (\eg ojos, comisuras de la boca, \etc). 
+Luego de encontrar las regiones importantes del rostro que se esta analizando se procede a realizar la clasificación. Los métodos geométricos al ser aplicados sobre imágenes dinámicas o vídeos, realizan el procedimiento de encontrar cada una de estas regiones importantes del rostro que aportan la mayor cantidad de información, y luego se realiza el seguimiento a lo largo de la secuencia de cuadros del vídeo. Una de las grandes ventajas de estos métodos, es que al ser enfocado en encontrar una cantidad determinada de puntos, son algoritmos muy rápidos y de fácil aplicación a sistemas de reconocimiento en tiempo real. A su vez no son tan robustos como los basados en apariencia.
+
 
 \subsubsection{Métodos basados en características de apariencia}
 \label{sec:met_apa}
+Se basan en detectar los movimientos de las texturas en la imagen, en el caso de imágenes con rostros humanos, cambios o deformaciones en la piel (\eg arrugas, protuberancias, surcos, \etc). En si son métodos que no se basan en encontrar ciertos puntos específicos del rostro, sino que encuentran regiones importantes de las texturas a analizar. Existen distintas aplicaciones de estos métodos, tanto sobre imágenes estáticas como para vídeo o imágenes dinámicas.  
 
 	\subsubsection{Métodos sobre imágenes}
 	\label{sec:met_imagen}
-	
+		Son métodos enfocados en encontrar ciertas regularidades existentes entre las texturas de la imagen a analizar, ejemplos:
 
-		\subsubsection{Local Binary Patterns}
+		\subsubsection{Patrones binarios locales (LBP)}
 		\label{sec:lbp}
 		Método introducido por Wang y He~\cite{Wang1990}, consiste en realizar una codificación del píxel de interés con respecto a los valores de sus vecinos. En simples palabras se realiza un proceso de máscara en el cual se restan los píxeles del vecindario con el píxel central, si la resta es negativa o cero se asigna un cero en la posición del vecino, por el contrario si es positiva se asigna un uno. Luego de esto, se realiza una concatenación de los vecinos y se obtiene un código binario que es transformado a base 10. Dicho número es asignado como nuevo valor del píxel visitado~\cite{Ojala1994,Ojala2002,Ahonen2004,Shan2009}.
 
@@ -74,11 +78,12 @@ Luego de realizar el proceso en todos los píxeles se procede a realizar un hist
 
 Otros métodos que utilizan LBP antes de la obtención del descriptor dividen la imagen en $n$ secciones de igual o distintas áreas, y realizan el cálculo del histograma para cada una de estas secciones. Luego concatenan cada uno de los histogramas en un orden específico y se obtiene un macro descriptor más detallado de la imagen~\cite{Ahonen2006}.
 
-		\textbf{LND}
+		\textbf{Local direccional numbers}
 		\label{sec:lnd}
 
 	\subsubsection{Métodos sobre imágenes dinámicas}	
 	\label{sec:met_videos}
+	Para estos métodos se introduce la variable temporal $t$, la cual es la encargada de regir el movimiento de los píxeles a lo largo del tiempo, al igual que los métodos sobre imágenes estáticas, estos métodos resuelven el problema siendo planteado de la misma forma, pero ahora dependiendo el modelo a utilizar es como se soluciona el problema de la variable $t$.
 
 		\textbf{Volume Local Binary Patterns.}
 		\label{sec:vlbp}
@@ -93,11 +98,17 @@ El método VLBP consiste en realizar una codificación basada en LBP, ahora incl
 Para poder obtener el patrón de la imagen se realiza el mismo proceso de resta con los píxeles del vecindario seleccionado, pero a diferencia de los métodos estáticos que solo se realizan en el plano $XY$, este también se realiza para los planos $XT$ e $YT$.\@ Con esto se obtiene un histograma para cada plano, los cuales son concatenados y forman el macro descriptor de la imagen~\cite{Zhao2007}.
 
 
-\section{Reconocimiento de rostros}
+\section{Reconocimiento y corrección de rostros}
 \label{sec:rec_rostros}
 
-	\subsection{Viola-Jones}
+
+	\subsection{Framework Viola-Jones}
 	\label{sec:viola-jones}
+	Introducido por Viola y Jones~\cite{jones2003fast}, es un método que utiliza clasificación en cascada, y un entrenador de clasificadores débiles basado en AdaBoost. Este algoritmo consiste en subdividir la imagen a analizar en pequeñas sub-imágenes, las cuales son entregadas a una serie de clasificadores (etapas), cada uno con un conjunto de características visuales. El método consiste en que cada sub-imagen es evaluada por la serie de clasificadores, si en una es encontrado un rostro, esta sub-imagen es entregada al siguiente clasificador, el cual revisa de forma mas rigurosa la imagen. Si la imagen es aceptada por todos los clasificadores, esta esa clasificada como un rostro.
+	
+	\subsection{Corrección de movimiento rígido}
+	\label{sec:rigid}
+	Los métodos de corrección de movimiento rígido consisten en utilizar técnicas de rotación y traslación de regiones de la imagen, esto para poder ajustar el movimiento de todos los cuadros del vídeo sobre una región especifica. Este tipo de corrección no alteran el tamaño de la imagen, solo su ubicada y el ángulo su rotación.
 
 \section{Optical flow}
 \label{sec:optical_flow}
