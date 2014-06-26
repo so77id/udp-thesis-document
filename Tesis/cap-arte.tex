@@ -41,7 +41,7 @@ Las expresiones faciales del rostro humano tienen una infinidad de posibles vari
 
 Darwin afirma en uno de  sus estudios publicado a fines del siglo XIX, que nosotros no podemos entender las expresiones emocionales humanas sin entender las expresiones emocionales de los animales, para esto, él argumenta que nuestras expresiones son determinadas en gran parte por nuestra evolución~\cite{Darwin1956,Darwin1998}. En la actualidad Paul Ekman, psicólogo pionero en el estudio de las emociones y su relación con la expresión facial, propone que las expresiones faciales están compuestas por micro-expresiones muy breves, que duran sólo una fracción de segundo. Estas se producen cuando una persona ya sea deliberadamente o inconscientemente esconde un sentimiento~\cite{Ekman1981}.
 
-Ekman define que existen seis expresiones universales: 
+Ekman y Friesen definen que existen seis expresiones universales~\cite{Ekman2003}: 
 
 \begin{enumerate}
 	\item Alegría (Happiness) : se produce mediante la contracción del músculo que va del pómulo al labio superior y del orbicular que rodea al ojo. También se elevan las mejillas. 
@@ -70,7 +70,7 @@ Se basan en detectar los movimientos de las texturas en la imagen, en el caso de
 	\label{sec:met_imagen}
 		Son métodos enfocados en encontrar ciertas regularidades existentes entre las texturas de la imagen a analizar, ejemplos:
 
-		\subsubsection{Patrones binarios locales (LBP)}
+		\subsubsection{Local Binary Patterns}
 		\label{sec:lbp}
 		Método introducido por Wang y He~\cite{Wang1990}, consiste en realizar una codificación del píxel de interés con respecto a los valores de sus vecinos. En simples palabras se realiza un proceso de máscara en el cual se restan los píxeles del vecindario con el píxel central, si la resta es negativa o cero se asigna un cero en la posición del vecino, por el contrario si es positiva se asigna un uno. Luego de esto, se realiza una concatenación de los vecinos y se obtiene un código binario que es transformado a base 10. Dicho número es asignado como nuevo valor del píxel visitado~\cite{Ojala1994,Ojala2002,Ahonen2004,Shan2009}.
 
@@ -78,20 +78,30 @@ Luego de realizar el proceso en todos los píxeles se procede a realizar un hist
 
 Otros métodos que utilizan LBP antes de la obtención del descriptor dividen la imagen en $n$ secciones de igual o distintas áreas, y realizan el cálculo del histograma para cada una de estas secciones. Luego concatenan cada uno de los histogramas en un orden específico y se obtiene un macro descriptor más detallado de la imagen~\cite{Ahonen2006}.
 
-		\textbf{Local direccional numbers}
+		\subsubsection{Local Directional Number Pattern}
 		\label{sec:lnd}
+		Metodo introducido por Ramírez \etal~\cite{RamirezRivera2013}, consiste en realizar una codificación de los píxeles utilizando toda la vecindad. Utiliza el operador de Kirsch~\cite{Kirsch1971}, el cual permite encontrar las gradientes o bordes de la imagen las ocho direcciones. El método realiza un proceso de mascara para cada uno de los detectores de bordes de Kirsch, luego para cada píxel a codificar se obtiene el índice de la mascara que obtuvo la mayor intensidad al ser aplicada, a su vez también se obtiene el índice de la mascara que obtuvo el menor valor. Luego estos índices son transformados a una base binaria de tres dígitos y concatenados obteniendo una cadena binaria de seis dígitos, esta es nuevamente transformada a decimal y este valor decimal (entre 0 y 63) es el nuevo valor que representa el píxel, este proceso puede ser visto en la Figura~\ref{art:fig:ldn}.
+		
+\begin{figure}[tb]
+  \centering
+   \includegraphics[width=1\textwidth]{Figuras/ldn.jpg}
+  \caption{Proceso de codificación de LDN~\cite{RamirezRivera2013}.}
+  \label{art:fig:ldn}
+\end{figure}
+
+		Luego de codificar toda la imagen, se realiza un histograma de la imagen el cual es utilizado como descriptor para la posterior clasificación. También la imagen puede ser segmentada por una grilla, en la cual se calcula un histograma para cada una de las grillas, y luego se concatenan en un orden especifico.
 
 	\subsubsection{Métodos sobre imágenes dinámicas}	
 	\label{sec:met_videos}
 	Para estos métodos se introduce la variable temporal $t$, la cual es la encargada de regir el movimiento de los píxeles a lo largo del tiempo, al igual que los métodos sobre imágenes estáticas, estos métodos resuelven el problema siendo planteado de la misma forma, pero ahora dependiendo el modelo a utilizar es como se soluciona el problema de la variable $t$.
 
-		\textbf{Volume Local Binary Patterns.}
+		\subsubsection{Volume Local Binary Patterns.}
 		\label{sec:vlbp}
 		Método introducido por Zhao y Pietikäinen~\cite{Zhao2006}, basado en LBP para imágenes dinámicas, el cual se basa en tres variables: $L$ la cantidad de cuadros que entran en la creación del patrón, $P$ el tamaño del vecindario a seleccionar y $R$ el radio del cual se escogen los vecinos. 
 El método VLBP consiste en realizar una codificación basada en LBP, ahora incluyendo la variable temporal $L$ que indica desde qué cuadro se comienza a realizar la resta del píxel seleccionado con el central.
 Éste es un proceso muy costoso debido a que mientras mayor sea la cantidad de vecinos a seleccionar, mayor será la cantidad de dígitos binarios, lo cual implica un mayor espectro de números resultantes en la codificación~\cite{Zhao2007a}, \cite{Zhao2007}.
 
-		\textbf{Local Binary Patterns-Three Ortogonal Planes}
+		\subsubsection{Local Binary Patterns-Three Ortogonal Planes}
 		\label{sec:lbp-top}
 		 Es un método basado en LBP para imágenes dinámicas, consiste en crear tres planos ortogonales que se intersectan en el píxel de interés, siendo estos el plano $XY$, $XT$, y $YT$ (cuadro actual, movimiento temporal en $X$ y en $Y$ respectivamente). 
 
@@ -100,7 +110,6 @@ Para poder obtener el patrón de la imagen se realiza el mismo proceso de resta 
 
 \section{Reconocimiento y corrección de rostros}
 \label{sec:rec_rostros}
-
 
 	\subsection{Framework Viola-Jones}
 	\label{sec:viola-jones}
@@ -115,9 +124,64 @@ Para poder obtener el patrón de la imagen se realiza el mismo proceso de resta 
 
 \section{Bag of words}
 \label{sec:bag_of_words}
+Esta técnica es utilizada para la clasificación de documentos, y consiste en la creación de un descriptor de cada documento a partir de la frecuencia de aparición de cada una de las palabras que este en la bolsa. Esta bolsa es construida como un diccionario que contiene todas las palabras que aparecen en los documentos a clasificar.
 
-	\subsection{K-means}
+Recientemente esta técnica también es utilizada para la clasificación de imágenes. Para poder utilizar la misma teoría, las palabras son reemplazadas por características extraídas de las imágenes. El problema es que la cantidad de características es muy alta y con una muy baja probabilidad de ser una igual a la otra, por lo cual es necesario agrupar en conjuntos de características, los cuales son utilizados para construir los descriptores de las imágenes. Estos conjuntos de características son representados por un vector o centroide, el cual es el representante del grupo, luego de esto se procede a construir la bolsa de palabras agrupando todos estos centros como el vocabulario visual de las imágenes. Para poder encontrar los centroides de cada uno de los grupos es necesario utilizar técnicas de agrupamiento o clustering como $k$-means. Implementaciones de esta técnica en clasificación de imágenes pueden ser vistas en ~\cite{Csurka2004,Dollar2005,Sivic2009}.
+
+	\subsection{$k$-means}
 	\label{sec:k-means}
-	
-	\subsection{Métricas de distancia}
+	Es un método introducido por Lloyd~\cite{Lloyd1982} utilizado mayormente en minería de datos, tiene como objetivo principal realizar una partición sobre un conjunto de datos en $k$ grupos, donde cada dato pertenece a solo un grupo.
+	El algoritmo consiste en encontrar los centroides o ``clusters'' de los $k$ grupos que se requiere crear, esto se realiza con un proceso iterativo, el cual dada la elección inicial de los centroides, calcula la distancia a cada uno de los datos, de tal forma que cada dato es introducido en un grupo. Luego recalcula el centroide de cada grupo como la media de cada uno de los datos que pertenecen a ese ``cluster''. Esto se realiza hasta cumplir con los requerimientos de parada, los cuales pueden ser: la inexistencia de nuevas asignaciones de grupo, pequeños cambios en los centroides o cambios mínimos en la suma del error cuadrático.
+	Uno de los grandes problemas de este algoritmo, es la elección de los centroides iniciales, esto debido a que cada instancia puede encontrar distintos máximos locales, por lo cual esto se puede solucionar de forma que se corren distintas instancias con los mismos datos, y luego se calcula un promedio para cada uno de los $k$ centros.
+	Otro de los grandes problemas de este método es la elección de la métrica de distancia a utilizar, ya que dependiendo de el tipo de los vectores a utilizar existen distintas formas de calcular la distancia, lo cual cambia los resultados de los resultados.
+			
+	\subsubsection{Métricas de distancia}
 	\label{sec:matricas_de_distancia}
+	Las métricas de distancia se utilizan para saber que tan cerca o lejos esta un vector de otro, por lo cual esto permite poder tener la distancia entre dos vectores pertenecientes al mismo espacio vectorial. 
+	Sean dos vectores $p$ dimensionales $x$,$y$ de un espacio $X$ $\subseteq$ $\mathds{R}^p$. Entonces, se pueden definir las siguientes medidas de distancia entre $x$ e $y$~\cite{Pereira2010}:
+	
+\paragraph{Distancia Euclidiana}\label{deuclidiana}
+
+\begin{equation}
+d(x,y) = \Big\{\sum_{i} (x_i-y_i)^2\Big\}^{1/2}
+\end{equation}
+
+
+\paragraph{Distancia Euclidiana cuadrada}\label{deuclidianacuad}
+
+\begin{equation}
+d(x,y) = \sum_{i} (x_i-y_i)^2
+\end{equation}
+
+
+\paragraph{Distancia de Manhattan}\label{dmanhattan}
+
+\begin{equation}
+d(x,y) = \sum_{i} \vert x_i-y_i\vert
+\end{equation}
+
+\paragraph{Distancia de Minkowski}\label{dminkowski}
+
+\begin{equation}
+d(x,y) =\Big\{ \sum_{i} \vert x_i-y_i\vert^{1/l}\Big\}^l
+\end{equation}
+
+
+\paragraph{Distancia de potencia}\label{dpotencia}
+
+\begin{equation}
+d(x,y) = \Big\{\sum_{i} (x_i-y_i)^p\Big\}^{1/r}
+\end{equation}
+
+\paragraph{Distancia del coseno}\label{dcoseno}
+
+\begin{equation}
+d(x,y) = \frac{\sum_{i} (x_iy_i)}{\sqrt{\sum_{i} x_i^2}\sqrt{\sum_{i} y_i^2}}
+\end{equation}
+
+
+\paragraph{Correlaci\'on de Pearson}\label{dpearson}
+
+\begin{equation}
+d(x,y) = \frac{\sum_{i} (x_i-\bar{x})(y_i-\bar{y})}{\sqrt{\sum_{i} (x_i-\bar{x})^2}\sqrt{\sum_{i} (y_i-\bar{y})^2}}
+\end{equation}
