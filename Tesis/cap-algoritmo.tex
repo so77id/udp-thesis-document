@@ -1,4 +1,4 @@
-\chapter[Algoritmo]{Algoritmo}
+\chapter[Algoritmo propuesto]{Algoritmo propuesto}
 \label{ch:algoritmo}
 \section{Pipeline}
 \label{sec:pipeline}
@@ -35,8 +35,8 @@ Para poder solucionar el problema propuesto en la Sección~\ref{sec:problema}, s
 
 
 \section{Extracción de micro-descriptores}
-\label{sec:micro-descriptores}
-	El proceso de extracción de micro-descriptores es el núcleo del algoritmo. Este proceso es el encargado de la extracción de características directas del vídeo o imagen dinámica. Para esto se introduce un nuevo término que es denominado ``Rayo de flujo'' o simplemente ``Rayo''. Éste define el movimiento de los píxeles dentro las regiones de interés (ROI por sus siglas en inglés) en los cuadros del vídeo. Esta etapa se puede dividir en tres grandes bloques, primero, la \emph{codificación}, etapa en la cual el vídeo puede ser codificado utilizando técnicas como LBP o LDN\@. Esta etapa es opcional y sera mayormente profundizada en el Capitulo~\ref{ch:exp_result}. Segundo, \emph{extracción de rayos}, la cual consiste en determinar las regiones de interés de donde se extraerán los ``Rayos de flujo'', y su extracción como tal. Y por ultimo, \emph{normalización}, esta etapa se encarga de llevar todos los ``Rayos de flujo'' al mismo espacio vectorial, dado un tamaño fijo. Un diagrama de la extracción de micro-descriptores puede ser visto en la Figura~\ref{algoritmo:fig:micro_descriptores}.
+\label{sec:micro_descriptores}
+	El proceso de extracción de micro-descriptores es el núcleo del algoritmo. Este proceso es el encargado de la extracción de características directas del vídeo o imagen dinámica. Para esto se introduce un nuevo término que es denominado \textit{Rayo de flujo} o simplemente \textit{Rayo}. Éste define el movimiento de los píxeles dentro las regiones de interés (ROI por sus siglas en inglés) en los cuadros del vídeo. Esta etapa se puede dividir en tres grandes bloques, primero, la \emph{codificación}, etapa en la cual el vídeo puede ser codificado utilizando técnicas como LBP o LDN\@. Esta etapa es opcional y sera mayormente profundizada en el Capitulo~\ref{ch:exp_result}. Segundo, \emph{extracción de rayos}, la cual consiste en determinar las regiones de interés de donde se extraerán los \textit{Rayos de flujo}, y su extracción como tal. Y por ultimo, \emph{normalización}, esta etapa se encarga de llevar todos los \textit{Rayos} al mismo espacio vectorial, dado un tamaño fijo. Un diagrama de la extracción de micro-descriptores puede ser visto en la Figura~\ref{algoritmo:fig:micro_descriptores}.
 
 \afterpage{% corrige el breakpage
 \begin{landscape}
@@ -50,7 +50,7 @@ Para poder solucionar el problema propuesto en la Sección~\ref{sec:problema}, s
 
 	\subsection{Elección de regiones de interés}
 	\label{algoritmo:elecc_roi}
-	De cada vídeos que se quiere procesar, después de realizar el preprocesamiento definido en la Sección~\ref{sec:proc_bdd}, se seleccionan las regiones de interés a las cuales se les extraerá los ``Rayos''. Las áreas se seleccionarán utilizando distintos criterios [$\mathds{R}(\cdot)$, ver (\ref{algoritmo:eq:roi})], por ejemplo, pueden utilizarse áreas puntuales con alta expresividad (\eg, los ojos), o bien áreas generales (\eg, todo el rostro).
+	De cada vídeos que se quiere procesar, después de realizar el preprocesamiento definido en la Sección~\ref{sec:proc_bdd}, se seleccionan las regiones de interés a las cuales se les extraerá los \textit{Rayos}. Las áreas se seleccionarán utilizando distintos criterios [$\mathds{R}(\cdot)$, ver (\ref{algoritmo:eq:roi})], por ejemplo, pueden utilizarse áreas puntuales con alta expresividad (\eg, los ojos), o bien áreas generales (\eg, todo el rostro).
 	
 	De tal forma, definimos un vídeo como 
 	\begin{equation}\label{algoritmo:eq:video}		
@@ -60,7 +60,7 @@ Para poder solucionar el problema propuesto en la Sección~\ref{sec:problema}, s
 	\begin{equation}\label{algoritmo:eq:roi}
 		\text{ROI}_{i}^{t} = \{(x,y) | (x,y,t) \in \mathds{R}(i)\},
 	\end{equation}
-	donde $\mathds{R}(i)$, es una función que devuelve la $i$-esima región en que dividimos el vídeo, según el criterio antes mencionado.
+	donde $\mathds{R}(i)$, es una función que devuelve la $i$-ésima región en que dividimos el vídeo, según el criterio antes mencionado.
 
 	\subsection{Extracción de rayos}
 	\label{algoritmo:ext_rayos}
@@ -78,9 +78,9 @@ Para poder solucionar el problema propuesto en la Sección~\ref{sec:problema}, s
 	Dado un píxel $(x,y)$ en el cuadro $t$, la extracción de rayos consiste en obtener una región de soporte, $\text{RS(x,y,t)}$, y una ventana de búsqueda, $\text{WS}(x,y,t)$, y encontrar la posición de mejor emparejamiento entre la región de soporta y la de búsqueda. Esta búsqueda se realiza calculando el error Cuadrático Medio (MSE por sus siglas en inglés), \begin{equation}\label{algoritmo:eq:mse}	
 			\text{MSE}(\text{RS}, \text{RS}') = \sum_{x=1}^{L} \sum_{y=1}^{L} (\text{RS}(x,y,t) - \text{RS}'(x',y',t+1))^2,
 		\end{equation} 
-	donde $\text{RS} = \text{RS}(x,y,t)$ es la región de soporte del píxel $(x,y)$ en el cuadro $t$, al que esta extrayendo el rayo, y $\text{RS}' = \text{RS}'(x',y',t+1) \in \text{WS}(x,y,t)$ es una subregión de la región de búsqueda del píxel $(x,y)$ en el cuadro $t$ de tamaño $L$ (note que la región de búsqueda del voxel $(x,y,t)$ está definida en el cuadro siguiente).
+	donde $\text{RS} = \text{RS}(x,y,t)$ es la región de soporte del píxel $(x,y)$ en el cuadro $t$, al que esta extrayendo el \textit{rayo}, y $\text{RS}' = \text{RS}'(x',y',t+1) \in \text{WS}(x,y,t)$ es una subregión de la región de búsqueda del píxel $(x,y)$ en el cuadro $t$ de tamaño $L$ (note que la región de búsqueda del voxel $(x,y,t)$ está definida en el cuadro siguiente).
 		
-	Notemos que esta operación se realiza para cada uno de los desplazamientos que existan dentro de la ventana de búsqueda. De tal forma que buscamos la posición de la región $\text{RS}'$ que minimiza el MSE respecto de la región de soporte del voxel $(x,y,t)$, $\text{RS}(x,y,t)$, de tal forma que la region $\text{RS}'$ óptima será
+	Notemos que esta operación se realiza para cada uno de los desplazamientos que existan dentro de la ventana de búsqueda. De tal forma que buscamos la posición de la región $\text{RS}'$ que minimiza el MSE respecto de la región de soporte del voxel $(x,y,t)$, $\text{RS}(x,y,t)$, de tal forma que la región $\text{RS}'$ óptima será
 	\begin{equation}
 		\text{RS}^* = \arg \min_{\text{RS}'}\{\text{MSE}(\text{RS},\text{RS}') | \text{RS}' \in \text{WS} \},
 	\end{equation}		
@@ -91,27 +91,27 @@ Para poder solucionar el problema propuesto en la Sección~\ref{sec:problema}, s
 		\Delta x^{t} &= x-x^*,\\ 
 		\Delta y^{t} &= y-y^*.
 	\end{align}
-		Donde $ \Delta x^*$ y $ \Delta y^*$ son componentes del ``Rayo de soporte'', y definimos el $j$-ésimo ``Rayo de soporte'' como
+		Donde $ \Delta x^*$ y $ \Delta y^*$ son componentes del \textit{Rayo de soporte}, y definimos el $j$-ésimo \textit{Rayo de soporte} como
 	\begin{equation}
 		\rho_{(x,y)} = \{(\Delta x^{t}, \Delta y^{t})~| \forall t\},
 	\end{equation}		
 %todo elminar la explicación de j y escribir respecto a (x,y)
 	
-	Los ``Rayos de soporte'' son la estructura básica de los ``Rayos de flujo'', dado que al juntar todos los desplazamientos del píxel $(x,y)$ a lo largo de los cuadros del vídeo, se obtiene un conjunto de variaciones de movimientos de estos. Este conjunto es definido como el ``Rayo'' o micro-descriptor.
+	Los \textit{Rayos de soporte} son la estructura básica de los \textit{Rayos de flujo}, dado que al juntar todos los desplazamientos del píxel $(x,y)$ a lo largo de los cuadros del vídeo, se obtiene un conjunto de variaciones de movimientos de estos. Este conjunto es definido como el \textit{rayo} o micro-descriptor.
 	\begin{equation}
 		R(x,y)	 = \{\rho_1(x,y), \rho_2(x^*,y^*), \rho_3(x^{**},y^{**}), ... \}
 	\end{equation}
-		Donde ($x^{**}$,$y^{**}$) es el píxel al cual se desplazo ($x^{*}$,$y^{*}$) en el cuadro $t$+2. El desplazamiento de los ``Rayos'' puede ser visto en la Figura~\ref{algoritmo:fig:normalizacion}.
+		Donde ($x^{**}$,$y^{**}$) es el píxel al cual se desplazo ($x^{*}$,$y^{*}$) en el cuadro $t$+2. El desplazamiento de los \textit{rayos} puede ser visto en la Figura~\ref{algoritmo:fig:normalizacion}.
 		
 		%%HABLAR DE ventana de soporte, ventana de busqueda MSE
 		
 	\subsection{Normalización de rayos}
 	\label{algoritmo:normalizacion}
-	Luego de obtener el total de micro-descriptores es necesario poder llevar todos los rayos al mismo espacio vectorial, esto debido a que el tamaño de cada conjunto depende de la cantidad de cuadros $T$ del vídeo. Para este proceso se introduce una variable muy importante para el algoritmo llamada $N$, esta sera la encargada de comandar el proceso de normalización, de tal forma que se obtiene una razón de normalización
+	Luego de obtener el total de micro-descriptores es necesario poder llevar todos los \textit{rayos} al mismo espacio vectorial, esto debido a que el tamaño de cada conjunto depende de la cantidad de cuadros $T$ del vídeo. Para este proceso se introduce una variable muy importante para el algoritmo llamada $N$, esta sera la encargada de comandar el proceso de normalización, de tal forma que se obtiene una razón de normalización
 	\begin{equation}
 		Rn = \frac{T}{N},
 	\end{equation}
-	que permite relacionar la cantidad de ``Rayos de soporte'' $\rho$ del ``Rayo'' $R(x,y)$ original formaran parte de los $\rho'$ de $R(x,y)'$ normalizado. Este proceso puede ser visualizado en la Figura~\ref{algoritmo:fig:normalizacion}.
+	que permite relacionar la cantidad de \textit{Rayos de soporte} $\rho$ del \textit{Rayo} $R(x,y)$ original formaran parte de los $\rho'$ de $R(x,y)'$ normalizado. Este proceso puede ser visualizado en la Figura~\ref{algoritmo:fig:normalizacion}.
 	
 	\begin{figure}[bt]
 		\centering
@@ -124,7 +124,7 @@ Para poder solucionar el problema propuesto en la Sección~\ref{sec:problema}, s
 \newpage	
 \section{Creación de macro-descriptores}
 \label{sec:macro-descriptores}
-El proceso de creación de macro-descriptores es el proceso final de la extracción de características de los vídeos. Luego de obtener un extenso conjunto de ``Rayos'' para cada uno de los vídeos, es necesario poder crear grupos de ``Rayos'', los cuales puedan representar de mejor manera el espacio ya normalizado. Para esto se utilizan técnicas de ``clustering'' o agrupamiento. El proceso de Creacion de maro-descriptores puede ser visto en las Figuras~\ref{algoritmo:fig:macro_descriptores:entrenamiento} y~\ref{algoritmo:fig:macro_descriptores:clasificacion}
+El proceso de creación de macro-descriptores es el proceso final de la extracción de características de los vídeos. Luego de obtener un extenso conjunto de \textit{Rayos} para cada uno de los vídeos, es necesario poder crear grupos de \textit{Rayos}, los cuales puedan representar de mejor manera el espacio ya normalizado. Para esto se utilizan técnicas de clustering o agrupamiento. El proceso de Creación de maro-descriptores puede ser visto en las Figuras~\ref{algoritmo:fig:macro_descriptores:entrenamiento} y~\ref{algoritmo:fig:macro_descriptores:clasificacion}
 
 	\begin{figure}[bt]
 		\centering
@@ -141,9 +141,9 @@ El proceso de creación de macro-descriptores es el proceso final de la extracci
   		\label{algoritmo:fig:macro_descriptores:clasificacion}
 	\end{figure}	
 
-	\subsection{Bag of words}
+	\subsection{Bolsa de palabras}
 	\label{algoritmo:bow}
-		Esta es una técnica dependiente de la cantidad de palabras $K$ o ``words'' que se introduzcan a la bolsa. Esta técnica permite armar $K$ grupos representados por un centroide o cluster llamado $C_k$ como se puede ver en la Figura~\ref{algoritmo:fig:bow}. Estos clusters son los puntos de referencia de cada uno de sus grupos. Para saber a cual de estos $k$ centroides pertenece un ``Rayo'' $R(x,y)$, es necesario calcular el
+		Esta es una técnica dependiente de la cantidad de palabras $K$ o \textit{words} que se introduzcan a la bolsa. Esta técnica permite armar $K$ grupos representados por un centroide o \textit{cluster} llamado $C_k$ como se puede ver en la Figura~\ref{algoritmo:fig:bow}. Estos clusters son los puntos de referencia de cada uno de sus grupos. Para saber a cual de estos $k$ centroides pertenece un \textit{Rayo} $R(x,y)$, es necesario calcular el
 		\begin{equation}
   			\label{algoritmo:eq:dist}
 			k^* = \arg \min_k \{\mathit{dist}(R(x,y),C_k)\},
@@ -159,7 +159,7 @@ El proceso de creación de macro-descriptores es el proceso final de la extracci
 
 	\subsection{Creación de macro-descriptores}
 	\label{algoritmo:crea_macro-descriptores}
-	Luego de tener etiquetado cada uno de los ``Rayos'' $R(x,y)$ con su centroide respectivo, se procede a crear el macro-descriptor de cada uno de los vídeos.	 Esto se realiza creando un histograma de tamaño $K$ para cada uno de las regiones de interés ${ROI}_{i}^{t}$ del vídeo, de tal forma que en este histograma se tenga presente la frecuencia de cada uno de los clusters encontrados en la creación del ``Bag of Words''. De tal forma, definimos el descriptor $D_i$ de la región de interés $\text{ROI}_i$ como
+	Luego de tener etiquetado cada uno de los \textit{Rayos} $R(x,y)$ con su centroide respectivo, se procede a crear el macro-descriptor de cada uno de los vídeos.	 Esto se realiza creando un histograma de tamaño $K$ para cada uno de las regiones de interés ${ROI}_{i}^{t}$ del vídeo, de tal forma que en este histograma se tenga presente la frecuencia de cada uno de los clusters encontrados en la creación del \textit{Bag of Words}. De tal forma, definimos el descriptor $D_i$ de la región de interés $\text{ROI}_i$ como
 	\begin{align}
 		\label{algoritmo:eq:hist}
 		D_i(k) &= \sum_{(x,y)\in \text{ROI}_i} \delta (R(x,y),k), \quad \forall k,\\
@@ -186,7 +186,7 @@ de tal forma que $\delta(\cdot,\cdot)$ es una función que cuenta los rayos pert
   		\caption{Construcción del macro-descriptor.}
 	\end{figure}	
 
-	En el proceso clasificación, no se recalculan los centroides para un nuevo vídeo, ya que, se guarda el modelo que contiene el resultado del ``Bag of Words'', y se procede a calcular~(\ref{algoritmo:eq:dist}), para cada uno de los ``Rayos'' $R(x,y)$ obtenidos en el proceso de extracción de micro-descriptores. Luego de esto al igual que en el proceso de entrenamiento se crea el macro-descriptor con el mismo método.
+	En el proceso clasificación, no se recalculan los centroides para un nuevo vídeo, ya que, se guarda el modelo que contiene el resultado del \textit{Bag of Words}, y se procede a calcular~(\ref{algoritmo:eq:dist}), para cada uno de los \textit{Rayos} $R(x,y)$ obtenidos en el proceso de extracción de micro-descriptores. Luego de esto al igual que en el proceso de entrenamiento se crea el macro-descriptor con el mismo método.
 	
 	
 \section{Entrenamiento y clasificación}
@@ -199,7 +199,7 @@ Para poder probar la efectividad del clasificador se utilizaran técnicas de val
 	\label{algoritmo:entrenamiento}
 		Luego de que el conjunto de datos de entrenamiento pasa por todas las etapas anteriores del algoritmo, se tiene para cada uno de los vídeos un macro-descriptor compuesto por la concatenación de los histogramas de de cada una de las regiones de interés y una etiqueta que indica a que clase pertenecen. Este conjunto de descriptores y las etiquetas son utilizados por las Maquinas de Vectores de Soporte para la creación de un modelo de clasificación, el permite poder etiquetar nuevas entradas, este proceso puede ser visto en la Figura~\ref{algoritmo:fig:entrenamiento}.
 	
-	SVM al ser un clasificador de dos clases, es necesario utilizar técnicas que permita realizar la clasificación utilizando muchas clases, para el caso de esta implementación es necesario poder generar un modelo que permita clasificar las seis expresiones universales. Con este motivo se utiliza la técnica ``Uno contra uno'', la cual consiste en generar $\frac{C(C-1)}{2}$ clasificadores, donde cada clase tiene una barrera de decisión asociada a cada una de las demás clases. Esto permite que la región de incertidumbre formada por las barreras de decisión sea mínima.
+	SVM al ser un clasificador de dos clases, es necesario utilizar técnicas que permita realizar la clasificación utilizando muchas clases, para el caso de esta implementación es necesario poder generar un modelo que permita clasificar las seis expresiones universales. Con este motivo se utiliza la técnica \textit{Uno contra uno}, la cual consiste en generar $\frac{C(C-1)}{2}$ clasificadores, donde cada clase tiene una barrera de decisión asociada a cada una de las demás clases. Esto permite que la región de incertidumbre formada por las barreras de decisión sea mínima.
 		
 		
 	\begin{figure}[bt]

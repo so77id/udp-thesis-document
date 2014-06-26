@@ -1,2 +1,41 @@
 \chapter[Experimentos y resultados]{Experimentos y resultados}
 \label{ch:exp_result}
+
+\section{Base de datos}
+\label{exp:bdd}
+Para poder realizar los experimentos con el algoritmo propuesto en el Capitulo~\ref{ch:algoritmo}, se utiliza una base de datos preparada para el reconocimiento facial. Creada por Pantic \etal~\cite{Pantic2005}, MMI es una base de datos multiuso que en esta instancia es utilizada para el reconocimiento de expresiones faciales. Tiene las siguientes características: Contiene mas de 1000 ejemplos clasificados tanto en imágenes como vídeos; Tiene 19 sujetos de prueba; Las edades de los sujetos de prueba varían entre los 19 y los 62 años;  contiene tanto hombres como mujeres, además de tres razas étnicas distintas; Y por ultimo tanto las imágenes como los vídeos están grabados de forma frontal y lateral con respecto al rostro del sujeto.
+
+
+\section{Experimentos}
+A continuación se lista una serie de experimentos a realizar para probar el funcionamiento y la eficacia del algoritmo propuesto en el Capitulo~\ref{ch:algoritmo}.
+
+\subsection{Pruebas codificando los vídeos}
+\label{exp:cod}
+En la sección~\ref{sec:micro_descriptores}, extracción de micro-descriptores, se explica que antes de poder obtener los \textit{rayos} es necesario realizar un proceso de codificación sobre las imágenes, esto pudiendo ayudar a la extracción de los descriptores. Para esto se preparan tres pruebas distintas, en las cuales se utilizan distintas técnicas de codificación.
+
+	\subsubsection{Sin codificación}
+	Esta prueba consiste en ver la eficiencia del descriptor encontrado al final del proceso del algoritmo sin utilizar ningún tipo de codificación sobre los valores de los píxeles, por lo cual el proceso de extracción de rayos se realiza sobre el valor de la intensidad de cada imagen.
+
+	\subsubsection{Codificación de LBP}
+	Esta prueba consiste en ver la eficacia del descriptor encontrado al final del proceso del algoritmo propuesto, utilizando el proceso de codificación LBP explicado en la Sección~\ref{sec:lbp}. Esta codificación permite que los nuevos valores obtenidos para los píxeles estén relacionados directamente con la vecindad mas cercana, por lo cual esto permitiría poder realizar una mejor extracción de rayos.
+	
+	\subsubsection{Codificación de LDN}
+	Esta prueba consiste en ver la eficacia del descriptor encontrado al final del proceso del algoritmo propuesto, utilizando el proceso de codificación LDN, el cual es explicado en la Sección~\ref{sec:ldn}. En esta codificación los nuevos valores obtenidos para cada píxel pueden tener valores pertenecientes al rango de 0 a 63, y a su vez al igual que en LBP estos valores están estrechamente relacionados con la vecindad mas cercana.
+
+\subsection{Pruebas sobre variables del algoritmo}
+\label{exp:var}
+Como se explica en el Capitulo~\ref{ch:algoritmo}, el algoritmo cuenta con tres variables importantes, las cuales son la clave para la eficacia y precision de este. Estas variables son el tamaño de la región de soporte o variable $L$, el valor de la normalización de los \textit{rayos} o variable $N$ y por ultimo el tamaño del \textit{Bag of Words} o variable $K$.
+
+	\subsubsection{Pruebas del tamaño de la región de soporte}
+	Como se explica en la Sección~\ref{algoritmo:ext_rayos}, la extracción de \textit{rayos}, se utilizan dos estructuras llamadas región de soporte y ventana de búsqueda, estas son de tamaño $L$x$L$ y $(2L+1)$x$(2L+1)$ respectivamente. El valor de la variable $L$ es muy importante ya que define el tamaño de ambas regiones, y a su vez permite definir el tamaño de la región donde se busca el movimiento de los píxeles, por lo cual un gran tamaño puede indicar mayor precision y a su vez menor velocidad. La idea de estas pruebas es poder encontrar el valor óptimo de $L$ el cual permita tener una respuesta aceptable por parte del algoritmo. 
+
+	\subsubsection{Pruebas de normalización de rayos}	
+	La normalización de rayos, explicada en la Sección~\ref{algoritmo:normalizacion}, es otro de los procesos a los cuales se debe encontrar un valor óptimo a su variable $N$, esta variable indica cual debe ser el largo de los vectores que representan los \textit{rayos} de los vídeos. El proceso de normalización es un proceso en el cual se requiere llevar todos los vectores al mismo espacio vectorial, para así poder realizar comparaciones entre estos. Este proceso tiene una gran desventaja, esto debido a que al transformar un vector de tamaño mayor a $N$ este tiende a perder información en su compresión, al igual que al agrandar un vector de tamaño menor a $N$ se tiende a agregar información que posiblemente sea falsa o simplemente ruido.
+
+	\subsubsection{Pruebas del tamaño del \textit{Bag of Words}}
+	La técnica de \textit{Bag of Words} utiliza la variable $K$, está representa el numero de \textit{clusters} o grupos que se deben formar en el proceso de creación de la bolsa de palabras, a su vez también indica el tamaño del descriptor final o macro-descriptor que representa a cada vídeo. Esta variable es de vital importancia, la única forma de poder encontrar un valor óptimo o funcional es a través del método de prueba y error, esto debido a que no existe una forma empírica de demostrar cual es el valor óptimo para cada corrida.
+
+
+\subsection{Pruebas sobre métricas de distancia}
+\label{exp:metricas}
+Existen distintas métricas de distancias, algunas de ellas son expuestas en la Sección~\ref{sec:matricas_de_distancia}. Estas son utilizadas para poder calcular la distancia entre los \textit{rayos} en el proceso de creación del \textit{Bag of Words}, por ende la métrica que se utiliza para la construcción es de vital importancia, esto debido a que un \textit{rayo} puede ser clasificado en un cierto grupo con una métrica y con otra distinta caer en un grupo totalmente distinto, por lo cual estos cambios pueden provocar cambios en los valores de los descriptores finales de cada vídeo.
