@@ -87,7 +87,7 @@ Otros métodos que utilizan LBP antes de la obtención del descriptor dividen la
 
 		\subsubsection{Local Directional Number Pattern}
 		\label{sec:ldn}
-		Metodo introducido por Ramírez \etal~\cite{RamirezRivera2013}, consiste en realizar una codificación de los píxeles utilizando toda la vecindad. Utiliza el operador de Kirsch~\cite{Kirsch1971}, el cual permite encontrar las gradientes o bordes de la imagen las ocho direcciones. El método realiza un proceso de mascara para cada uno de los detectores de bordes de Kirsch, luego para cada píxel a codificar se obtiene el índice de la mascara que obtuvo la mayor intensidad al ser aplicada, a su vez también se obtiene el índice de la mascara que obtuvo el menor valor. Luego estos índices son transformados a una base binaria de tres dígitos y concatenados obteniendo una cadena binaria de seis dígitos, esta es nuevamente transformada a decimal y este valor decimal (entre 0 y 63) es el nuevo valor que representa el píxel, este proceso puede ser visto en la Figura~\ref{art:fig:ldn}.
+		Método introducido por Ramírez \etal~\cite{RamirezRivera2013}, consiste en realizar una codificación de los píxeles utilizando toda la vecindad. Utiliza el operador de Kirsch~\cite{Kirsch1971}, el cual permite encontrar las gradientes o bordes de la imagen las ocho direcciones. El método realiza un proceso de máscara para cada uno de los detectores de bordes de Kirsch, luego para cada píxel a codificar se obtiene el índice de la mascara que obtuvo la mayor intensidad al ser aplicada, a su vez también se obtiene el índice de la mascara que obtuvo el menor valor. Luego estos índices son transformados a una base binaria de tres dígitos y concatenados obteniendo una cadena binaria de seis dígitos, esta es nuevamente transformada a decimal y este valor decimal (entre 0 y 63) es el nuevo valor que representa el píxel, este proceso puede ser visto en la Figura~\ref{art:fig:ldn}.
 		
 \begin{figure}[tb]
   \centering
@@ -96,7 +96,7 @@ Otros métodos que utilizan LBP antes de la obtención del descriptor dividen la
   \label{art:fig:ldn}
 \end{figure}
 
-		Luego de codificar toda la imagen, se realiza un histograma de la imagen el cual es utilizado como descriptor para la posterior clasificación. También la imagen puede ser segmentada por una grilla, en la cual se calcula un histograma para cada una de las grillas, y luego se concatenan en un orden especifico.
+		Luego de codificar toda la imagen, se realiza un histograma de la imagen el cual es utilizado como descriptor para la posterior clasificación. También la imagen puede ser segmentada por una grilla, en la cual se calcula un histograma para cada una de las grillas, y luego se concatenan en un orden específico.
 
 	\subsubsection{Métodos sobre imágenes dinámicas}	
 	\label{sec:met_videos}
