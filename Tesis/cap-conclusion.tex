@@ -3,31 +3,28 @@
 
 El método propuesto en este trabajo, nace de la idea de poder realizar el reconocimiento de expresiones faciales en secuencias de imágenes. La idea es proponer una solución simple y a la vez robusta que permita una fácil implementación en distintos ambientes. Principalmente es poder realizar un seguimiento de las regiones que aporten mayor información sobre las expresiones, como la nariz, la boca, los ojos, \etc. este seguimiento lo llamamos \textit{rayo de flujo}, el cual es una codificación del movimiento de las regiones a través del tiempo.
 
-En la actualidad el desarrollo se encuentra en la etapa de prototipado, como se define en el Capítulo~\ref{ch:algoritmo} el algoritmo propuesto se divide en cuatro etapas. De cada una de estos niveles podemos concluir:
+En la actualidad el desarrollo se encuentra en la etapa de prototipado, con lo cual podemos concluir:
 
 En el preprocesamiento de la base de datos se logró realizar el objetivo propuesto, el cual era lograr encontrar el rostro utilizando el framework Viola-Jones para luego realizar la corrección de rostros. De un total 168 vídeos se obtuvieron 14 con errores después de la corrección. Estimamos que este error en la corrección es debido a que el reconocimiento del rostro del primer cuadro pudo fallar y esto desencadena que la corrección de movimiento no tenga un modelo para corregir los siguientes cuadros.
 
 En la extracción de micro-descriptores, se obtuvo una gran cantidad de \textit{rayos} por cada imagen. La cantidad de \textit{rayos} depende del numero de píxeles que contenga la imagen y el largo de estos es la cantidad de cuadros menos uno (\eg una imagen con dimensiones de 500x500 tiene 25000 \textit{rayos}).
 
-En el proceso de normalización de los \textit{rayos}, se descubre que existe una perdida de información al realizar la compresión de \textit{rayos}, al igual que se puede agregar ruido o información innecesaria al realizar la expansión de estos.
+En el proceso de normalización de los \textit{rayos}, existe una perdida de información al realizar la compresión de \textit{rayos}, al igual que se puede agregar ruido o información innecesaria al realizar la expansión de estos.
 
-Al realizar la agrupación de los \textit{rayos} en la creación de los macro-descriptores, la distribución de estos no es uniforme con respecto a la cantidad de \textit{cluster}, la gran mayoría de los \textit{rayos} se agrupan en un solo grupo. Se cree que esto puede pasar por motivos como: una mala utilización del algoritmo de \textit{clustering} o en los procesos de extracción anteriores existen errores que son arrastrados hasta esta etapa.
+En la creación de los macro-descriptores, y en el posterior entrenamiento del modelo, la cantidad de \textit{clusters} es un valor de vital importancia, esto debido a que pequeños cambios en el valor pueden desencadenar grandes cambios en la precision del método.
 
-
-\section{Trabajo Futuro}
+\section{Trabajos Futuros}
 
 A continuación se describen los trabajos a realizar en la segunda parte de la investigación:
 
 \begin{itemize}
 	\item Lograr definir un método para la elección de las regiones de interés, esto debido a que en estos momentos el algoritmo propuesto esta utilizando la imagen completa para la extracción de \textit{rayos de flujo}, por lo cual es importante lograr definir a cuales regiones del rostro se le aplicara el proceso de extracción de rayos. Algunas regiones a tener en consideración son: la nariz, la boca, los ojos, \etc.
 	
-	\item Lograr resolver el problema de la distribución de los \textit{rayos} al momento de agruparlos en los distintos \textit{clusters} obtenidos al utilizar el \textit{Bag of Words}. En el caso de no poder resolver el problema, se plantea como solución: cambiar la librería utilizada para realizar el agrupamiento, o utilizar otra técnica que permita agrupar los \textit{rayos}. 
-	
 	\item Realizar un estudio sobre los \textit{rayos} obtenidos, debido a que estimamos que es posible que existan instancias de estos que no aporten mayor información al sistema, por lo cual un estudio del comportamiento de estos y cuales son los tipos que aporta más información, permitirá agregar robustez al método.
+	
+	\item Encontrar el valor óptimo para la variable $K$, está etapa es de gran importancia, debido a que el método propuesto en el Capítulo~\ref{ch:algoritmo}, depende en gran parte de la realización de un \textit{clustering} eficiente, por lo cual este problema sera estudiado en profundidad en la segunda parte del trabajo.
 	
 	\item Encontrar un valor óptimo para la variable $N$ de normalización de \textit{rayos}.
 		
 	\item Encontrar un valor óptimo para el tamaño de la región de soporte $L$.
-	
-	\item Encontrar un valor óptimo para la cantidad de \textit{clusters} en el agrupamiento y posterior creación de macro-descriptores.
 \end{itemize}
