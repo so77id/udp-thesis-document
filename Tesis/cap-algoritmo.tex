@@ -91,17 +91,34 @@ Para poder solucionar el problema propuesto en la Sección~\ref{sec:problema}, s
 		\Delta x^{t} &= x-x^*,\\ 
 		\Delta y^{t} &= y-y^*.
 	\end{align}
-		Donde $ \Delta x^*$ y $ \Delta y^*$ son componentes del \textit{Rayo de soporte}, definimos un \textit{Rayo de soporte} como
-	\begin{equation}
-		\rho_{(x,y)} = \{(\Delta x^{t}, \Delta y^{t})~| \forall t\}.
-	\end{equation}		
-	Los \textit{Rayos de soporte} son la estructura básica de los \textit{Rayos de flujo}, dado que al juntar todos los desplazamientos del píxel $(x,y)$ a lo largo de los cuadros del vídeo, se obtiene un conjunto de variaciones de movimientos de estos. Este conjunto es definido como \textit{rayo de flujo} o micro-descriptor,
-	\begin{equation}
-		R(x,y)	 = \{\rho_1(x,y), \rho_2(x^*,y^*), \rho_3(x^{**},y^{**}), ... \},
-	\end{equation}
-	donde ($x^{**}$,$y^{**}$) es el píxel al cual se desplazo ($x^{*}$,$y^{*}$) en el cuadro $t+2$. El desplazamiento de los \textit{rayos} puede ser visto en la Figura~\ref{algoritmo:fig:normalizacion}.
+		Donde $ \Delta x^t$ y $ \Delta y^t$ son componentes del \textit{Rayo de soporte}, definimos un \textit{Rayo de soporte} como:
+	
+	\begin{definition}[Rayo de soporte]
+		Dado un par ordenado $(x,y)$ en el tiempo $t$, el \textit{Rayo de soporte} para dicho píxel esta definido por el nuevo par ordenado $(\Delta x^{t}, \Delta y^{t})$, de tal forma que,
+		\begin{equation}
+			\rho_{(x,y)} = \{(\Delta x^{t}, \Delta y^{t})~| \forall t\}.
+		\end{equation}		
+	\end{definition}	
 		
-		%%HABLAR DE ventana de soporte, ventana de busqueda MSE
+	Los \textit{Rayos de soporte} son la estructura básica de los \textit{Rayos de flujo}, dado que al juntar todos los desplazamientos del píxel $(x,y)$ a lo largo de los cuadros del vídeo, se obtiene un conjunto de variaciones de movimientos de estos. En palabras mas formales, se define:
+	
+	\begin{definition}[Rayo de flujo]	
+		Es el conjunto de \textit{Rayos de soporte} que representan el movimiento del píxel $(x,y)$ en cada uno de los cuadros $t$, este conjunto es definido como \textit{Rayo de flujo} o micro-descriptor, de tal forma que,
+			\begin{equation}
+				R(x,y)	 = \{\rho_{(x,y)}, \rho_{(x^*,y^*)}, \rho_{(x^{**},y^{**})}, ... \},
+			\end{equation}
+		donde ($x^{**}$,$y^{**}$) es el píxel al cual se desplazo ($x^{*}$,$y^{*}$) en el cuadro $t+2$. El desplazamiento de los \textit{rayos} puede ser visto en la Figura~\ref{algoritmo:fig:extraccion}.
+	\end{definition}
+	
+	\begin{figure}[bt]
+		\centering
+    		\includegraphics[width=1\textwidth]{Figuras/Diagramas/Extraccion_de_rayos.png}
+  		\caption{Representación de la extracción de rayos de un vídeo.}
+  		\label{algoritmo:fig:extraccion}
+	\end{figure}	
+
+	
+		
 		
 	\subsection{Normalización de rayos}
 	\label{algoritmo:normalizacion}
@@ -114,7 +131,7 @@ Para poder solucionar el problema propuesto en la Sección~\ref{sec:problema}, s
 	\begin{figure}[bt]
 		\centering
     		\includegraphics[width=1\textwidth]{Figuras/Diagramas/normalizacion_de_rayos.png}
-  		\caption{Representación y Normalización de rayos.}
+  		\caption{Normalización de rayos.}
   		\label{algoritmo:fig:normalizacion}
 	\end{figure}	
 
@@ -197,12 +214,6 @@ Ultima etapa del algoritmo, se dedicada a la segmentación del espacio vectorial
 Para poder probar la efectividad del clasificador se utilizaran técnicas de validación cruzada o $k$\textit{-fold cross-validation} (Por sus siglas en inglés). Esta técnica consiste en dividir el conjunto de datos de datos en dos grupos, uno de entrenamiento y uno de prueba, $k$ veces. Esta técnica es utilizada para correr el algoritmo en distintas instancias, y así poder obtener un valor mas real de la precisión. Se mostraran los resultados de esta técnica en la Capítulo~\ref{ch:exp_result}.
 
 
-	\subsection{Entrenamiento}
-	\label{algoritmo:entrenamiento}
-		Luego de que el conjunto de datos de entrenamiento pasa por todas las etapas anteriores del algoritmo, se tiene para cada uno de los vídeos un macro-descriptor compuesto por la concatenación de los histogramas de de cada una de las regiones de interés y una etiqueta que indica a que clase pertenecen. Este conjunto de descriptores y las etiquetas son utilizados por las \textit{Support Vector Machines} para la creación de un modelo de clasificación, el que permite poder etiquetar nuevas entradas, este proceso puede ser visto en la Figura~\ref{algoritmo:fig:entrenamiento}.
-	
-	Las \textit{Support Vector Machines}, al ser un clasificador de dos clases, es necesario utilizar técnicas que permita realizar la clasificación utilizando muchas clases, para el caso de esta implementación es necesario poder generar un modelo que permita clasificar las seis expresiones universales. Con este motivo se utiliza la técnica \textit{Uno contra uno}, la cual consiste en generar $\frac{C(C-1)}{2}$ clasificadores, donde cada clase tiene una barrera de decisión asociada a cada una de las demás clases. Esto permite que la región de incertidumbre formada por las barreras de decisión sea mínima.
-		
 		
 	\begin{figure}[bt]
 		\centering
@@ -210,12 +221,6 @@ Para poder probar la efectividad del clasificador se utilizaran técnicas de val
     		\includegraphics[width=0.7\textwidth]{Figuras/Diagramas/Entrenamiento.png}
   		\caption{Entrenamiento del clasificador.}
 	\end{figure}	
-		
-		
-	\subsection{Clasificación}
-	\label{algoritmo:clasificacion}
-		Ya teniendo el modelo resultante de la etapa de entrenamiento, esté es utilizado para la clasificación de nuevas entradas sin etiquetar, esto con la misión de poder asignar una etiqueta al nuevo descriptor, este proceso puede ser visto en la Figura~\ref{algoritmo:fig:clasificacion}. En esta etapa se puede medir cual es la precision del algoritmo, esta medición sera mayormente abordada en el Capítulo~\ref{ch:exp_result}.
-		
 	
 	\begin{figure}[bt]
 		\centering
@@ -224,6 +229,21 @@ Para poder probar la efectividad del clasificador se utilizaran técnicas de val
   		\caption{Clasificador utilizando el modelo creado para clasificar nuevas entradas.}
 	\end{figure}	
 		
+	
+
+
+	\subsection{Entrenamiento}
+	\label{algoritmo:entrenamiento}
+		Luego de que el conjunto de datos de entrenamiento pasa por todas las etapas anteriores del algoritmo, se tiene para cada uno de los vídeos un macro-descriptor compuesto por la concatenación de los histogramas de de cada una de las regiones de interés y una etiqueta que indica a que clase pertenecen. Este conjunto de descriptores y las etiquetas son utilizados por las \textit{Support Vector Machines} para la creación de un modelo de clasificación, el que permite poder etiquetar nuevas entradas, este proceso puede ser visto en la Figura~\ref{algoritmo:fig:entrenamiento}.
+	
+	Las \textit{Support Vector Machines}, al ser un clasificador de dos clases, es necesario utilizar técnicas que permita realizar la clasificación utilizando muchas clases, para el caso de esta implementación es necesario poder generar un modelo que permita clasificar las seis expresiones universales. Con este motivo se utiliza la técnica \textit{Uno contra uno}, la cual consiste en generar $\frac{C(C-1)}{2}$ clasificadores, donde cada clase tiene una barrera de decisión asociada a cada una de las demás clases. Esto permite que la región de incertidumbre formada por las barreras de decisión sea mínima.
+			
+		
+	\subsection{Clasificación}
+	\label{algoritmo:clasificacion}
+		Ya teniendo el modelo resultante de la etapa de entrenamiento, esté es utilizado para la clasificación de nuevas entradas sin etiquetar, esto con la misión de poder asignar una etiqueta al nuevo descriptor, este proceso puede ser visto en la Figura~\ref{algoritmo:fig:clasificacion}. En esta etapa se puede medir cual es la precision del algoritmo, esta medición sera mayormente abordada en el Capítulo~\ref{ch:exp_result}.
+		
+	
 	
 	
 	
