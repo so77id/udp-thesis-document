@@ -26,6 +26,8 @@
 \usepackage{afterpage}
 \usepackage{lscape}
 
+\usepackage{multirow, array} % para las tablas
+
 \usepackage{amsmath}
 
 \usepackage{cite}
@@ -90,6 +92,9 @@
 %\usetheme{Szeged}
 %\usetheme{Warsaw}
 
+\setbeamertemplate{footline}[page number]{}
+
+
 \title{Reconocimiento de expresiones faciales en imágenes dinámicas utilizando un descriptor basado en rayos de flujo}
 
 % A subtitle is optional and this may be deleted
@@ -135,12 +140,12 @@
   \end{frame}
 }
 
-\AtBeginSubsection[]
-{
-  \begin{frame}<beamer>{Índice}
-    \tableofcontents[currentsection,currentsubsection]
-  \end{frame}
-}
+%\AtBeginSubsection[]
+%{
+%  \begin{frame}<beamer>{Índice}
+%    \tableofcontents[currentsection,currentsubsection]
+%  \end{frame}
+%}
 
 % Let's get started
 \begin{document}
@@ -208,47 +213,54 @@
 
     \subsection{Soluciones}
         \begin{frame}{Métodos Geométricos}
-              \centering
-                Hablar algo de esto
+               \begin{columns}[onlytextwidth]
+    		  		\begin{column}{0.5\textwidth}
+      				\begin{figure}[bt]
+        					\centering
+                			\includegraphics[width=4cm]{imagenes/geo1.jpg}
+            			\end{figure}	
+      			\end{column}
+			    \begin{column}{0.5\textwidth}
+      				\begin{figure}[bt]
+			        		\centering
+            			    \includegraphics[width=4cm]{imagenes/geo2.jpg}
+            			\end{figure}	
+      			\end{column}
+			   \end{columns}      			
         \end{frame}
     
-        \begin{frame}{Métodos de apariencia}{Local Binary Patterns}
+        \begin{frame}{Métodos de apariencia en imágenes}{Local Binary Patterns}
             \begin{figure}[bt]
         		\centering
                 \includegraphics[width=9cm]{imagenes/lbp.pdf}
-          		\caption{Codificación LBP.}
             \end{figure}	
 
             \begin{figure}[bt]
         		\centering
                 \includegraphics[width=9cm]{imagenes/lbp_histogram.png}
-          		\caption{Creación del descriptor utilizando LBP.}
             \end{figure}	  
         \end{frame}
         
-        \begin{frame}{Métodos de apariencia}{Local Direccional Number Patterns}
+        \begin{frame}{Métodos de apariencia en imágenes}{Local Direccional Number Patterns}
             \begin{figure}[bt]
         		\centering
-                \includegraphics[width=9cm]{imagenes/ldn.jpg}
-          		\caption{Codificación LDN.}
+                \includegraphics[width=10cm]{imagenes/ldn.jpg}
             \end{figure}
         \end{frame}
         
         
-        \begin{frame}{Métodos de apariencia}{Volume Local Binary Patterns}
+        \begin{frame}{Métodos de apariencia en videos}{Volume Local Binary Patterns}
             \begin{figure}[bt]
         		\centering
-                \includegraphics[width=8cm]{imagenes/vlbp.pdf}
-          		\caption{Codificación VLBP.}
+                \includegraphics[width=7cm]{imagenes/vlbp.pdf}
             \end{figure}
         \end{frame}
     
         
-        \begin{frame}{Métodos de apariencia}{Local Binary Patterns- Three Ortogonal Planes}
+        \begin{frame}{Métodos de apariencia en videos}{Local Binary Patterns- Three Ortogonal Planes}
             \begin{figure}[bt]
         		\centering
-                \includegraphics[width=9cm]{imagenes/lbptop.pdf}
-          		\caption{Codificación LBP-TOP.}
+                \includegraphics[width=10cm]{imagenes/lbptop.pdf}
             \end{figure}
         \end{frame}
     
@@ -259,20 +271,8 @@
         \begin{figure}[bt]
     		\centering
             \includegraphics[width=12cm]{imagenes/pipeline.png}
-      		\caption{Método propuesto.}
         \end{figure}
     \end{frame}
-
-	\subsection{Ventajas potenciales del método}
-		\begin{frame}{Solución propuesta}{Ventajas potenciales del método}
-			\begin{itemize}
-				\item ¿Permitirán los \textit{rayos} solucionar el problema de la variable temporal?
-				\item Al ser un modelado espacio-temporal de los píxeles, los \textit{rayos}, ¿permitirán ver cual es el comportamiento de los píxeles a través del tiempo?
-				\item ¿Permitirán los \textit{rayos} modelar micro-patrones en los movimientos del rostro que no pueden ser vistos a simple vista por los humanos?, de ser cierto, ¿estos micro-patrones aportaran mayor información al modelo de clasificación?.
-				\item ¿Existe la posibilidad de que cada una de las expresiones faciales universales pueda tener asociado un conjunto de \textit{rayos} tipo?. 
-			\end{itemize}
-		\end{frame}	
-	
 	
     \subsection{Preprocesamiento de la base de datos}
         \begin{frame}{Preprocesamiento de la base de datos}
@@ -288,7 +288,6 @@
                     \begin{figure}[bt]
                 		\centering
                         \includegraphics[width=7cm]{imagenes/Preprocesamiento.png}
-                  		\caption{Preprocesamiento de la base de datos.}
                     \end{figure}
                 \end{column}
             \end{columns}
@@ -302,65 +301,136 @@
             \begin{figure}[bt]
         		\centering
                 \includegraphics[width=12cm]{imagenes/Extractor_microdescriptores.png}
-          		\caption{Diagrama general del proceso de extracción de micro-descriptores.}
             \end{figure}
         \end{frame}
     
     
         \begin{frame}{Extracción de micro-descriptores}{Extracción de rayos}
-            \begin{block}{Región de soporte}
-                  Dado un píxel $(x,y)$ en un cuadro $t$, definimos una región de soporte RS, de tamaño $L \times L$ (donde $L$ es impar), como la subregión del cuadro $t$ que está centrada en el píxel $(x,y)$.
-            \end{block}
-            
-            \begin{block}{Ventana de búsqueda}
-                  Dado un píxel $(x,y)$ en un cuadro $t$, definimos la ventana de búsqueda WS, de  tamaño $(2L+1) \times (2L+1)$, como la subregión del cuadro $t+1$ que está centrada en el píxel $(x,y)$.
-            \end{block}
-    
+			\begin{block}{Región de soporte}
+            		Región cuadrada de tamaño $L$ centrada en el píxel $(x,y)$ en el tiempo $t$
+            \end{block}    			
+    			
+    			\begin{figure}[bt]
+        			\centering
+                \includegraphics[width=9cm]{imagenes/Extraccion_de_rayos.png}
+            \end{figure}        
+	        
         \end{frame}
     
-
+    
+    		\begin{frame}{Extracción de micro-descriptores}{Extracción de rayos}
+			\begin{block}{Ventana de búsqueda}
+                  Región cuadrada de tamaño $2L+1$ centrada en el píxel $(x,y)$ en el tiempo $t+1$
+            \end{block}    			
+    			
+    			\begin{figure}[bt]
+        			\centering
+                \includegraphics[width=9cm]{imagenes/Extraccion_de_rayos.png}
+            \end{figure}        
+	            
+        \end{frame}
+    
         \begin{frame}{Extracción de micro-descriptores}{Extracción de rayos}
-            \begin{equation}\label{algoritmo:eq:mse}	
+			\begin{equation}\label{algoritmo:eq:mse}	
 			    \text{MSE}(\text{RS}, \text{RS}') = \sum_{x=1}^{L} \sum_{y=1}^{L} (\text{RS}(x,y,t) - \text{RS}'(x',y', t+1))^2
 		    \end{equation}   
 		    
 		    \begin{equation}
-		        \text{RS}^* = \arg \min_{\text{RS}'}\{\text{MSE}(\text{RS},\text{RS}') | \text{RS}' \in \text{WS} \},
-	        \end{equation}	
+		        \text{RS}^* = \arg \min_{\text{RS}'}\{\text{MSE}(\text{RS},\text{RS}') | \text{RS}' \in \text{WS} \}
+	        \end{equation}
 	        
-	        \begin{block}{Rayo de soporte}
-                Dado un par ordenado $(x,y)$ en el tiempo $t$, el \textit{Rayo de soporte} para dicho píxel esta definido por el nuevo par ordenado $(\Delta x^{t}, \Delta y^{t})$, de tal forma que,
-		\begin{equation}
-			\rho_{(x,y)} = \{(\Delta x^{t}, \Delta y^{t})~| \forall t\}.
-		\end{equation}		 
-            \end{block}
+	        \begin{columns}[onlytextwidth]
+                \begin{column}{0.5\textwidth}
+					\begin{figure}[bt]
+        					\centering
+                			\includegraphics[width=4cm]{imagenes/MSE1.png}
+            			\end{figure}      	        	
+	        		\end{column}
+                \begin{column}{0.5\textwidth}                
+                		\begin{table}
+                			
+					\begin{tabular}{|c|c|}
+					                \hline 
+					                RS & Región de soporte \\ 
+					                \hline 
+					                WS & Ventana de búsqueda \\ 
+					                \hline 
+					                RS' & Subregión de soporte $\in$ WS \\ 
+					                \hline 
+					                $x$ & Coordenada x del píxel \\ 
+					                \hline 
+					                $y$ & Coordenada y del píxel \\ 
+					                \hline 
+					                $\text{RS}^*$ & Subregión óptima $\in$ WS \\
+					                \hline 
+					 \end{tabular} 
+                		\end{table}
+	        		\end{column}
+	        \end{columns}	
         \end{frame}
+        
+        
+		\begin{frame}{Extracción de micro-descriptores}{Extracción de rayos}
+			\begin{block}{Rayo de soporte}
+				\begin{equation}
+					\rho_{(x,y)} = \{(\Delta x^{t}, \Delta y^{t})~| \forall t\}.
+				\end{equation}		 
+            \end{block}			
+			
+			\begin{columns}[onlytextwidth]
+                \begin{column}{0.5\textwidth}
+					\begin{figure}[bt]
+        					\centering
+                			\includegraphics[width=4cm]{imagenes/MSE2.png}
+            			\end{figure}      	        	
+	        		\end{column}
+                \begin{column}{0.5\textwidth}
+                		\begin{align}
+						\Delta x^{t} &= x-x^*\\ 
+						\Delta y^{t} &= y-y^*
+					\end{align}
+	
+					\begin{table}
+                			
+					\begin{tabular}{|c|c|}
+					                \hline 
+					                $x^*$ & Coordenada x de $\text{RS}^*$ \\ 
+					                \hline 
+					                $y^*$ & Coordenada y de $\text{RS}^*$ \\ 
+					                \hline 
+					 \end{tabular} 
+                		\end{table}					
+					
+	        		\end{column}
+	        \end{columns}			
+			
+
+            
+				            
+            
+		\end{frame}		        
         
         
         \begin{frame}{Extracción de micro-descriptores}{Extracción de rayos}
-            \begin{block}{Rayo de flujo}
-                Es el conjunto de \textit{Rayos de soporte} que representan el movimiento del píxel $(x,y)$ en cada uno de los cuadros $t$, este conjunto es definido como \textit{Rayo de flujo} o micro-descriptor, de tal forma que,
-			\begin{equation}
-				R(x,y)	 = \{\rho_{(x,y)}, \rho_{(x^*,y^*)}, \rho_{(x^{**},y^{**})}, ... \},
-			\end{equation}
-		donde ($x^{**}$,$y^{**}$) es el píxel al cual se desplazo ($x^{*}$,$y^{*}$) en el cuadro $t+2$.  
-            \end{block}
-    
+			\begin{block}{Rayo de flujo}
+				\begin{equation}
+					R(x,y)	 = \{\rho_{(x,y)}, \rho_{(x^*,y^*)}, \rho_{(x^{**},y^{**})}, ... \},
+				\end{equation}
+		    \end{block}			
+			
+			\begin{figure}[bt]
+        			\centering
+                \includegraphics[width=9cm]{imagenes/Extraccion_de_rayos.png}
+            \end{figure}             
+            
+            
         \end{frame}
-        
-        \begin{frame}{Extracción de micro-descriptores}{Extracción de rayos}
-            \begin{figure}[bt]
-        		\centering
-                \includegraphics[width=10cm]{imagenes/Extraccion_de_rayos.png}
-          		\caption{Representación de la extracción de rayos de un vídeo.}
-            \end{figure}
-        \end{frame}
+       
 
         \begin{frame}{Extracción de micro-descriptores}{Normalización de rayos}
             \begin{figure}[bt]
         		\centering
                 \includegraphics[width=10cm]{imagenes/normalizacion_de_rayos.png}
-          		\caption{Normalización de rayos.}
             \end{figure}
         \end{frame}
     
@@ -368,13 +438,13 @@
 		\begin{frame}{Creación de macro-descriptores}{Vista general}
             \begin{figure}[bt]
         		\centering
-                \includegraphics[width=7cm]{imagenes/Extractor_macrodescriptores_entrenamiento.png}
+                \includegraphics[width=8cm]{imagenes/Extractor_macrodescriptores_entrenamiento.png}
           		\caption{Creación de macro-descriptores entrenamiento.}
             \end{figure}
             
             \begin{figure}[bt]
         		\centering
-                \includegraphics[width=7cm]{imagenes/Extractor_macrodescriptores_clasificacion.png}
+                \includegraphics[width=8cm]{imagenes/Extractor_macrodescriptores_clasificacion.png}
           		\caption{Creación de macro-descriptores clasificador.}
             \end{figure}
         \end{frame}
@@ -388,7 +458,6 @@
             \begin{figure}[bt]
         		\centering
                 \includegraphics[width=7cm]{imagenes/bow_solo.png}
-          		\caption{Representación gráfica del Bag of Visual Words.}
             \end{figure}
         \end{frame}
         
@@ -406,48 +475,38 @@
 			\begin{equation}
 				\mathbb{D} = \cat_{i = 1}^{I} D_i, \quad \forall i
 			\end{equation}				
-		
-		    \begin{figure}[tb]
-        		\centering
-                \includegraphics[width=7cm]{imagenes/macro-descriptor.png}
-          		\caption{Construcción del macro-descriptor.}
-            \end{figure}
+			
+			\begin{columns}[onlytextwidth]
+                \begin{column}{0.3\textwidth}
+				    \begin{figure}[tb]
+        					\centering
+                			\includegraphics[width=3cm]{imagenes/rois.png}
+            			\end{figure}
+	        		\end{column}
+            		\begin{column}{0.7\textwidth}
+				    \begin{figure}[tb]
+        					\centering
+                			\includegraphics[width=7cm]{imagenes/macro-descriptor.png}
+            			\end{figure}
+            		\end{column}
+            	\end{columns}
         \end{frame}
     \subsection{Entrenamiento y clasificación}
     
-		\begin{frame}{Entrenamiento y clasificación}{Vista general}
-			  \begin{columns}[onlytextwidth]
-   	 			\begin{column}{0.5\textwidth}
-		            \begin{figure}[bt]
-    			    			\centering
-            		    		\includegraphics[width=6cm]{imagenes/Entrenamiento.png}
-          				\caption{Diagrama de entrenamiento.}
-            			\end{figure}
- 				\end{column}
-    				\begin{column}{0.5\textwidth}
-		            \begin{figure}[bt]
-        					\centering
-        		        		\includegraphics[width=6cm]{imagenes/Clasificacion.png}
-        	  				\caption{Diagrama de clasificación.}
-		            \end{figure}
-        			\end{column}
- 			  \end{columns}
-        \end{frame}
 
 
-		\begin{frame}{Entrenamiento y clasificación}{Support Vector Machines}
-            \begin{figure}[bt]
-        		\centering
-                \includegraphics[width=8cm]{imagenes/svm.jpg}
-          		\caption{Utilización de Kernel para el cambio de espacio.}
-            \end{figure}
-        \end{frame}
+		%\begin{frame}{Entrenamiento y clasificación}{Support Vector Machines}
+        %   \begin{figure}[bt]
+        %	\centering
+        %       \includegraphics[width=8cm]{imagenes/svm.jpg}
+        % 		\caption{Utilización de Kernel para el cambio de espacio.}
+        %   \end{figure}
+        %\end{frame}
         
         \begin{frame}{Entrenamiento y clasificación}{Support Vector Machines}
             \begin{figure}[bt]
         		\centering
                 \includegraphics[width=5cm]{imagenes/support_vector_machines.png}
-          		\caption{Support Vector Machines.}
             \end{figure}
         \end{frame}
         
@@ -455,7 +514,6 @@
             \begin{figure}[bt]
         		\centering
                 \includegraphics[width=7cm]{imagenes/K-fold.jpg}
-          		\caption{k-fold cross validation.}
             \end{figure}
             \begin{equation}
             		Precision = \frac{|Videos~bien~clasificados|}{|Total~de~videos|} 
@@ -463,8 +521,40 @@
    
         \end{frame}
         
-			        
         
+	\subsection{Ventajas potenciales del método}
+		\begin{frame}{Solución propuesta}{Ventajas potenciales del método}
+			\begin{columns}[onlytextwidth]
+   	 			\begin{column}{0.5\textwidth}			
+					\begin{itemize}
+						\item Problema de la variable temporal
+						\item Comportamiento de los píxeles				
+						\item Modelado de micro-patrones				
+						\item Rayos tipo			
+					\end{itemize}
+				\end{column}
+				\begin{column}{0.5\textwidth}			
+					\begin{figure}[bt]
+        					\centering
+                			\includegraphics[width=5cm]{imagenes/fotos-de-rayos.jpg}
+            			\end{figure}
+				\end{column}
+
+			\end{columns}
+		\end{frame}	
+			        
+  \section{Conclusiones}
+	\begin{frame}{Conclusiones}
+		\begin{itemize}
+			\item Demasiados datos ruidosos
+			\item Baja precisión
+			\item Alto número de rayos por video
+			\item Utilizar solo regiones del rostro: nariz, boca, ceja, etc
+			\item Normalización tiende a deformar los datos (pérdida de datos y adición de ruido)
+			\item Rol de la variable K
+			\item Uso de memoria
+		\end{itemize}
+	\end{frame}      
 
 \section{Trabajos futuros}
         \begin{frame}{Trabajos futuros}{Experimentos}
@@ -495,7 +585,53 @@
 			¿Preguntas?
 		\end{center}
 	\end{frame}
-	
+
+\section*{Anexo}
+	\begin{frame}{Anexo I}{Definiciones}
+		\begin{block}{Región de soporte}
+                  Dado un píxel $(x,y)$ en un cuadro $t$, definimos una región de soporte RS, de tamaño $L \times L$ (donde $L$ es impar), como la subregión del cuadro $t$ que está centrada en el píxel $(x,y)$.
+         \end{block}
+         \begin{block}{Ventana de búsqueda}
+                  Dado un píxel $(x,y)$ en un cuadro $t$, definimos la ventana de búsqueda WS, de  tamaño $(2L+1) \times (2L+1)$, como la subregión del cuadro $t+1$ que está centrada en el píxel $(x,y)$.
+         \end{block}
+    	\end{frame}
+	\begin{frame}{Anexo I}{Definiciones}
+		\begin{block}{Rayo de soporte}
+                Dado un par ordenado $(x,y)$ en el tiempo $t$, el \textit{Rayo de soporte} para dicho píxel esta definido por el nuevo par ordenado $(\Delta x^{t}, \Delta y^{t})$, de tal forma que,
+			\begin{equation}
+				\rho_{(x,y)} = \{(\Delta x^{t}, \Delta y^{t})~| \forall t\}.
+			\end{equation}		 
+        \end{block}   
+    \end{frame}
+	\begin{frame}{Anexo I}{Definiciones}
+	    \begin{block}{Rayo de flujo}
+                Es el conjunto de \textit{Rayos de soporte} que representan el movimiento del píxel $(x,y)$ en cada uno de los cuadros $t$, este conjunto es definido como \textit{Rayo de flujo} o micro-descriptor, de tal forma que,
+			\begin{equation}
+				R(x,y)	 = \{\rho_{(x,y)}, \rho_{(x^*,y^*)}, \rho_{(x^{**},y^{**})}, ... \},
+			\end{equation}
+		donde ($x^{**}$,$y^{**}$) es el píxel al cual se desplazo ($x^{*}$,$y^{*}$) en el cuadro $t+2$.  
+        \end{block}      
+    \end{frame}	
+
+			\begin{frame}{Anexo II}{Entrenamiento y clasificación}
+			  \begin{columns}[onlytextwidth]
+   	 			\begin{column}{0.5\textwidth}
+		            \begin{figure}[bt]
+    			    			\centering
+            		    		\includegraphics[width=6cm]{imagenes/Entrenamiento.png}
+          				\caption{Diagrama de entrenamiento.}
+            			\end{figure}
+ 				\end{column}
+    				\begin{column}{0.5\textwidth}
+		            \begin{figure}[bt]
+        					\centering
+        		        		\includegraphics[width=6cm]{imagenes/Clasificacion.png}
+        	  				\caption{Diagrama de clasificación.}
+		            \end{figure}
+        			\end{column}
+ 			  \end{columns}
+        \end{frame}
+
 
 \end{document}
 
