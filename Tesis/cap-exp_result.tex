@@ -3,24 +3,58 @@
 
 \section{Base de datos MMI}
 \label{exp:bdd}
-Para poder realizar los experimentos con el algoritmo propuesto en el Capítulo~\ref{ch:algoritmo}, se utilizo una base de datos preparada para el reconocimiento facial. Creada por Pantic \etal~\cite{Pantic2005}, MMI es una base de datos multiuso que en esta instancia se utilizo para el reconocimiento de expresiones faciales. Contiene mas de 1000 ejemplos clasificados tanto en imágenes como vídeos; 19 sujetos de prueba; Las edades de los sujetos de prueba varían entre los 19 y los 62 años;  contiene tanto hombres como mujeres, además de tres razas étnicas distintas; Y por ultimo tanto las imágenes como los vídeos están grabados de forma frontal y lateral con respecto al rostro del sujeto.
-Cada expresión facial esta etiquetada con una clase distintas: Ira(1), Asco(2), Miedo(3), Alegría(4), Tristeza(5) y Sorpresa(6).
+Para poder realizar los experimentos con el algoritmo propuesto en el Capítulo~\ref{ch:algoritmo}, se utilizo una base de datos preparada para el reconocimiento facial y de expresiones faciales. Creada por Pantic \etal~\cite{Pantic2005}, MMI es una base de datos multiuso que en esta instancia se utilizo para el reconocimiento de expresiones faciales. Contiene mas de 1000 ejemplos clasificados tanto en imágenes como vídeos; 19 sujetos de prueba; Las edades de los sujetos de prueba varían entre los 19 y los 62 años;  contiene tanto hombres como mujeres, además de tres razas étnicas distintas; Y por ultimo tanto las imágenes como los vídeos están grabados de forma frontal y lateral con respecto al rostro del sujeto. En esta ocasión utilizamos los vídeos grabados de forma frontal, y siendo cada uno de estos etiquetado con una clase distinta para cada expresión facial: Ira(1), Asco(2), Miedo(3), Alegría(4), Tristeza(5) y Sorpresa(6).
 
 \section{Experimentos}
+\label{exp:exp}
 
 Para poder probar la efectividad y buen modelado del algoritmo propuesto en el Capítulo~\ref{ch:algoritmo}, se preparo una pila de experimentos, los cuales permitieron realizar una revisión del modelado y precisión de método.
-Se prepararon pruebas para cada uno de los pasos de los algoritmos, las cuales nos permitieron elegir los mejores valores para cada una de las variables.
+Se prepararon pruebas para cada uno de los pasos del algoritmo, las cuales nos permitieron elegir los mejores valores para cada una de las variables a utilizar.
 
-Para la Extracción de micro-descriptores propuesta en la Sección~\ref{algoritmo:ext_rayos}, se realizaron pruebas que permitieron ver el modelado de los \textit{rayos de flujo} con respecto al movimiento de los pixeles a lo largo de los vídeos, y la elección del tamaño de la Región de soporte $R$ y la Ventana de búsqueda $W$.
+Para la etapa de Extracción de micro-descriptores propuesta en la Sección~\ref{algoritmo:ext_rayos}, se realizaron pruebas que permitieron ver el modelado de los \textit{rayos de flujo} con respecto al movimiento de los pixeles a lo largo de los vídeos, y la elección del tamaño de la Región de soporte $R$ y la Ventana de búsqueda $W$.
 
-En la Normalización de micro-descriptores, propuesto en la Sección~\ref{algoritmo:normalizacion}, se realizaron pruebas con distintos tamaños de $N$ (Variable utilizada para describir el nuevo tamaño de los \textit{rayos de flujo}) y se realizaron comparaciones con respecto a la Asertividad (Accuracy en ingles) de cada valor.
+En la etapa de Normalización de micro-descriptores, propuesto en la Sección~\ref{algoritmo:normalizacion}, se realizaron pruebas con distintos tamaños de $N$ (Variable utilizada para describir el nuevo tamaño de los \textit{rayos de flujo}) y se realizaron comparaciones con respecto a la Asertividad (Accuracy en ingles) de cada valor.
 
-Para la creación de macro-descriptores, propuesta en la Sección~\ref{sec:macro-descriptores}, se prepararon dos experimentos distintos, primero se realizo un estudio del agrupamiento de los \textit{rayos} en el rostro para cada uno de los vídeos con distintos valores $K$, el cual indica la cantidad de grupos de \textit{rayos de flujo} existen; el segundo experimento que se realizo fue calcular la Asertividad (Accuracy en ingles) para distintos valores de la variable $K$.
+Para la creación de macro-descriptores, propuesta en la Sección~\ref{sec:macro-descriptores}, se prepararon dos experimentos distintos, primero se realizo un estudio del agrupamiento de los \textit{rayos} en el rostro para cada uno de los vídeos con distintos valores $K$, el cual indica la cantidad de grupos de \textit{rayos de flujo} existen y como se distribuyen en el rostro; el segundo experimento que se realizó fue calcular la Asertividad (Accuracy en ingles) para distintos valores de la variable $K$.
 
 Por ultimo en la etapa de entrenamiento y posterior clasificación, explicada en la Sección~\ref{sec:clasificacion}, se realizaron pruebas con los distintos \textit{Kernel} y sus respectivas variables, los cuales son recibidos por SVM para la generación del modelo.
 
 
-\subsection{}
+\subsection{Extracción de micro-descriptores}
+\label{exp:micro-descriptores}
+
+Etapa propuesta en al Sección~\ref{algoritmo:ext_rayos}, en simples palabras consiste en modelar el movimiento de cada uno de los pixeles a lo largo de todo el vídeo, este modelado es llamado \textit{rayo de flujo}. Para poder extraer un \textit{rayo} se utilizan dos ventanas: la región de soporte y la ventana de búsqueda. Estas regiones permiten calcular a que pixel $(x',y')$ en un tiempo $t+1$ se desplazo pixel $(x,y)$ en un tiempo $t$. Luego de calcular el movimiento de un pixel de $t$ a $t+1$ se crea un \textit{rayo de soporte}, que es la composición mínima para la creación de los \textit{rayos de flujo}.
+
+
+
+\definecolor{lightgray}{gray}{0.9}
+\begin{table}[t!]
+	\centering
+	\begin{tabular}{ |>{\centering\arraybackslash}m{2cm} | >{\centering\arraybackslash}m{2cm} | >{\centering\arraybackslash}m{1.5cm} | >{\centering\arraybackslash}m{1.5cm} | >{\centering\arraybackslash}m{2cm} | >{\centering\arraybackslash}m{1.5cm} | >{\centering\arraybackslash}m{1.5cm} | }
+		\hline
+		Expresión & \multicolumn{3}{| c |}{Imágenes sin codificación} & \multicolumn{3}{| c |}{Imágenes con LBP}\\
+		\hline
+		& Imagen & XT & YT & Imagen & XT & YT \\
+		(E1) \ \ \ \ \ \ Ira & \includegraphics[height=2cm]{Figuras/resultados/E1/E1.png} & \includegraphics[height=2cm]{Figuras/resultados/E1/E1_YT.png} & \includegraphics[height=2cm]{Figuras/resultados/E1/E1_XT.png} & \includegraphics[height=2cm]{Figuras/resultados/E1/E1_LBP.png} & \includegraphics[height=2cm]{Figuras/resultados/E1/E1_LBP_YT.png} & \includegraphics[height=2cm]{Figuras/resultados/E1/E1_LBP_XT.png} \\
+		
+		(E2) \ \ \ \ Asco& \includegraphics[height=2cm]{Figuras/resultados/E2/E2.png} & \includegraphics[height=2cm]{Figuras/resultados/E2/E2_YT.png} & \includegraphics[height=2cm]{Figuras/resultados/E2/E2_XT.png} & \includegraphics[height=2cm]{Figuras/resultados/E2/E2_LBP.png} & \includegraphics[height=2cm]{Figuras/resultados/E2/E2_LBP_YT.png} & \includegraphics[height=2cm]{Figuras/resultados/E2/E2_LBP_XT.png} \\
+		
+		(E3) \ \ \ \ Miedo& \includegraphics[height=2cm]{Figuras/resultados/E3/E3.png} & \includegraphics[height=2cm]{Figuras/resultados/E3/E3_YT.png} & \includegraphics[height=2cm]{Figuras/resultados/E3/E3_XT.png} & \includegraphics[height=2cm]{Figuras/resultados/E3/E3_LBP.png} & \includegraphics[height=2cm]{Figuras/resultados/E3/E3_LBP_YT.png} & \includegraphics[height=2cm]{Figuras/resultados/E3/E3_LBP_XT.png} \\
+		
+		(E4) Alegría & \includegraphics[height=2cm]{Figuras/resultados/E4/E4.png} & \includegraphics[height=2cm]{Figuras/resultados/E4/E4_YT.png} & \includegraphics[height=2cm]{Figuras/resultados/E4/E4_XT.png} & \includegraphics[height=2cm]{Figuras/resultados/E4/E4_LBP.png} & \includegraphics[height=2cm]{Figuras/resultados/E4/E4_LBP_YT.png} & \includegraphics[height=2cm]{Figuras/resultados/E4/E4_LBP_XT.png} \\
+		
+		(E5) Tristeza& \includegraphics[height=2cm]{Figuras/resultados/E5/E5.png} & \includegraphics[height=2cm]{Figuras/resultados/E5/E5_YT.png} & \includegraphics[height=2cm]{Figuras/resultados/E5/E5_XT.png} & \includegraphics[height=2cm]{Figuras/resultados/E5/E5_LBP.png} & \includegraphics[height=2cm]{Figuras/resultados/E5/E5_LBP_YT.png} & \includegraphics[height=2cm]{Figuras/resultados/E5/E5_LBP_XT.png} \\
+		
+		(E6) Sorpresa& \includegraphics[height=2cm]{Figuras/resultados/E6/E6.png} & \includegraphics[height=2cm]{Figuras/resultados/E6/E6_YT.png} & \includegraphics[height=2cm]{Figuras/resultados/E6/E6_XT.png} & \includegraphics[height=2cm]{Figuras/resultados/E6/E6_LBP.png} & \includegraphics[height=2cm]{Figuras/resultados/E6/E6_LBP_YT.png} & \includegraphics[height=2cm]{Figuras/resultados/E6/E6_LBP_XT.png} \\
+		\hline
+		
+		& (a) & (b) & (c) & (d) & (e) & (f)\\
+		\hline
+		
+	\end{tabular}
+	\caption{Tabla comparativa de la extracción de micro-decriptores con vídeos codificados con LBP y sin codificar. Cada fila representa una expresión facial distinta. Las columnas (a) y (d) son el primer cuadro del vídeo, (b) y (e) representan el plano XT, y (c) y (f) representan el plano YT. }
+	\label{tabla:comparacion_rayos}
+\end{table}
 
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
