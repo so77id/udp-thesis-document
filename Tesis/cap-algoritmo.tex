@@ -68,15 +68,15 @@ Para poder solucionar el problema propuesto en la Sección~\ref{sec:problema}, s
 	Para esta sección se introducen dos términos nuevos: la \textit{región de soporte} y la \textit{ventana de búsqueda}. La \textit{región de soporte} es utilizada para calcular el movimiento del píxel central con respecto al cuadro siguiente. Similarmente, la \textit{ventana de búsqueda} es el espacio supuesto en el cual se puede haber desplazado la región de soporte en el siguiente cuadro, y por ende, donde lo buscaremos. Definimos estos términos formalmente a continuación.
 	
 	\begin{definition}[Región de soporte]	
-  Dado un píxel $(x,y)$ en un cuadro $t$, definimos una región de soporte RS, de tamaño $L \times L$ (donde $L$ es impar), como la subregión del cuadro $t$ que está centrada en el píxel $(x,y)$.
+  Dado un píxel $(x,y)$ en un cuadro $t$, definimos una región de soporte RS, de tamaño $R \times R$ (donde $R$ es impar), como la subregión del cuadro $t$ que está centrada en el píxel $(x,y)$.
 	\end{definition}
 
 	\begin{definition}[Ventana de búsqueda]
-	Dado un píxel $(x,y)$ en un cuadro $t$, definimos la ventana de búsqueda WS, de  tamaño $(2L+1) \times (2L+1)$, como la subregión del cuadro $t+1$ que está centrada en el píxel $(x,y)$.
+	Dado un píxel $(x,y)$ en un cuadro $t$, definimos la ventana de búsqueda WS, de  tamaño $W \times W$(donde $W < R$ y $W$ es impar), como la subregión del cuadro $t+1$ que está centrada en el píxel $(x,y)$.
 	\end{definition}
 		
 	Dado un píxel $(x,y)$ en el cuadro $t$, la extracción de rayos consiste en obtener una \textit{región de soporte}, $\text{RS}(x,y,t)$, una \textit{ventana de búsqueda}, $\text{WS}(x,y,t)$, y encontrar la posición de mejor emparejamiento entre la \textit{región de soporte} y la \textit{ventana de búsqueda}. Esta búsqueda se realiza calculando el error Cuadrático Medio (MSE por sus siglas en inglés), \begin{equation}\label{algoritmo:eq:mse}	
-			\text{MSE}(\text{RS}, \text{RS}') = \sum_{x=1}^{L} \sum_{y=1}^{L} (\text{RS}(x,y,t) - \text{RS}'(x',y', t+1))^2,
+			\text{MSE}(\text{RS}, \text{RS}') = \sum_{x=1}^{R} \sum_{y=1}^{R} (\text{RS}(x,y,t) - \text{RS}'(x',y', t+1))^2,
 		\end{equation} 
 	donde $\text{RS} = \text{RS}(x,y,t)$ es la \textit{región de soporte} del píxel $(x,y)$ en el cuadro $t$, al que esta extrayendo el \textit{rayo}, y $\text{RS}' = \text{RS}'(x',y',t+1) \in \text{WS}(x,y,t)$ es una subregión de la \textit{ventana de búsqueda} del píxel $(x,y)$ en el cuadro $t+1$ de tamaño $L$ (note que la \textit{ventana de búsqueda} del píxel $(x,y)$ en el cuadro $t$ está definida en el cuadro $t+1$).
 		
@@ -84,12 +84,12 @@ Para poder solucionar el problema propuesto en la Sección~\ref{sec:problema}, s
 	\begin{equation}
 		\text{RS}^* = \arg \min_{\text{RS}'}\{\text{MSE}(\text{RS},\text{RS}') | \text{RS}' \in \text{WS} \},
 	\end{equation}		
-	la cual será la posición donde la \textit{región de soporte} se desplazó en el cuadro $t+1$. Con esto se obtiene el píxel $(x^*,y^*)$ que corresponde al centro de la ventana obtenida en el proceso anterior, $\text{RS}^*$.
+	 la cual será la región $\text{RS}'$ donde el error sea mínimo, con lo que se puede deducir que la región $\text{RS}$ se desplazo a la región $\text{RS}^*$ en el tiempo $t+1$. Mediante esto se obtiene el píxel $(x^*,y^*)$ que corresponde al centro de la ventana obtenida en el proceso anterior, $\text{RS}^*$.
 	
 	Para calcular el desplazamiento en el cuadro $t$ de $(x,y)$ a $(x^*,y^*)$, se procede a realizar la resta de los ejes. De tal forma que
 	\begin{align}
-		\Delta x^{t} &= x-x^*,\\ 
-		\Delta y^{t} &= y-y^*.
+		\Delta x^{t} &= x^*-x,\\ 
+		\Delta y^{t} &= y^*-y.
 	\end{align}
 		Donde $ \Delta x^t$ y $ \Delta y^t$ son componentes del \textit{Rayo de soporte}, definimos un \textit{Rayo de soporte} como:
 	
@@ -100,7 +100,7 @@ Para poder solucionar el problema propuesto en la Sección~\ref{sec:problema}, s
 		\end{equation}		
 	\end{definition}	
 		
-	Los \textit{Rayos de soporte} son la estructura básica de los \textit{Rayos de flujo}, dado que al juntar todos los desplazamientos del píxel $(x,y)$ a lo largo de los cuadros del vídeo, se obtiene un conjunto de variaciones de movimientos de estos. En palabras mas formales, se define:
+	Los \textit{Rayos de soporte} son la estructura básica de los \textit{Rayos de flujo}, dado que al juntar todos los desplazamientos del píxel $(x,y)$ a lo largo de los cuadros del vídeo, se obtiene un conjunto de variaciones de movimientos. En palabras mas formales, se define:
 	
 	\begin{definition}[Rayo de flujo]	
 		Es el conjunto de \textit{Rayos de soporte} que representan el movimiento del píxel $(x,y)$ en cada uno de los cuadros $t$, este conjunto es definido como \textit{Rayo de flujo} o micro-descriptor, de tal forma que,
