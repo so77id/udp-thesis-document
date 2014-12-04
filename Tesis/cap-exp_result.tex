@@ -9,7 +9,7 @@ Para poder realizar los experimentos con el algoritmo propuesto en el Capítulo~
 \label{exp:exp}
 
 Para poder probar la efectividad y buen modelado del algoritmo propuesto en el Capítulo~\ref{ch:algoritmo}, se preparo una pila de experimentos, los cuales permitieron realizar una revisión del modelado y precisión de método.
-Se prepararon pruebas para cada uno de los pasos del algoritmo, las cuales nos permitieron elegir los mejores valores para cada una de las variables a utilizar.
+Se prepararon pruebas para cada uno de los pasos del algoritmo, estas pruebas nos permitieron elegir los mejores valores para cada una de las variables a utilizar. Cabe destacar que todos los experimentos realizados sobre el algoritmo, se realizaron en dos instancias de la base de datos MMI, la primera instancia consta de una versión en escala de grises de cada uno de los vídeos, la segunda es una versión a la cual se aplico la técnica LBP descrita en la Sección~\ref{sec:lbp}.
 
 Para la etapa de Extracción de micro-descriptores propuesta en la Sección~\ref{algoritmo:ext_rayos}, se realizaron pruebas que permitieron ver el modelado de los \textit{rayos de flujo} con respecto al movimiento de los pixeles a lo largo de los vídeos, y la elección del tamaño de la Región de soporte $R$ y la Ventana de búsqueda $W$.
 
@@ -18,13 +18,6 @@ En la etapa de Normalización de micro-descriptores, propuesto en la Sección~\r
 Para la creación de macro-descriptores, propuesta en la Sección~\ref{sec:macro-descriptores}, se prepararon dos experimentos distintos, primero se realizo un estudio del agrupamiento de los \textit{rayos} en el rostro para cada uno de los vídeos con distintos valores $K$, el cual indica la cantidad de grupos de \textit{rayos de flujo} existen y como se distribuyen en el rostro; el segundo experimento que se realizó fue calcular la Asertividad (Accuracy en ingles) para distintos valores de la variable $K$.
 
 Por ultimo en la etapa de entrenamiento y posterior clasificación, explicada en la Sección~\ref{sec:clasificacion}, se realizaron pruebas con los distintos \textit{Kernel} y sus respectivas variables, los cuales son recibidos por SVM para la generación del modelo.
-
-
-\subsection{Extracción de micro-descriptores}
-\label{exp:micro-descriptores}
-
-Etapa propuesta en al Sección~\ref{algoritmo:ext_rayos}, en simples palabras consiste en modelar el movimiento de cada uno de los pixeles a lo largo de todo el vídeo, este modelado es llamado \textit{rayo de flujo}. Para poder extraer un \textit{rayo} se utilizan dos ventanas: la región de soporte y la ventana de búsqueda. Estas regiones permiten calcular a que pixel $(x',y')$ en un tiempo $t+1$ se desplazo pixel $(x,y)$ en un tiempo $t$. Luego de calcular el movimiento de un pixel de $t$ a $t+1$ se crea un \textit{rayo de soporte}, que es la composición mínima para la creación de los \textit{rayos de flujo}.
-
 
 
 \definecolor{lightgray}{gray}{0.9}
@@ -55,6 +48,112 @@ Etapa propuesta en al Sección~\ref{algoritmo:ext_rayos}, en simples palabras co
 	\caption{Tabla comparativa de la extracción de micro-decriptores con vídeos codificados con LBP y sin codificar. Cada fila representa una expresión facial distinta. Las columnas (a) y (d) son el primer cuadro del vídeo, (b) y (e) representan el plano XT, y (c) y (f) representan el plano YT. }
 	\label{tabla:comparacion_rayos}
 \end{table}
+
+
+\subsection{Extracción de micro-descriptores}
+\label{exp:micro-descriptores}
+
+Etapa propuesta en al Sección~\ref{algoritmo:ext_rayos}, en simples palabras consiste en modelar el movimiento de cada uno de los pixeles a lo largo de todo el vídeo, este modelado es llamado \textit{rayo de flujo}. Para poder extraer un \textit{rayo} se utilizan dos ventanas: la región de soporte y la ventana de búsqueda. Estas regiones permiten calcular a que pixel $(x',y')$ en un tiempo $t+1$ se desplazo pixel $(x,y)$ en un tiempo $t$. Luego de calcular el movimiento de un pixel de $t$ a $t+1$ se crea un \textit{rayo de soporte}, que es la composición mínima para la creación de los \textit{rayos de flujo}. Para ver en detalle este proceso revisar la Sección~\ref{algoritmo:ext_rayos}.
+
+Para poder evaluar el real modelado de los \textit{rayos} sobre el movimiento de los pixeles, se realizo una extracción de los planos $XT$ y $YT$ del vídeo. El plano $XT$ es una imagen extraída del vídeo en un pixel $(x,y)$, donde cada columna representa un cuadro distinto, cada una de estas son extraídas de sus respectivos cuadros $t$, de tal forma que la columna $t$ del plano $XT$ es la fila $y$ del cuadro $t$ del vídeo. Así mismo el plano $YT$ es otra imagen extraída del vídeo en el mismo pixel $(x,y)$, donde cada columna $t$ de este plano representa un cuadro distinto del vídeo, de tal forma que la columna $t$ del plano $YT$ es la columna $x$ del cuadro $t$ del vídeo. Luego de realizar la extracción de los planos y con la posterior obtención del \textit{rayo de flujo} para el pixel $(x,y)$, fue posible realizar un trazado del movimiento del \textit{rayo} en cada una de sus componentes (En el plano $XT$ se trazo el movimiento de la variable $x$ durante los cuadros del vídeo, por el contrario en el plano $YT$ trazo el movimiento de la variable $y$). Ejemplos de estos planos y sus trazos pueden ser vistos en la Tabla~\ref{tabla:comparacion_rayos}, en las columnas (b), (c), (e) y (f).
+
+En general revisando los resultados obtenidos en cada uno de los planos, podemos deducir de forma visual que los \textit{rayos de flujo} modelan de forma aproximada el movimiento de los pixeles. Observando la Tabla~\ref{tabla:comparacion_rayos} y ademas los resultados obtenidos con distintas pruebas, nos dimos cuenta que el modelado de los \textit{rayos} no tiene una mayor variación con respecto a la expresión facial que se esta observando. Al momento de observar las diferencias entre los resultados obtenidos con los videos con codificacion LBP y sin esta, pudimos observar que los \textit{rayos} obtenidos en videos sin LBP obtenian una mejor aproximacion al movimiento real del rayo, este comportamiento puede ser observado al comparar la columna (b) y (e) que represetan la extraccion en el plano $XT$, o comparando (c) y (f) representantes del plano $YT$ en la Tabla~\ref{tabla:comparacion_rayos}. A su vez se puede observar que las componentes de los \textit{rayos} se comportan mejor al modelar los movimientos verticales (Plano $YT$) que los movimientos horizontales (Plano $XT$).
+
+\begin{table}[tb]
+	\centering
+	\begin{tabular}{ |>{\centering\arraybackslash}m{2.3cm} | >{\centering\arraybackslash}m{1.2cm} | >{\centering\arraybackslash}m{1.2cm} | >{\centering\arraybackslash}m{1.2cm} | >{\centering\arraybackslash}m{1.2cm} | >{\centering\arraybackslash}m{1.2cm} | >{\centering\arraybackslash}m{1.2cm} | }
+		\hline
+		Codificación & \multicolumn{3}{| c |}{XT} & \multicolumn{3}{| c |}{YT}\\
+		\hline
+		& & & & & &\\
+		Sin codificación & \includegraphics[height=2cm]{Figuras/resultados/comparacion_real/no_lbp/XT/extraido.png} & \includegraphics[height=2cm]{Figuras/resultados/comparacion_real/no_lbp/XT/pintado.png} & \includegraphics[height=2cm]{Figuras/resultados/comparacion_real/no_lbp/XT/superposicion.png} & \includegraphics[height=2cm]{Figuras/resultados/comparacion_real/no_lbp/YT/extraido.png} & \includegraphics[height=2cm]{Figuras/resultados/comparacion_real/no_lbp/YT/pintado.png} & \includegraphics[height=2cm]{Figuras/resultados/comparacion_real/no_lbp/YT/superposicion.png} \\
+		
+		Codificación LBP & \includegraphics[height=2cm]{Figuras/resultados/comparacion_real/lbp/XT/extraido.png} & \includegraphics[height=2cm]{Figuras/resultados/comparacion_real/lbp/XT/pintado.png} & \includegraphics[height=2cm]{Figuras/resultados/comparacion_real/lbp/XT/superposicion.png} & \includegraphics[height=2cm]{Figuras/resultados/comparacion_real/lbp/YT/extraido.png} & \includegraphics[height=2cm]{Figuras/resultados/comparacion_real/lbp/YT/pintado.png} & \includegraphics[height=2cm]{Figuras/resultados/comparacion_real/lbp/YT/superposicion.png} \\
+		\hline
+		& (i) & (ii) & (iii) & (iv) & (v) & (vi)\\
+		\hline
+	\end{tabular}
+	\caption{Tabla comparativa de el calculo del error de cada plano. (i) y (iv) representan el \textit{rayo} extraído por el algoritmo; (ii) y (v) el \textit{rayo} promedio dibujado por las personas; (iii) y (vi) la superposición de ambos (de color amarillo el extraído y color azul el promedio). }
+	\label{tabla:comparacion_errores}
+\end{table}
+
+
+Para poder ratificar las observaciones que hemos podido deducir al contemplar el movimiento a través de los planos, se diseño un experimento que nos permitió calcular un error aproximado del modelado de los \textit{rayos de flujo}. Este experimento consistió en pedir a distintas personas que dibujaran el \textit{rayo de flujo} sobre cada plano, para esto utilizaron la herramienta de dibujo paint de Windows. En general se pidió a cada una de las personas que dibujaran como creían ellos que se movía el pixel inicial a lo largo de las texturas representadas en el plano. Luego de esta etapa se procedió a extraer cada una de las componentes de los \textit{rayos} dibujados a mano, con esto se logro calcular un promedio de los trazos de las personas. Este \textit{rayo} promedio es comparado con el extraído por el algoritmo, de tal forma que se puede calcular el error para cada componente y un error general. Este proceso puede ser visualizado en la Tabla~\ref{tabla:comparacion_errores}, donde las columnas (iii) y (iv), representan de forma visual como se superpone un \textit{rayo} sobre otro. El error es obtenido calculando la desviación estándar entre ambas componentes. 
+
+\begin{table}[tb]
+	\centering
+	\pgfplotstabletypeset[columns={rs, ws, errorXT, errorYT, errorG},
+		 columns/rs/.style={
+			 	column name=$RS$,
+		 },
+		 columns/ws/.style={
+			 	column name=$WS$,
+		 },
+		 columns/errorXT/.style={
+			 	column name=Error $XT$,
+			 	precision=1
+		 },
+		 columns/errorYT/.style={
+			 	column name=Error $YT$,
+			 	precision=1
+		 },	
+		 columns/errorG/.style={
+			 	column name=Error,
+			 	precision=1
+		 },
+		 every even row/.style={
+			before row={\rowcolor[gray]{0.9}}
+			},
+		every head row/.style={
+			before row=\toprule,after row=\midrule
+			},
+		every last row/.style={
+			after row=\bottomrule
+			}
+		]{Datos/comparacion_NO_LBP.dat}
+	\caption{Tabla comparativa de los errores encontrados en los planos $XT$, $YT$ y error general, al calcular los \textit{rayos} con distintos tamaños de ventanas. Sin codificación LBP.}
+	\label{tabla:error_no_lbp}
+\end{table}
+
+\begin{table}[tb]
+	\centering
+	\pgfplotstabletypeset[columns={rs, ws, errorXT, errorYT, errorG},
+	columns/rs/.style={
+		column name=$RS$,
+	},
+	columns/ws/.style={
+		column name=$WS$,
+	},
+	columns/errorXT/.style={
+		column name=Error $XT$,
+		precision=1
+	},
+	columns/errorYT/.style={
+		column name=Error $YT$,
+		precision=1
+	},	
+	columns/errorG/.style={
+		column name=Error,
+		precision=1
+	},
+	every even row/.style={
+		before row={\rowcolor[gray]{0.9}}
+	},
+	every head row/.style={
+		before row=\toprule,after row=\midrule
+	},
+	every last row/.style={
+		after row=\bottomrule
+	}
+	]{Datos/comparacion_LBP.dat}
+	\caption{Tabla comparativa de los errores encontrados en los planos $XT$, $YT$ y error general, al calcular los \textit{rayos} con distintos tamaños de ventanas. Con codificación LBP.}
+	\label{tabla:error_lbp}
+\end{table}
+
+Decidimos utilizar esta métrica de comparación para visualizar como se comportan los \textit{rayos} con respecto al tamaño de las ventanas utilizadas, En las Tablas~\ref{tabla:error_no_lbp}~y~\ref{tabla:error_lbp} se puede ver reflejados los resultados del calculo del error en ambos planos y el error general calculado como el promedio entre ambos errores, utilizando distintos tamaños de ventanas. Con estos resultados logramos darnos cuenta que la idea planteada sobre las diferencias del modelado vertical y horizontal estaba en lo cierto, en ambas tablas podemos ver que el error obtenido en el plano $XT$ es mucho menor al obtenido en $YT$. Ademas en general los errores disminuyen a medida que se aumenta el tamaño de las ventanas $RS$ y $WS$, esto es debido a que mientras mas grande sea la región de soporte, menos probabilidad existe de encontrar otra textura igual en la imagen, por lo cual la probabilidad de encontrar en el siguiente cuadro la textura es mucho mas alta.
+
+
+Luego de obtener resultados satisfactorios con el modelado de los \textit{rayos de flujo}, decidimos probar si la teoria de extraccion de estos podia ser aplicada a otros videos y otras texturas, por lo cual preparamos un par de videos sinteticos, los cuales describian movimientos predecibles.
 
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
