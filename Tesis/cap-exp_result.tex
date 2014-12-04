@@ -97,20 +97,27 @@ Para poder ratificar las observaciones que hemos podido deducir al contemplar el
   },
   franjas/.default={gray!50},
   tablita/.style={
+    assign column name/.code=\pgfkeyssetvalue{/pgfplots/table/column name}{{{##1}}},
     columns={rs, ws, errorXT, errorYT, errorG},
     columns/rs/.style={
-      column name=$RS$,
+     assign column name={$RS$}, 
+      column type={S}, string type,
     },
-    columns/ws/.style={
-      column name=$WS$,
+    columns/ws/.style={%
+      assign column name={$WS$},
+      column type={S}, string type,
+    }, 
+    columns/errorXT/.style={%
+      assign column name={Error $XT$},
+      column type={S[table-format=4.1]}, string type,
     },
-    columns/errorXT/.style={
-      column name=Error $XT$,
-      precision=1
+    columns/errorYT/.style={%
+      assign column name={Error $YT$},
+      column type={S[table-format=4.1]}, string type,
     },
-    columns/errorYT/.style={
-      column name=Error $YT$,
-      precision=1
+    columns/errorG/.style={%
+      assign column name={Error},
+      column type={S[table-format=4.1]}, string type,
     },
     franjas,
   },
