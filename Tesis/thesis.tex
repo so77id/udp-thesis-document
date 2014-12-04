@@ -5,6 +5,8 @@
 % Puede generar borradores si omite la opción "final" de la clase.
 %\documentclass{udpthesis}
 
+\PassOptionsToPackage{table}{xcolor}
+\RequirePackage{xcolor} % [table] 
 \documentclass[final]{udpthesis}
 
 
@@ -29,13 +31,13 @@
 % \usepackage{listings}
 
 % Referencias
+\usepackage{pgfplots, pgfplotstable, booktabs, colortbl, siunitx, array}
 \usepackage{cite}
-\usepackage{array}
-
-\usepackage{pgfplotstable}
-\usepackage{booktabs,colortbl}
 
 \usepackage{subcaption}
+
+
+
 % Establecemos el tema a utilizar. 
 % Debe existir el archivo udpthesisEIT.sty en su sistema TeX para poder utilizarlo.
 \udptheme{EIT}

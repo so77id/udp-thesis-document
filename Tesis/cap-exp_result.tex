@@ -79,72 +79,53 @@ En general revisando los resultados obtenidos en cada uno de los planos, podemos
 
 Para poder ratificar las observaciones que hemos podido deducir al contemplar el movimiento a través de los planos, se diseño un experimento que nos permitió calcular un error aproximado del modelado de los \textit{rayos de flujo}. Este experimento consistió en pedir a distintas personas que dibujaran el \textit{rayo de flujo} sobre cada plano, para esto utilizaron la herramienta de dibujo paint de Windows. En general se pidió a cada una de las personas que dibujaran como creían ellos que se movía el pixel inicial a lo largo de las texturas representadas en el plano. Luego de esta etapa se procedió a extraer cada una de las componentes de los \textit{rayos} dibujados a mano, con esto se logro calcular un promedio de los trazos de las personas. Este \textit{rayo} promedio es comparado con el extraído por el algoritmo, de tal forma que se puede calcular el error para cada componente y un error general. Este proceso puede ser visualizado en la Tabla~\ref{tabla:comparacion_errores}, donde las columnas (iii) y (iv), representan de forma visual como se superpone un \textit{rayo} sobre otro. El error es obtenido calculando la desviación estándar entre ambas componentes. 
 
+\pgfplotstableset{
+  franjas/.style={
+    columns/errorG/.style={
+      column name=Error,
+      precision=1
+    },
+    every even row/.style={
+      before row={\rowcolor{#1}}
+    },
+    every head row/.style={
+      before row=\hline\noalign{\smallskip},after row=\hline
+    },
+    every last row/.style={
+      after row=\hline
+    }
+  },
+  franjas/.default={gray!50},
+  tablita/.style={
+    columns={rs, ws, errorXT, errorYT, errorG},
+    columns/rs/.style={
+      column name=$RS$,
+    },
+    columns/ws/.style={
+      column name=$WS$,
+    },
+    columns/errorXT/.style={
+      column name=Error $XT$,
+      precision=1
+    },
+    columns/errorYT/.style={
+      column name=Error $YT$,
+      precision=1
+    },
+    franjas,
+  }
+}
+
 \begin{table}[tb]
 	\centering
-	\pgfplotstabletypeset[columns={rs, ws, errorXT, errorYT, errorG},
-		 columns/rs/.style={
-			 	column name=$RS$,
-		 },
-		 columns/ws/.style={
-			 	column name=$WS$,
-		 },
-		 columns/errorXT/.style={
-			 	column name=Error $XT$,
-			 	precision=1
-		 },
-		 columns/errorYT/.style={
-			 	column name=Error $YT$,
-			 	precision=1
-		 },	
-		 columns/errorG/.style={
-			 	column name=Error,
-			 	precision=1
-		 },
-		 every even row/.style={
-			before row={\rowcolor[gray]{0.9}}
-			},
-		every head row/.style={
-			before row=\toprule,after row=\midrule
-			},
-		every last row/.style={
-			after row=\bottomrule
-			}
-		]{Datos/comparacion_NO_LBP.dat}
+	\pgfplotstabletypeset[tablita]{Datos/comparacion_NO_LBP.dat}
 	\caption{Tabla comparativa de los errores encontrados en los planos $XT$, $YT$ y error general, al calcular los \textit{rayos} con distintos tamaños de ventanas. Sin codificación LBP.}
 	\label{tabla:error_no_lbp}
 \end{table}
 
 \begin{table}[tb]
 	\centering
-	\pgfplotstabletypeset[columns={rs, ws, errorXT, errorYT, errorG},
-	columns/rs/.style={
-		column name=$RS$,
-	},
-	columns/ws/.style={
-		column name=$WS$,
-	},
-	columns/errorXT/.style={
-		column name=Error $XT$,
-		precision=1
-	},
-	columns/errorYT/.style={
-		column name=Error $YT$,
-		precision=1
-	},	
-	columns/errorG/.style={
-		column name=Error,
-		precision=1
-	},
-	every even row/.style={
-		before row={\rowcolor[gray]{0.9}}
-	},
-	every head row/.style={
-		before row=\toprule,after row=\midrule
-	},
-	every last row/.style={
-		after row=\bottomrule
-	}
-	]{Datos/comparacion_LBP.dat}
+	\pgfplotstabletypeset[tablita]{Datos/comparacion_LBP.dat}
 	\caption{Tabla comparativa de los errores encontrados en los planos $XT$, $YT$ y error general, al calcular los \textit{rayos} con distintos tamaños de ventanas. Con codificación LBP.}
 	\label{tabla:error_lbp}
 \end{table}
