@@ -152,27 +152,49 @@ Para poder ratificar las observaciones que hemos podido deducir al contemplar el
 
 Decidimos utilizar esta métrica de comparación para visualizar como se comportan los \textit{rayos} con respecto al tamaño de las ventanas utilizadas, En las Tablas~\ref{tabla:error_no_lbp}~y~\ref{tabla:error_lbp} se puede ver reflejados los resultados del calculo del error en ambos planos y el error general calculado como el promedio entre ambos errores, utilizando distintos tamaños de ventanas. Con estos resultados logramos darnos cuenta que la idea planteada sobre las diferencias del modelado vertical y horizontal estaba en lo cierto, en ambas tablas podemos ver que el error obtenido en el plano $XT$ es mucho menor al obtenido en $YT$. Ademas en general los errores disminuyen a medida que se aumenta el tamaño de las ventanas $RS$ y $WS$, esto es debido a que mientras mas grande sea la región de soporte, menos probabilidad existe de encontrar otra textura igual en la imagen, por lo cual la probabilidad de encontrar en el siguiente cuadro la textura es mucho mas alta.
 
+\begin{figure}[t]
+	\begin{subfigure}{1.0\textwidth}
+		\centering
+		\includegraphics[width=1\textwidth]{Figuras/resultados/videos_sinteticos/v1.png}
+		\caption{Vídeo sintético simple sin texturas}
+		\label{exp:fig:vs1}
+	\end{subfigure}
+	
+	\begin{subfigure}{1.0\textwidth}
+		\centering
+		\includegraphics[width=1\textwidth]{Figuras/resultados/videos_sinteticos/v2.png}
+		\caption{Vídeo sintético simple con texturas}
+		\label{exp:fig:vs2}
+	\end{subfigure}
+	
+	\begin{subfigure}{1.0\textwidth}
+		\centering
+		\includegraphics[width=1\textwidth]{Figuras/resultados/videos_sinteticos/v3.png}
+		\caption{Vídeo sintético con texturas.}
+		\label{exp:fig:vs3}
+	\end{subfigure}
+	\caption{Cortes de vídeos sintéticos, en los cuales se describe el movimiento de ciertos pixeles a los largo del tiempo.} 
+	\label{exp:fig:vs}
+\end{figure}
 
-Luego de obtener resultados satisfactorios con el modelado de los \textit{rayos de flujo}, decidimos probar si la teoria de extraccion de estos podia ser aplicada a otros videos y otras texturas, por lo cual preparamos un par de videos sinteticos, los cuales describian movimientos predecibles.
+
+Luego de obtener resultados satisfactorios con el modelado de los \textit{rayos de flujo}, decidimos probar si la teoría de extracción de estos podía ser aplicada a otros vídeos y otras texturas, por lo cual preparamos un par de vídeos sintéticos, los cuales describían movimientos predecibles al ojo humano.
+
+Luego de realizar la extracción de \textit{rayos de flujo} a los vídeos generados sistemáticamente, observamos dos fenómenos. Los rayos pueden modelar el movimiento de los pixeles a los largo del tiempo, esto puede ser visto en la Figura~\ref{exp:fig:vs}, en la cual se ven cortes de distintos cuadros de los vídeos y como se mueven sus pixeles. También descubrimos que el modelado de los rayos tiene un comportamiento mas estable cuando existen texturas en las zonas que se están analizando, como se puede ver en las Figuras~\ref{exp:fig:vs2}~y~\ref{exp:fig:vs3}, los pixeles internos del cuadrado siguen durante todo el movimiento en la misma posición del cuadrado, no así en la Figura~\ref{exp:fig:vs1}, en la cual los pixeles que están dentro del cuadrado tienden a juntarse en un punto a medida que el cuadrado se va desplazando.
+
+
+\subsection{ Normalización de micro-descriptores}
+
+
+\subsection{ Creación de macro-descriptores}
+
+
+\subsection{ Entrenamiento y clasificación}
 
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 % % % % % % % % % % % % % % % % % % % % B O R R A R % % % % % % % % % % % % % % % % % % % % % % % % % %
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
-\subsection{Modelado del movimiento de los pixeles}
-\label{exp:rayos}
-Para poder probar la existencia de un real modelado del movimiento de los pixeles por parte de los \textit{rayos de flujo}, se creo un programa que recibe como entrada un video y el conjunto de pixeles a analizar su movimiento durante el video. Para esto se utilizo el algoritmo de creación de micro-descriptores analizado de la sección~\ref{sec:micro-_descriptores}. Luego de obtener los \textit{rayos}, se procedio a crear una imagen en los planos $XT$ e $YT$, cada uno de los cuales muestra el desplazamiento de un pixel a los largo del tiempo sobre un eje especifico $x$ e $y$ respectivamente.  
-
-mientras mas grande la diferencia entre la RS y WS mayor es el error a la hora de moverse, por lo cual los rayos tienden a perderse.
-con ventanas RS de tamaño 3 funciona bien con 5 y 7 de WS
-con ventanas de rs tamaño 5 funciona bien con 7 y 9
-con ventanas de rs tamaño 7 funciona bien con 11 y 13
-
-Hablar de que con LBP se pierde los rayos
-
-Mostrar graficos de movimiento en XT e YT
-HABLAR DEL COMPORTAMIENTO DE LOS EJES, que el eje x modela, y el eje Y tiende a perderse.
-Hablar de experimentos solo en el eje Y
 
 
 \subsection{Obtencion del Kernel optimo para SVM}
@@ -201,14 +223,3 @@ La normalización de rayos, explicada en la Sección~\ref{algoritmo:normalizacio
 \subsubsection{Pruebas del tamaño del \textit{Bag of Visual Words}}
 La técnica de \textit{Bag of Visual Words} utiliza la variable $K$, está representa el numero de \textit{clusters} o grupos que se deben formar en el proceso de creación de la bolsa de palabras, a su vez también indica el tamaño del descriptor final o macro-descriptor que representa a cada vídeo. Esta variable es la  más importante en el algoritmo, esto debido a que una mala elección de la cantidad de \textit{clusters}, puede desencadenar en una mala creación de los macro-descriptores, por lo cual la búsqueda del valor óptimo es muy importante para obtener una buena precisión. La única forma de poder encontrar un valor óptimo o funcional es a través del método de prueba y error, esto debido a que no existe una forma empírica de demostrar cual es el valor óptimo para cada corrida.
 
-
-
-\subsection{Pruebas codificando los vídeos}
-\label{exp:cod}
-En la sección~\ref{sec:micro_descriptores}, extracción de micro-descriptores, se explica que antes de poder obtener los \textit{rayos} es necesario realizar un proceso de codificación sobre las imágenes, esto pudiendo ayudar a la extracción de los descriptores. Para esto se preparan tres pruebas distintas, en las cuales se utilizan distintas técnicas de codificación.
-
-	\subsubsection{Sin codificación}
-	Esta prueba consiste en ver la eficiencia del descriptor encontrado al final del proceso del algoritmo sin utilizar ningún tipo de codificación sobre los valores de los píxeles, por lo cual el proceso de extracción de rayos se realiza sobre el valor de la intensidad de cada imagen.
-
-	\subsubsection{Codificación de LBP}
-	Esta prueba consiste en ver la eficacia del descriptor encontrado al final del proceso del algoritmo propuesto, utilizando el proceso de codificación LBP explicado en la Sección~\ref{sec:lbp}. Esta codificación permite que los nuevos valores obtenidos para los píxeles estén relacionados directamente con la vecindad mas cercana, por lo cual esto permitiría poder realizar una mejor extracción de rayos.
