@@ -21,28 +21,27 @@ Por ultimo en la etapa de entrenamiento y posterior clasificación, explicada en
 
 
 \definecolor{lightgray}{gray}{0.9}
+\newlength{\sz}
+\setlength{\sz}{2cm}
 \begin{table}[t!]
 	\centering
-	\begin{tabular}{ |>{\centering\arraybackslash}m{2cm} | >{\centering\arraybackslash}m{2cm} | >{\centering\arraybackslash}m{1.5cm} | >{\centering\arraybackslash}m{1.5cm} | >{\centering\arraybackslash}m{2cm} | >{\centering\arraybackslash}m{1.5cm} | >{\centering\arraybackslash}m{1.5cm} | }
-		\hline
-		Expresión & \multicolumn{3}{| c |}{Imágenes sin codificación} & \multicolumn{3}{| c |}{Imágenes con LBP}\\
-		\hline
-		& Imagen & XT & YT & Imagen & XT & YT \\
-		(E1) \ \ \ \ \ \ Ira & \includegraphics[height=2cm]{Figuras/resultados/E1/E1.png} & \includegraphics[height=2cm]{Figuras/resultados/E1/E1_YT.png} & \includegraphics[height=2cm]{Figuras/resultados/E1/E1_XT.png} & \includegraphics[height=2cm]{Figuras/resultados/E1/E1_LBP.png} & \includegraphics[height=2cm]{Figuras/resultados/E1/E1_LBP_YT.png} & \includegraphics[height=2cm]{Figuras/resultados/E1/E1_LBP_XT.png} \\
+	\begin{tabular}{ >{\centering\arraybackslash}m{.2cm}  >{\centering\arraybackslash}m{1.9cm}  >{\centering\arraybackslash}m{1.3cm}  >{\centering\arraybackslash}m{1.5cm}  >{\centering\arraybackslash}m{1.9cm}  >{\centering\arraybackslash}m{1.3cm}  >{\centering\arraybackslash}m{1.5cm}  }
+		\hline\noalign{\smallskip}
+		& \multicolumn{3}{ c }{Imágenes sin codificación} & \multicolumn{3}{ c }{Imágenes con LBP}\\
+		\hline\noalign{\smallskip}
+		\raisebox{.8cm}{\rotatebox{90}{\centering\parbox{2cm}{E1--Ira}}} & \includegraphics[height=\sz]{Figuras/resultados/E1/E1.png} & \includegraphics[height=\sz]{Figuras/resultados/E1/E1_YT.png} & \includegraphics[height=\sz]{Figuras/resultados/E1/E1_XT.png} & \includegraphics[height=\sz]{Figuras/resultados/E1/E1_LBP.png} & \includegraphics[height=\sz]{Figuras/resultados/E1/E1_LBP_YT.png} & \includegraphics[height=\sz]{Figuras/resultados/E1/E1_LBP_XT.png} \\
 		
-		(E2) \ \ \ \ Asco& \includegraphics[height=2cm]{Figuras/resultados/E2/E2.png} & \includegraphics[height=2cm]{Figuras/resultados/E2/E2_YT.png} & \includegraphics[height=2cm]{Figuras/resultados/E2/E2_XT.png} & \includegraphics[height=2cm]{Figuras/resultados/E2/E2_LBP.png} & \includegraphics[height=2cm]{Figuras/resultados/E2/E2_LBP_YT.png} & \includegraphics[height=2cm]{Figuras/resultados/E2/E2_LBP_XT.png} \\
+		\raisebox{.4cm}{\rotatebox{90}{\centering\parbox{2cm}{E2--Asco}}}& \includegraphics[height=2cm]{Figuras/resultados/E2/E2.png} & \includegraphics[height=2cm]{Figuras/resultados/E2/E2_YT.png} & \includegraphics[height=2cm]{Figuras/resultados/E2/E2_XT.png} & \includegraphics[height=2cm]{Figuras/resultados/E2/E2_LBP.png} & \includegraphics[height=2cm]{Figuras/resultados/E2/E2_LBP_YT.png} & \includegraphics[height=2cm]{Figuras/resultados/E2/E2_LBP_XT.png} \\
 		
-		(E3) \ \ \ \ Miedo& \includegraphics[height=2cm]{Figuras/resultados/E3/E3.png} & \includegraphics[height=2cm]{Figuras/resultados/E3/E3_YT.png} & \includegraphics[height=2cm]{Figuras/resultados/E3/E3_XT.png} & \includegraphics[height=2cm]{Figuras/resultados/E3/E3_LBP.png} & \includegraphics[height=2cm]{Figuras/resultados/E3/E3_LBP_YT.png} & \includegraphics[height=2cm]{Figuras/resultados/E3/E3_LBP_XT.png} \\
+		\raisebox{.3cm}{\rotatebox{90}{\centering\parbox{2cm}{E3--Miedo}}}& \includegraphics[height=2cm]{Figuras/resultados/E3/E3.png} & \includegraphics[height=2cm]{Figuras/resultados/E3/E3_YT.png} & \includegraphics[height=2cm]{Figuras/resultados/E3/E3_XT.png} & \includegraphics[height=2cm]{Figuras/resultados/E3/E3_LBP.png} & \includegraphics[height=2cm]{Figuras/resultados/E3/E3_LBP_YT.png} & \includegraphics[height=2cm]{Figuras/resultados/E3/E3_LBP_XT.png} \\
 		
-		(E4) Alegría & \includegraphics[height=2cm]{Figuras/resultados/E4/E4.png} & \includegraphics[height=2cm]{Figuras/resultados/E4/E4_YT.png} & \includegraphics[height=2cm]{Figuras/resultados/E4/E4_XT.png} & \includegraphics[height=2cm]{Figuras/resultados/E4/E4_LBP.png} & \includegraphics[height=2cm]{Figuras/resultados/E4/E4_LBP_YT.png} & \includegraphics[height=2cm]{Figuras/resultados/E4/E4_LBP_XT.png} \\
+		\raisebox{.2cm}{\rotatebox{90}{\centering\parbox{2cm}{E4--Alegría}}}& \includegraphics[height=2cm]{Figuras/resultados/E4/E4.png} & \includegraphics[height=2cm]{Figuras/resultados/E4/E4_YT.png} & \includegraphics[height=2cm]{Figuras/resultados/E4/E4_XT.png} & \includegraphics[height=2cm]{Figuras/resultados/E4/E4_LBP.png} & \includegraphics[height=2cm]{Figuras/resultados/E4/E4_LBP_YT.png} & \includegraphics[height=2cm]{Figuras/resultados/E4/E4_LBP_XT.png} \\
 		
-		(E5) Tristeza& \includegraphics[height=2cm]{Figuras/resultados/E5/E5.png} & \includegraphics[height=2cm]{Figuras/resultados/E5/E5_YT.png} & \includegraphics[height=2cm]{Figuras/resultados/E5/E5_XT.png} & \includegraphics[height=2cm]{Figuras/resultados/E5/E5_LBP.png} & \includegraphics[height=2cm]{Figuras/resultados/E5/E5_LBP_YT.png} & \includegraphics[height=2cm]{Figuras/resultados/E5/E5_LBP_XT.png} \\
+		\raisebox{0cm}{\rotatebox{90}{\centering\parbox{2cm}{E5--Tristeza}}}& \includegraphics[height=2cm]{Figuras/resultados/E5/E5.png} & \includegraphics[height=2cm]{Figuras/resultados/E5/E5_YT.png} & \includegraphics[height=2cm]{Figuras/resultados/E5/E5_XT.png} & \includegraphics[height=2cm]{Figuras/resultados/E5/E5_LBP.png} & \includegraphics[height=2cm]{Figuras/resultados/E5/E5_LBP_YT.png} & \includegraphics[height=2cm]{Figuras/resultados/E5/E5_LBP_XT.png} \\
 		
-		(E6) Sorpresa& \includegraphics[height=2cm]{Figuras/resultados/E6/E6.png} & \includegraphics[height=2cm]{Figuras/resultados/E6/E6_YT.png} & \includegraphics[height=2cm]{Figuras/resultados/E6/E6_XT.png} & \includegraphics[height=2cm]{Figuras/resultados/E6/E6_LBP.png} & \includegraphics[height=2cm]{Figuras/resultados/E6/E6_LBP_YT.png} & \includegraphics[height=2cm]{Figuras/resultados/E6/E6_LBP_XT.png} \\
-		\hline
-		
-		& (a) & (b) & (c) & (d) & (e) & (f)\\
-		\hline
+		\raisebox{0cm}{\rotatebox{90}{\centering\parbox{2.1cm}{E6--Sorpresa}}}& \includegraphics[height=2cm]{Figuras/resultados/E6/E6.png} & \includegraphics[height=2cm]{Figuras/resultados/E6/E6_YT.png} & \includegraphics[height=2cm]{Figuras/resultados/E6/E6_XT.png} & \includegraphics[height=2cm]{Figuras/resultados/E6/E6_LBP.png} & \includegraphics[height=2cm]{Figuras/resultados/E6/E6_LBP_YT.png} & \includegraphics[height=2cm]{Figuras/resultados/E6/E6_LBP_XT.png} \\
+		& (a) & (b) & (c) & (d) & (e) & (f) \\
+
 		
 	\end{tabular}
 	\caption{Tabla comparativa de la extracción de micro-decriptores con vídeos codificados con LBP y sin codificar. Cada fila representa una expresión facial distinta. Las columnas (a) y (d) son el primer cuadro del vídeo, (b) y (e) representan el plano XT, y (c) y (f) representan el plano YT. }
