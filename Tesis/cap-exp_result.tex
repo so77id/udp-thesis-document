@@ -262,6 +262,20 @@ En general luego de observar los resultados de los experimentos expuestos, se pu
 
 \subsection{ Entrenamiento y clasificación }
 
+Etapa de vital importancia, debido a que en esta etapa es cuando se genera el modelo que permite clasificar las nuevas expresiones entrantes. Este modulo puede ser dividido en dos partes, primero el entrenamiento, el cual es el encargado de encontrar un modelo que permita clasificar de la mejor forma las nuevas entradas; segundo la clasificación, etapa encargada de etiqueta con alguna expresión las nuevas entradas, esta etiqueta es asignada dependiendo del modelo entrenado en la fase anterior. También en esta etapa se realiza el calculo de la asertividad o \textit{Accuracy} (Por sus siglas en ingles) del algoritmo. Para obtener un calculo mas real del modelo generado se utilizó la técnica de $k$-fold cross-validation, la cual en simples palabras consiste en separar los datos de forma aleatoria en dos grupos (Entrenamiento y pruebas), realizando esta separación $k$ veces y para cada una de estas separaciones obteniendo un \textit{Accuracy} el cual es promediado con las demas separaciones, este promedio es el promedio que se utiliza como medida de comparación. Para todos los experimentos expuestos en esta Sección se utilizo un 10-fold cross validación y SVM. Para mayores detalles de esta etapa, revisar la Sección~\ref{sec:clasificacion}.
+
+Como se explico en la Sección~\ref{sec:svm}, SVM trata de encontrar una recta que permita separar a los dos grupos datos dentro de un mismo espacio vectorial, en el general de los casos reales no existe una recta que permita separar de forma efectiva ambas clases, por esto SVM hace uso de las técnicas de Kernel, en simples palabras estas técnicas permiten realizar transformación lineales de los espacios vectoriales, con lo cual se puede realizar la búsqueda de un hiper-plano que logre segmentar ambas clases y minimice el error. Debido a esto realizamos un experimento que permita encontrar de forma empírica cual de los Kernel y valores de sus respectivas variables maximicen el \textit{Accuracy}, Los Kernels utilizados están implementados en la librería en Opencv la cual se basa LibSVM creada por Chang~y~Lin~\cite{Chang2011} para obtener resultados de SVM.
+
+%
+%EXPONER RESULTADOS DE LOS KERNELS
+%HABLAR DE ESOS KERNELS
+%HABLAR DE LOS QUE NO ESTAN (HISTOGRAMA Y CHI2)
+%HABLAR DE CUALES VALORES SE ELIGIERON PARA CADA KERNEL 
+%EXPONER TABLA DE RESULTADOS FINALES
+%HABLAR DE LA TABLA Y LOS RESULTADOS
+%EXPONER UNA MATRIX DE CONFUSION
+
+
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 % % % % % % % % % % % % % % % % % % % % B O R R A R % % % % % % % % % % % % % % % % % % % % % % % % % %

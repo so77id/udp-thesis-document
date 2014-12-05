@@ -69,14 +69,18 @@ A continuación se describen los objetivos de este trabajo:
 
 \subsection{Objetivo general}
 \label{subsubsec:objgeneral}
-Crear un descriptor para el reconocimiento de expresiones faciales en vídeo utilizando micro patrones basados en el seguimiento del flujo de los movimientos del rostro.
+Crear un descriptor espacio-temporal basado en el seguimiento del movimiento de los pixeles para el reconocimiento de expresiones faciales en vídeo.
+
+%Crear un descriptor para el reconocimiento de expresiones faciales en vídeo utilizando micro patrones basados en el seguimiento del flujo de los movimientos del rostro.
+%\item Crear o encontrar una métrica que permita la comparación entre rayos luego del proceso de normalización.
+%\item Evaluar y comparar el método creado con el estado del arte hasta antes de comenzar la memoria. 
+%\item Definir un método de elección de las regiones de interés del rostro.
+%\item Definir un método de elección de las regiones de interés del rostro.
 
 \subsection{Objetivos específicos}
 \label{subsubsec:objgeneral}
 	\begin{enumerate}
-		\item Definir un método de elección de las regiones de interés del rostro.
+		\item Modelar el comportamiento de los pixeles a través del tiempo.
 		\item Definir una codificación que permita la normalización de los rayos de flujo.
-		\item Crear o encontrar una métrica que permita la comparación entre rayos luego del proceso de normalización.
-		\item Utilizar y probar distintos algoritmos de clasificación.
-		\item Evaluar y comparar el método creado con el estado del arte hasta antes de comenzar la memoria. 
+		\item Estudiar la distribución de los movimientos de los pixeles sobre el rostro.
 	\end{enumerate}

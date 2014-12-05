@@ -24,8 +24,56 @@ En este trabajo se define el reconocimiento de patrones como un área de la Inte
 
 	\subsection{Support Vector Machines}
 	\label{sec:svm}
-	Las Máquinas de Vectores de Soportes (SVM sus siglas en inglés) son herramientas fundamentales en sistemas de aprendizaje automático, se basan en  implementar reglas de decisión complejas, por medio de un kernel que permite mapear los puntos de entrenamiento a un espacio de mayor dimensión. Estas máquinas son utilizadas para la clasificación y análisis de regresión permitiendo generar un modelo de predicción dado un conjunto de datos de entrada, y posteriormente utilizar este modelo para clasificar nuevos datos.
-La idea de las SVM es solucionar un problema de clasificación de dos clases mediante una barrera de decisión. Estos métodos evolucionaron con el tiempo y se utilizan para poder solucionar el problema de clasificación de múltiples clases.
+	Las Máquinas de Vectores de Soportes (SVM sus siglas en inglés) son herramientas fundamentales en sistemas de aprendizaje automático, se basan en  implementar reglas de decisión complejas, por medio de un kernel que permite mapear los puntos de entrenamiento a un espacio de mayor dimensión este truco puede ser visto en la Figura~\ref{art:fig:kernel_trick}. Estas máquinas son utilizadas para la clasificación y análisis de regresión permitiendo generar un modelo de predicción dado un conjunto de datos de entrada, y posteriormente utilizar este modelo para clasificar nuevos datos.
+	
+	\begin{figure}[tb]
+		\centering
+		\includegraphics[width=.5\textwidth]{Figuras/Diagramas/estado_del_arte/kernel_trick.jpg}
+		\caption{Gráfica demostrativa del cambio en el espacio vectorial al utilizar un kernel.}
+		\label{art:fig:kernel_trick}
+	\end{figure}
+	
+	\begin{figure}[t]
+		\centering
+		\includegraphics[width=.5\textwidth]{Figuras/Diagramas/estado_del_arte/support_vectors.jpg}
+		\caption{Gráfica demostrativa de la elección de los vectores de soporte.}
+		\label{art:fig:support_vectors}
+	\end{figure}
+		
+	La idea general de las SVM es solucionar un problema de clasificación de dos clases mediante una barrera de decisión, para encontrar esta barrera se realiza la elección de vectores de soporte, los cuales serán los encargados de ayudar a solucionar el problema de optimización, esta eleccion puede ser vista en la Figura~\ref{art:fig:support_vectors}. Estos métodos evolucionaron con el tiempo y se utilizan para poder solucionar el problema de clasificación de múltiples clases.
+
+	Existen distintos tipos de Kernels que permiten encontrar hiper-planos mas eficientes dependiendo de la representación de los datos de entrenamiento, algunos de los mas conocidos son:
+	
+	\textbf{Lineal}: Kernel lineal, no realiza ninguna transformación vectorial,
+	\begin{equation}
+	\kappa(x_i,x_j) = x_{i}^{T}x_j;
+	\label{k:lineal}
+	\end{equation}
+	
+	\textbf{RBF}: Kernel radial, es la mejor opcion la mayoria de las veces,
+	\begin{equation}
+	\kappa(x_i,x_j) = e^{-\gamma||x_i - x_j||^2 }, \gamma > 0;
+	\label{k:RBF}
+	\end{equation}
+	
+	\textbf{Poly}: Kernel polinomial, mapea en función del grado del polinomio,
+	\begin{equation}
+	\kappa(x_i,x_j) = (\gamma x_{i}^{T}x_j + coef0)^{degree}, \gamma > 0;
+	\label{k:Poly}
+	\end{equation}
+	
+	\textbf{Chi-Square}: Kernel basado en la distribución Chi-Square.
+	\begin{equation}
+	\kappa(x_i,x_j) = e^{-\gamma X^{2}(x_i,x_j)}, X^{2}(x_i,x_j) = \frac{(x_i - x_j)^2}{(x_i + x_j)}, \gamma > 0;
+	\label{k:Sigmoid}
+	\end{equation}
+	
+	\textbf{Histogram Intersection}: Utilizado para la clasificación de histogramas.
+	\begin{equation}
+	\kappa(x_i,x_j) = \min(x_i,x_j).
+	\label{k:Inter}
+	\end{equation}
+
 
 Para efectos de este trabajo, SVM es utilizado para poder generar el modelo final que permita clasificar las seis expresiones faciales canónicas, utilizando los descriptores obtenidos luego de la extracción de características.
 
@@ -41,6 +89,7 @@ Las expresiones faciales del rostro humano tienen una infinidad de posibles vari
 
 Darwin afirma en uno de  sus estudios publicado a fines del siglo XIX, que nosotros no podemos entender las expresiones emocionales humanas sin entender las expresiones emocionales de los animales, para esto, él argumenta que nuestras expresiones son determinadas en gran parte por nuestra evolución~\cite{Darwin1956,Darwin1998}. En la actualidad Paul Ekman, psicólogo pionero en el estudio de las emociones y su relación con la expresión facial, propone que las expresiones faciales están compuestas por micro-expresiones muy breves, que duran sólo una fracción de segundo. Estas se producen cuando una persona ya sea deliberadamente o inconscientemente esconde un sentimiento~\cite{Ekman1981}.
 
+\newpage
 Ekman y Friesen definen que existen seis expresiones universales~\cite{Ekman2003}: 
 
 \begin{enumerate}
