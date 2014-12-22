@@ -2,14 +2,18 @@
 \label{ch:algoritmo}
 \section{Pipeline}
 \label{sec:pipeline}
-Para poder solucionar el problema propuesto en la Sección~\ref{sec:problema}, se propone un algoritmo compuesto por cuatro módulos. \emph{Preprocesamiento de la base de datos}, módulo encargado de quitar todo el ruido de los vídeos de entrenamiento, \emph{extracción de micro-descriptores}, encargado de dividir el video en distintas regiones de interés para crear un micro-descriptor basado en el movimiento interno de éstas, \emph{creación de macro-descriptores}, toma los micro-descriptores y crea un nuevo macro-descriptor por vídeo utilizando técnicas de \textit{clustering}, y por último \emph{entrenamiento y clasificación}, encargado de crear un modelo de clasificación con los descriptores de entrenamiento, para luego utilizar este modelo para la posterior clasificación de nuevos vídeos. Presentamos este modelo en la Figura~\ref{algoritmo:fig:pipeline}, donde podemos visualizar la arquitectura básica de un sistema de reconocimiento de patrones, siendo la adquisición de datos representada por el preprocesamiento de la base de datos, la extracción de características es reemplazada por la extracción de micro-descriptores y la creación de macro-descriptores, y finalmente la etapa de clasificación es el entrenamiento y clasificación de nuestro pipeline.
 
-	\begin{figure}[bt]
-		\centering
-    		\includegraphics[width=1\textwidth]{Figuras/Diagramas/pipeline.png}
-  		\caption{Pipeline del algoritmo propuesto.}
-  		\label{algoritmo:fig:pipeline}
-	\end{figure}	
+
+
+\begin{figure}[bt]
+	\centering
+	\includegraphics[width=1\textwidth]{Figuras/Diagramas/pipeline.png}
+	\caption{Pipeline del algoritmo propuesto.}
+	\label{algoritmo:fig:pipeline}
+\end{figure}
+
+Para poder solucionar el problema propuesto en la Sección~\ref{sec:problema}, se propone un algoritmo compuesto por cuatro módulos. \emph{Preprocesamiento de la base de datos}, módulo encargado de quitar todo el ruido de los vídeos de entrenamiento, \emph{extracción de micro-descriptores}, encargado de dividir el video en distintas regiones de interés para crear un micro-descriptor basado en el movimiento interno de éstas, \emph{creación de macro-descriptores}, toma los micro-descriptores y crea un nuevo macro-descriptor por vídeo utilizando técnicas de \textit{clustering}, y por último \emph{entrenamiento y clasificación}, encargado de crear un modelo de clasificación con los descriptores de entrenamiento, para luego utilizar este modelo para la posterior clasificación de nuevos vídeos. Presentamos este modelo en la Figura~\ref{algoritmo:fig:pipeline}, donde podemos visualizar la arquitectura básica de un sistema de reconocimiento de patrones, siendo la adquisición de datos representada por el preprocesamiento de la base de datos, la extracción de características es reemplazada por la extracción de micro-descriptores y la creación de macro-descriptores, y finalmente la etapa de clasificación es el entrenamiento y clasificación de nuestro pipeline.
+	
 
 
 \section{Preprocesamiento de la base de datos}
@@ -55,7 +59,7 @@ Para poder solucionar el problema propuesto en la Sección~\ref{sec:problema}, s
 	\begin{equation}\label{algoritmo:eq:video}		
 		V = \{\text{ROI}_i | 1 \leq i \le I\}, 
 	\end{equation}
-	donde $I$ es el número de regiones de interés en el vídeo. Y además, definimos el $i$-ésimo ROI, $\text{ROI}_i^t$, como el conjunto de píxeles $(x,y)$ para un determinado cuadro $t$, tal que
+	donde $I$ es el número de regiones de interés en el vídeo. Además, definimos el $i$-ésimo ROI, $\text{ROI}_i^t$, como el conjunto de pixeles $(x,y)$ para un determinado cuadro $t$, tal que
 	\begin{equation}\label{algoritmo:eq:roi}
 		\text{ROI}_{i}^{t} = \{(x,y) | (x,y,t) \in \mathds{R}(i)\},
 	\end{equation}
@@ -79,6 +83,12 @@ Para poder solucionar el problema propuesto en la Sección~\ref{sec:problema}, s
 		\end{equation} 
 	donde $\text{RS} = \text{RS}(x,y,t)$ es la \textit{región de soporte} del píxel $(x,y)$ en el cuadro $t$, al que esta extrayendo el \textit{rayo}, y $\text{RS}' = \text{RS}'(x',y',t+1) \in \text{WS}(x,y,t)$ es una subregión de la \textit{ventana de búsqueda} del píxel $(x,y)$ en el cuadro $t+1$ de tamaño $R$ (note que la \textit{ventana de búsqueda} del píxel $(x,y)$ en el cuadro $t$ está definida en el cuadro $t+1$).
 		
+			\begin{figure}[bt]
+				\centering
+				\includegraphics[width=0.9\textwidth]{Figuras/Diagramas/Extraccion_de_rayos.png}
+				\caption{Representación de la extracción de rayos de un vídeo.}
+				\label{algoritmo:fig:extraccion}
+			\end{figure}
 	Esta operación se realiza para cada uno de los desplazamientos que puedan ser realizados por la \textit{región de soporte} dentro de la \textit{ventana de búsqueda}. De tal forma que buscamos la posición de la región $\text{RS}'$ que minimiza el MSE respecto de la \textit{región de soporte} del píxel $(x,y)$ en el cuadro $t$, $\text{RS}(x,y,t)$, de tal forma que la región $\text{RS}'$ óptima será
 	\begin{equation}
 		\text{RS}^* = \arg \min_{\text{RS}'}\{\text{MSE}(\text{RS},\text{RS}') | \text{RS}' \in \text{WS} \},
@@ -99,6 +109,8 @@ Para poder solucionar el problema propuesto en la Sección~\ref{sec:problema}, s
 		\end{equation}		
 	\end{definition}	
 		
+		
+		
 	Los \textit{Rayos de soporte} son la estructura básica de los \textit{Rayos de flujo}, dado que al juntar todos los desplazamientos del píxel $(x,y)$ a lo largo de los cuadros del vídeo, se obtiene un conjunto de variaciones de movimientos. En palabras más formales, se define:
 	
 	\begin{definition}[Rayo de flujo]	
@@ -109,17 +121,18 @@ Para poder solucionar el problema propuesto en la Sección~\ref{sec:problema}, s
 		donde ($x^{**}$,$y^{**}$) es el píxel al cual se desplazo ($x^{*}$,$y^{*}$) en el cuadro $t+2$. El desplazamiento de los \textit{rayos} puede ser visto en la Figura~\ref{algoritmo:fig:extraccion}.
 	\end{definition}
 	
-	\begin{figure}[bt]
-		\centering
-    		\includegraphics[width=1\textwidth]{Figuras/Diagramas/Extraccion_de_rayos.png}
-  		\caption{Representación de la extracción de rayos de un vídeo.}
-  		\label{algoritmo:fig:extraccion}
-	\end{figure}	
+	
 
 	
 		
 		
 	\subsection{Normalización de rayos}
+		\begin{figure}[bt]
+			\centering
+			\includegraphics[width=0.85\textwidth]{Figuras/Diagramas/normalizacion_de_rayos.png}
+			\caption{Normalización de rayos.}
+			\label{algoritmo:fig:normalizacion}
+		\end{figure}
 	\label{algoritmo:normalizacion}
 	Luego de obtener el total de micro-descriptores es necesario poder llevar todos los \textit{rayos} al mismo espacio vectorial, esto debido a que el tamaño de cada conjunto depende de la cantidad de cuadros $T$ del vídeo. Para este proceso se introduce una variable muy importante para el algoritmo llamada $N$, esta sera la encargada de comandar el proceso de normalización, de tal forma que se obtiene una razón de normalización
 	\begin{equation}
@@ -127,27 +140,20 @@ Para poder solucionar el problema propuesto en la Sección~\ref{sec:problema}, s
 	\end{equation}
 	está permite relacionar la cantidad de \textit{Rayos de soporte} $\rho$ del \textit{Rayo} $R(x,y)$ original que formarán parte de los $\rho'$ de $R(x,y)'$ normalizado. Este proceso puede ser visualizado en la Figura~\ref{algoritmo:fig:normalizacion}.
 	
-	\begin{figure}[bt]
-		\centering
-    		\includegraphics[width=1\textwidth]{Figuras/Diagramas/normalizacion_de_rayos.png}
-  		\caption{Normalización de rayos.}
-  		\label{algoritmo:fig:normalizacion}
-	\end{figure}	
 
-	
-\newpage	
+		
 \section{Creación de macro-descriptores}
 \label{sec:macro-descriptores}
 El proceso de creación de macro-descriptores es el proceso final de la extracción de características de los videos. Luego de obtener un extenso conjunto de \textit{Rayos} para cada uno de los videos, es necesario poder crear grupos de \textit{Rayos}, los cuales puedan representar de mejor manera el espacio ya normalizado. Para esto se utilizan técnicas de \textit{clustering}. El proceso de creación de macro-descriptores puede ser visto en las Figuras~\ref{algoritmo:fig:macro_descriptores:entrenamiento} y~\ref{algoritmo:fig:macro_descriptores:clasificacion}
 
-	\begin{figure}[bt]
-		\centering
-    		\includegraphics[width=1\textwidth]{Figuras/Diagramas/Extractor_macrodescriptores_entrenamiento.png}
-  		\caption{Proceso de creación de macro-descriptores en la fase de entrenamiento.}
-  		\label{algoritmo:fig:macro_descriptores:entrenamiento}
-	\end{figure}	
 	
 	
+		\begin{figure}[bt]
+			\centering
+			\includegraphics[width=1\textwidth]{Figuras/Diagramas/Extractor_macrodescriptores_entrenamiento.png}
+			\caption{Proceso de creación de macro-descriptores en la fase de entrenamiento.}
+			\label{algoritmo:fig:macro_descriptores:entrenamiento}
+		\end{figure}
 	\begin{figure}[bt]
 		\centering
     		\includegraphics[width=1\textwidth]{Figuras/Diagramas/Extractor_macrodescriptores_clasificacion.png}
@@ -170,9 +176,9 @@ El proceso de creación de macro-descriptores es el proceso final de la extracci
 		\end{equation}
 		
 
-	\begin{figure}[tb]
+	\begin{figure}[bt]
 		\centering
-    		\includegraphics[width=1\textwidth]{Figuras/Diagramas/bow_solo.png}
+    		\includegraphics[width=0.7\textwidth]{Figuras/Diagramas/bow_solo.png}
   		\caption{Construcción del Bag of Words.}
   		\label{algoritmo:fig:bow}
 	\end{figure}	
@@ -193,7 +199,7 @@ de tal forma que $\delta(\cdot,\cdot)$ es una función que cuenta los rayos pert
 
 	\begin{figure}[bt]
 		\centering
-		\includegraphics[width=1\textwidth]{Figuras/Diagramas/macro-descriptor.png}
+		\includegraphics[width=0.9\textwidth]{Figuras/Diagramas/macro-descriptor.png}
 		\caption{Construcción del macro-descriptor.}
 		\label{algoritmo:fig:macrodescriptores}
 	\end{figure}	
@@ -235,7 +241,7 @@ Para poder probar la efectividad del clasificador se utilizaran técnicas de val
 	\label{algoritmo:entrenamiento}
 		Luego de que el conjunto de datos de entrenamiento pasa por todas las etapas anteriores del algoritmo, se tiene para cada uno de los vídeos un macro-descriptor compuesto por la concatenación de los histogramas de de cada una de las regiones de interés y una etiqueta que indica a que clase pertenecen. Este conjunto de descriptores y las etiquetas son utilizados por las \textit{Support Vector Machines} para la creación de un modelo de clasificación, el que permite poder etiquetar nuevas entradas, este proceso puede ser visto en la Figura~\ref{algoritmo:fig:entrenamiento}.
 	
-	Las \textit{Support Vector Machines}, son un clasificador de dos clases, entonces es necesario utilizar técnicas que permita realizar la clasificación utilizando muchas clases. Para el caso de esta implementación es necesario poder generar un modelo que permita clasificar las seis expresiones universales. Con este motivo se utiliza la técnica ``\textit{Uno contra uno}'', la cual consiste en generar $C(C-1)/2$ clasificadores, donde cada clase tiene una barrera de decisión asociada a cada una de las demás clases. Esto permite que la región de incertidumbre formada por las barreras de decisión sea mínima.
+	Las \textit{Support Vector Machines}, son un clasificador de dos clases, entonces es necesario utilizar técnicas que permita realizar la clasificación utilizando muchas clases. Para el caso de esta implementación es necesario poder generar un modelo que permita clasificar las seis expresiones universales. Con este motivo se utiliza la técnica ``\textit{Uno contra uno}'', la cual consiste en generar $C(C-1)/2$ clasificadores, donde cada clase tiene una barrera de decisión asociada a cada una de las demás clases.
 			
 		
 	\subsection{Clasificación}

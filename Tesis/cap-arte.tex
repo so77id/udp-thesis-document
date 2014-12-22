@@ -17,9 +17,9 @@ En este trabajo se define el reconocimiento de patrones como un área de la Inte
 
 	\textbf{Adquisición de datos.} La adquisición de datos es el procedimiento encargado de sensar la información del mundo real, para esto se utilizan distintos sensores dependiendo del área al cual se quiera aplicar el PR. Estos sensores tienen distintas respuestas dependiendo de su calidad o las variables del medio ambiente como la luminosidad, ruido ambiental, \etc. Para este trabajo nos enfocaremos en los sensores de imágenes instalados en las cámaras que capturan los vídeos que luego serán clasificados por nuestro sistema.
 	
-	\textbf{Extracción de características.} La extracción de características es el primer proceso en el cual interviene la maquina, tiene como objetivo transformar las señales adquiridas por la etapa anterior a una representación vectorial capas de ser interpretada por los clasificadores para la toma de decisiones. Este procedimiento es el que mas cambia a la hora de construir sistemas de reconocimiento de patrones, esto debido a que existe una gran variación de la implementación a realizar dependido del problema que se requiera atacar. Para esta etapa existen distintos métodos que se pueden utilizar para resolver el problema propuesto, estos serán mayormente estudiados en la Sección~\ref{sec:type_fe}.
+	\textbf{Extracción de características.} La extracción de características es el primer proceso en el cual interviene la maquina, tiene como objetivo transformar las señales adquiridas por la etapa anterior a una representación vectorial capas de ser interpretada por los clasificadores para la toma de decisiones. Este procedimiento es el que mas cambia a la hora de construir sistemas de reconocimiento de patrones, esto debido a que existe una gran variación de la implementación a realizar dependido del problema que se requiera atacar. En general esta etapa consiste en realizar un estudio de las características que diferencian cada uno de los elementos que queremos reconocer, luego de esto, se busca alguna forma de poder cuantificar estas características computacionalmente, con tal de lograr una representación vectorial de cada entrada llamada descriptor. Para esta etapa existen distintos métodos que se pueden utilizar para resolver el problema propuesto, estos serán mayormente estudiados en la Sección~\ref{sec:type_fe}.
 	
-	\textbf{Toma de decisiones.} La toma de decisiones es la ultima etapa del PR, esta se encarga de realizar la toma de decisiones utilizando las características extraídas en la etapa anterior. Para esto podemos dividir este bloque en dos sub-procesos, entrenamiento y clasificación. El entrenamiento consiste en tomar una gran cantidad de datos ya clasificados anteriormente de forma correcta por algún experto en el tema, y utilizar estos datos para poder crear un modelo el cual divida el espacio vectorial representado por las características de cada uno de los datos de entrenamiento. La clasificación consiste en utilizar el modelo creado en la etapa de entrenamiento para poder clasificar nuevas entradas no tomadas en cuenta en el entrenamiento. Para la etapa de creación del modelo se pueden utilizar distintas técnicas que permiten dividir el espacio en distintas regiones dependiendo de las etiquetas o clases a las cuales se requiera clasificar, tales como: Redes bayesianas, técnicas de clustering, redes neuronales, Modelos ocultos de Markov (HMM, hidden Markov models en inglés). Para el desarrollo de nuestro método utilizaremos las maquinas de soporte vectorial~\cite{Cortes1995,Hearst1998} (SVM, Support Vector Machines en inglés), las cuales permiten realizar una clasificación de muchas clases en un mismo espacio vectorial al mismo tiempo. 
+	\textbf{Toma de decisiones.} La toma de decisiones o clasificador es la ultima etapa del PR, esta se encarga de realizar la toma de decisiones utilizando las características extraídas en la etapa anterior. Para esto podemos dividir este bloque en dos sub-procesos, entrenamiento y clasificación. El entrenamiento consiste en tomar una gran cantidad de datos ya clasificados anteriormente de forma correcta por algún experto en el tema, y utilizar estos datos para poder crear un modelo el cual divida el espacio vectorial representado por las características de cada uno de los datos de entrenamiento. La clasificación consiste en utilizar el modelo creado en la etapa de entrenamiento para poder clasificar nuevas entradas no tomadas en cuenta en el entrenamiento. Para la etapa de creación del modelo se pueden utilizar distintas técnicas que permiten dividir el espacio en distintas regiones dependiendo de las etiquetas o clases a las cuales se requiera clasificar, tales como: Redes bayesianas, técnicas de clustering, redes neuronales, Modelos ocultos de Markov (HMM, hidden Markov models en inglés). Para el desarrollo de nuestro método utilizaremos las maquinas de soporte vectorial~\cite{Cortes1995,Hearst1998} (SVM, Support Vector Machines en inglés), las cuales permiten realizar una clasificación de muchas clases en un mismo espacio vectorial al mismo tiempo. 
 
 
 	\subsection{Support Vector Machines}
@@ -45,7 +45,7 @@ En este trabajo se define el reconocimiento de patrones como un área de la Inte
 	La idea general de SVM es solucionar un problema de clasificación de dos clases mediante una barrera de decisión, para encontrar esta barrera se realiza la elección de vectores de soporte, los cuales serán los encargados de ayudar a solucionar el problema de optimización, esta elección puede ser vista en la Figura~\ref{art:fig:support_vectors}, donde las muestras encerradas en circulo representa a los vectores de soporte, los cuales ayudan a encontrar la barrera de decisión o hiperplano que separa las muestras en dos grupos, de tal forma que todos los vectores de soporte tienen la misma distancia a dicha barrera. Estos métodos evolucionaron con el tiempo y se utilizan para poder solucionar el problema de clasificación de múltiples clases.
 
 	Existen distintos tipos de Kernels que permiten encontrar hiperplanos mas eficientes dependiendo de la representación de los datos de entrenamiento, algunos de los mas conocidos son:
-	
+
 	\textbf{Lineal}: Kernel lineal, no realiza ninguna transformación vectorial, es utilizado cuando las muestras son linealmente separables,
 	\begin{equation}
 	\kappa(x_i,x_j) = x_{i}^{T}x_j;
@@ -63,13 +63,7 @@ En este trabajo se define el reconocimiento de patrones como un área de la Inte
 	\kappa(x_i,x_j) = (\gamma x_{i}^{T}x_j + coef0)^{degree}, \gamma > 0;
 	\label{k:Poly}
 	\end{equation}
-	
-%	\textbf{Chi-Square}: Kernel basado en la distribución Chi-Square.
-%	\begin{equation}
-%	\kappa(x_i,x_j) = e^{-\gamma X^{2}(x_i,x_j)}, X^{2}(x_i,x_j) = \frac{(x_i - x_j)^2}{(x_i + x_j)}, \gamma > 0;
-%	\label{k:chi-square}
-%	\end{equation}
-	
+
 	\textbf{Histogram Intersection}: Utilizado para la clasificación de histogramas, es generalmente utilizado cuando las muestras representan histogramas.
 	\begin{equation}
 	\kappa(x_i,x_j) = \min(x_i,x_j).
@@ -91,7 +85,6 @@ Las expresiones faciales del rostro humano tienen una infinidad de posibles vari
 
 Darwin afirma en uno de  sus estudios publicado a fines del siglo XIX, que nosotros no podemos entender las expresiones emocionales humanas sin entender las expresiones emocionales de los animales, para esto, él argumenta que nuestras expresiones son determinadas en gran parte por nuestra evolución~\cite{Darwin1956,Darwin1998}. En la actualidad Paul Ekman, psicólogo pionero en el estudio de las emociones y su relación con la expresión facial, propone que las expresiones faciales están compuestas por micro-expresiones muy breves, que duran sólo una fracción de segundo. Estas se producen cuando una persona ya sea deliberadamente o inconscientemente esconde un sentimiento~\cite{Ekman1981}.
 
-\newpage
 Ekman y Friesen definen que existen seis expresiones universales~\cite{Ekman2003}: 
 
 \begin{enumerate}

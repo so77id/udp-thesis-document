@@ -1,7 +1,13 @@
-\chapter{Primer anexo}
+\chapter{Tablas de resultados}
 \label{ch:anexo-a}
 
-%\blindtext[5]
+\begin{table}[tb]
+	\centering
+	\pgfplotstabletypeset[tablaSVMresults]{Datos/resultados_generales.dat}
+	\caption{Resultados obtenidos utilizando las mejores variables obtenidas en el proceso de experimentos.}
+	\label{tabla:exp:accuracy_general}
+\end{table}
+
 
 
 \chapter{Segundo anexo}

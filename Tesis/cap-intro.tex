@@ -32,18 +32,24 @@ Para este nuevo método se introduce un nuevo micro-descriptor, el cual nos perm
 
 \subsection{Pipeline}
 
-La cadena de procedimientos ordenados o \textit{pipeline} de este método se divide en cuatro grandes etapas: preprocesamiento de la base de datos, extracción de micro-descriptores, creación de macro-descriptores, y entrenamiento y clasificación.\\
-
+La cadena de procedimientos ordenados o \textit{pipeline} de este método se divide en cuatro grandes etapas: preprocesamiento de la base de datos, extracción de micro-descriptores, creación de macro-descriptores, y entrenamiento y clasificación, este procedimiento puede ser visto en la Figura~\ref{intro:fig:pipeline}.
+	\begin{figure}[b]
+		\centering
+		\includegraphics[width=1\textwidth]{Figuras/Diagramas/pipeline.png}
+		\caption{Pipeline del algoritmo propuesto.}
+		\label{intro:fig:pipeline}
+	\end{figure}		
+	
 \textbf{Preprocesamiento de la base de datos.}
-Antes de poder realizar la extracción de características de los videos, es necesario realizar un preprocesamiento sobre éstos, esto debido a que los videos pueden tener ciertos elementos que estropean la extracción de características. Para evitar agregar ruido al video se utilizan dos técnicas que permiten obtener solo el rostro de la persona a representar su expresión y a su vez corregir los movimientos que éstos puedan tener. Esta etapa será profundizada en la Sección~\ref{sec:proc_bdd}.\\
+Antes de poder realizar la extracción de características de los videos, es necesario realizar un preprocesamiento sobre éstos, esto debido a que los videos pueden tener ciertos elementos que estropean la extracción de características. Para evitar agregar ruido al video se utilizan dos técnicas que permiten obtener solo el rostro de la persona a representar su expresión y a su vez corregir los movimientos que éstos puedan tener. Esta etapa será profundizada en la Sección~\ref{sec:proc_bdd}.
 
 
 \textbf{Extracción de micro-descriptores.}
-Este proceso consiste en la extracción de los rayos de flujo de cada uno de los videos preprocesados, para esto, primero se seleccionan las regiones de interés de la cara. Luego, para cada uno de los pixeles de la región, se procede a calcular el movimiento de este píxel con respecto al cuadro siguiente, y así sucesivamente con cada uno de los cuadros del vídeo. Luego de calcular el movimiento para cada píxel en cada cuadro, se obtiene el conjunto de \textit{rayos} o micro-descriptores que definen el video. Esta etapa será profundizada en la Sección~\ref{sec:micro_descriptores}.\\
+Este proceso consiste en la extracción de los rayos de flujo de cada uno de los videos preprocesados, para esto, primero se seleccionan las regiones de interés de la cara. Luego, para cada uno de los pixeles de la región, se procede a calcular el movimiento de este píxel con respecto al cuadro siguiente, y así sucesivamente con cada uno de los cuadros del vídeo. Luego de calcular el movimiento para cada píxel en cada cuadro, se obtiene el conjunto de \textit{rayos} o micro-descriptores que definen el video. Esta etapa será profundizada en la Sección~\ref{sec:micro_descriptores}.
 
 
 \textbf{Creación de macro-descriptores.}
-Luego de extraer cada uno de los micro-descriptores, se procede a crear utilizar la técnica de la bolsa de palabras visuales (\textit{Bag of Visual Words} en inglés), este método es utilizado para poder agrupar los \textit{rayos} en $k$ grupos, los cuales definen el espacio de los macro-descriptores. Cada \textit{rayo} extraído de los vídeos pertenece únicamente a un solo grupo, por lo tanto es posible para cada vídeo obtener un histograma de la frecuencia de aparición de cada uno de estos grupos en sus \textit{rayos}. Este histograma obtenido es el macro-descriptor que se utiliza para poder entrenar y clasificar. Esta etapa será profundizada en la Sección~\ref{sec:macro-descriptores}.\\
+Luego de extraer cada uno de los micro-descriptores, se procede a crear utilizar la técnica de la bolsa de palabras visuales (\textit{Bag of Visual Words} en inglés), este método es utilizado para poder agrupar los \textit{rayos} en $k$ grupos, los cuales definen el espacio de los macro-descriptores. Cada \textit{rayo} extraído de los vídeos pertenece únicamente a un solo grupo, por lo tanto es posible para cada vídeo obtener un histograma de la frecuencia de aparición de cada uno de estos grupos en sus \textit{rayos}. Este histograma obtenido es el macro-descriptor que se utiliza para poder entrenar y clasificar. Esta etapa será profundizada en la Sección~\ref{sec:macro-descriptores}.
 
 
 \textbf{Entrenamiento y clasificación.}

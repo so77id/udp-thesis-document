@@ -52,7 +52,7 @@ Por último en la etapa de entrenamiento y posterior clasificación, explicada e
 \subsection{Extracción de micro-descriptores}
 \label{exp:micro-descriptores}
 
-La extracción de micro-descriptores, etapa propuesta en al Sección~\ref{algoritmo:ext_rayos}, consiste en modelar el movimiento de cada uno de los píxeles a lo largo de todo el vídeo, este modelado es llamado \textit{rayo de flujo}. Para poder extraer un \textit{rayo} se utilizan dos ventanas: la región de soporte y la ventana de búsqueda. Estas regiones permiten calcular a que píxel $(x',y')$ en un tiempo $t+1$ se desplazo el píxel $(x,y)$ en un tiempo $t$. Luego de calcular el movimiento de un píxel de $t$ a $t+1$ se crea un \textit{rayo de soporte}, que es la composición mínima para la creación de los \textit{rayos de flujo}. Para ver en detalle este proceso revisar la Sección~\ref{algoritmo:ext_rayos}.
+La extracción de micro-descriptores, etapa propuesta en al Sección~\ref{algoritmo:ext_rayos}, consiste en modelar el movimiento de cada uno de los píxeles a lo largo de todo el vídeo, este modelado es llamado \textit{rayo de flujo}. Para poder extraer un \textit{rayo} se utilizan dos ventanas: la región de soporte y la ventana de búsqueda. Estas regiones permiten calcular a que píxel $(x',y')$ en un tiempo $t+1$ se desplazo el píxel $(x,y)$ en un tiempo $t$. Al de calcular el movimiento de un píxel de $t$ a $t+1$ se crea un \textit{rayo de soporte}, que es el componente mínimo para la creación de los \textit{rayos de flujo}. Para más detalle revisar la Sección~\ref{algoritmo:ext_rayos}.
 
 Para poder evaluar el real modelado de los \textit{rayos} sobre el movimiento de los pixeles, se realizó una extracción de los planos $XT$ y $YT$ del vídeo. El plano $XT$ es una imagen extraída del video en un píxel $(x,y)$, donde cada columna representa un cuadro distinto, donde cada una de estas son extraídas de sus respectivos cuadros $t$, de tal forma que la columna $t$ del plano $XT$ es la fila $y$ del cuadro $t$ del vídeo. Así mismo el plano $YT$ es otra imagen extraída del vídeo en el mismo píxel $(x,y)$, donde cada columna $t$ de este plano representa un cuadro distinto del vídeo, de tal forma que la columna $t$ del plano $YT$ es la columna $x$ del cuadro $t$ del vídeo. Luego de realizar la extracción de los planos y con la posterior obtención del \textit{rayo de flujo} para el pixel $(x,y)$, fue posible realizar un trazado del movimiento del \textit{rayo} en cada una de sus componentes (En el plano $XT$ se trazo el movimiento de la variable $x$ durante los cuadros del vídeo, por el contrario, en el plano $YT$ se trazó el movimiento de la variable $y$). Ejemplos de estos planos y sus trazos pueden ser vistos en la Tabla~\ref{tabla:comparacion_rayos}, en las columnas (b), (c), (e) y (f).
 
@@ -93,7 +93,7 @@ Para poder ratificar las observaciones que hemos podido deducir al contemplar el
     },
     every last row/.style={
       after row=\hline
-    }
+    },
   },
   franjas/.default={gray!50},
   tablita/.style={
@@ -230,6 +230,17 @@ Para poder ratificar las observaciones que hemos podido deducir al contemplar el
   	},
   	franjas,
   },
+  tablaSVMresultscmp/.style={
+	  columns={Autor,K-fold,Accuracy},
+	  columns/Accuracy/.style={
+	  	column name=$Accuracy$,
+	  	precision=1,
+	  	postproc cell content/.append style={
+	  		/pgfplots/table/@cell content/.add={}{\,\%}
+	  	}
+	  },
+	  franjas,
+	},
 }
 
 \begin{table}[tb]
@@ -282,7 +293,7 @@ En general, por lo que pudimos apreciar en el desarrollo de todos estos experime
 \subsection{ Normalización de micro-descriptores }
 
 Luego de concretar la extracción de los micro-descriptores, se procedió a realizar una normalización de los \textit{rayos de flujo}, ésta consistió en poder realizar una reducción o ampliación de los rayos, esto con el fin de que todos los micro-descriptores tengan el mismo largo $N$, ésto nos permitió tener a todos los \textit{rayos} en el mismo espacio vectorial. Para detalles sobre esta etapa revisar la Sección~\ref{algoritmo:normalizacion}.
-\begin{table}[b]
+\begin{table}[Bt]
 	\centering
 	\pgfplotstabletypeset[tablaN]{Figuras/resultados/Normalizacion/Accuracy_n.dat}
 	\caption{Tabla comparativa de la Asertividad o \textit{Accuracy} (en ingles) obtenido utilizando distintos valores de $N$ y distintos tamaños de las ventanas.}
@@ -337,17 +348,16 @@ Las imágenes fueron construidas calculando y ordenando los $P$ grupos con mayor
 
 Observando las imágenes obtenidas y representadas en la Tabla~\ref{tabla:comparacion_clusters}, logramos percatarnos que existe una gran segmentación de las regiones más importantes del rostro (Ojos, cejas, nariz y boca). A medida que la variable $K$ aumenta, logramos visualizar de mejor manera las regiones de interés. El ejemplo más característico puede ser visualizado en la expresión de sorpresa (E6), cuando $K$ tomó el valor 10, en (E6) observamos una tendencia de los \textit{clusters} a agruparse en las regiones importantes, conforme fue aumentando el valor de $K$, la imagen del rostro se fue volviendo mas nítida llegando a detectar visualmente de forma muy directa las partes importantes del rostro (véase la secuencia de imágenes de (E6) con distintos valores $K$), así mismo esto paso con el general de los vídeos utilizados en los experimentos. También logramos deducir que visualmente no existe una dependencia entre la expresión facial que se quiso representar y las regiones del rostro más nítidas.
 
-Cabe destacar que por las observaciones realizadas, es de vital importancia una elección inteligente de la cantidad de grupos a crear, esto debido a que un valor muy pequeño puede hacer que los conjuntos encontrados estén muy poco segmentados (Ver k = 10 en la Tabla~\ref{tabla:comparacion_clusters}), por el contrario un valor muy alto puede provocar una sobre segmentación de los \textit{cluster}, de tal forma que los \textit{rayos} estén tan segmentados que los clasificadores no puedan encontrar patrones en los macro-descriptores de la misma expresión.
+Cabe destacar que por las observaciones realizadas, es de vital importancia una elección inteligente de la cantidad de grupos a crear, esto debido a que un valor muy pequeño puede hacer que los conjuntos encontrados estén muy poco segmentados (Ver $K$ = 10 en la Tabla~\ref{tabla:comparacion_clusters}), por el contrario un valor muy alto puede provocar una sobre segmentación de los \textit{cluster}, de tal forma que los \textit{rayos} estén tan segmentados que los clasificadores no puedan encontrar patrones en los macro-descriptores de la misma expresión.
 
-El segundo experimento consistió en buscar de forma mas empírica un valor que permita la creación de un buen modelo de clasificación a la hora de etiquetar nuevas expresiones entrantes. Para esto se realizó una comparación de distintos valores $K$ y su asertividad a la hora de clasificar. Estos resultados son expuestos en la Tabla~\ref{tabla:accuracy_K}, y fueron obtenidos al utilizar los mejores valores resultantes en las variables analizadas en las secciones anteriores de este capítulo, los datos obtenidos son bastante pobres a pesar de los cambios de la variable $K$, esto puede ser debido a un mal agrupamiento por parte del algoritmo. Es de vital importancia mencionar que los algoritmos de \textit{clustering} son muy sensibles a las semillas ingresadas como puntos iniciales, para estos experimentos utilizamos un algoritmo de elección inteligente de las semillas, este método esta basado en las investigaciones de Arthur y Vassilvitskii~\cite{Arthur2007}, el cual esta implementado en la librería OpenCV.
+El segundo experimento consistió en buscar de forma mas empírica un valor que permita la creación de un buen modelo de clasificación a la hora de etiquetar nuevas expresiones entrantes. Para esto se realizó una comparación de distintos valores $K$ y su asertividad a la hora de clasificar. Estos resultados son expuestos en la Tabla~\ref{tabla:accuracy_K}, y fueron obtenidos al utilizar los mejores valores resultantes en las variables analizadas en las secciones anteriores de este capítulo, los resultados obtenidos son bastante pobres a pesar de los cambios de la variable $K$, esto puede ser debido a un mal agrupamiento por parte del algoritmo. Es de vital importancia mencionar que los algoritmos de \textit{clustering} son muy sensibles a las semillas ingresadas como puntos iniciales, para estos experimentos utilizamos un algoritmo de elección inteligente de las semillas, este método esta basado en las investigaciones de Arthur y Vassilvitskii~\cite{Arthur2007}, el cual esta implementado en la librería OpenCV.
 
-En general, luego de observar los resultados de los experimentos expuestos, se pudo visualizar una necesidad de seguir profundizando en el tema de como construir los macro-descriptores, proponemos realizar investigaciones sobre los distintos algoritmos que se pueden utilizar a la hora de agrupar, cuales medidas de distancia permiten un mejor agrupamiento de los \textit{rayos}, buscar como inicializar de mejor manera las semillas. Por otra parte revisando los resultados obtenidos al realizar el mapeo de los \textit{clusters} en el rostro surgieron dudas sobre que es lo que pasaría si la extracción de rayos se realizara solo sobre las regiones importantes del rostro, esto ¿daría pie a un agrupamiento mas localizado sobre las regiones que realmente nos interesa saber su movimiento?. 
-
+En general, luego de observar los resultados de los experimentos expuestos, podemos visualizar una necesidad de seguir profundizando en el tema de como construir los macro-descriptores, proponemos realizar investigaciones sobre los distintos algoritmos que se pueden utilizar a la hora de agrupar, revisar cuales medidas de distancia permiten un mejor agrupamiento de los \textit{rayos}, buscar como inicializar de mejor manera las semillas. Por otra parte revisando los resultados obtenidos al realizar el mapeo de los \textit{clusters} en el rostro proponemos realizar una extracción de los \textit{rayos de flujo} solo sobre las regiones importantes del rostro, ya que creemos que al no extraer los \textit{rayos} de las regiones que aportan ruido, los macro-descriptores resultantes tendrán mas patrones que permitirán mejores resultados a la hora de clasificar. 
 
 \subsection{ Entrenamiento y clasificación }
 
 
-\begin{table}[tb]
+\begin{table}[b]
 	\centering
 	\pgfplotstabletypeset[tablaSVMresultsRBF]{Datos/rbf_10.csv}
 	\caption{Mejores resultados obtenidos por el Kernel RBF.}
@@ -371,9 +381,10 @@ El entrenamiento y clasificación es de vital importancia, debido a que en esta 
 Como se explico en la Sección~\ref{sec:svm}, SVM trata de encontrar una recta que permita separar a los dos grupos datos dentro de un mismo espacio vectorial, en el general de los casos reales no existe una recta que permita separar de forma efectiva ambas clases, por esto SVM hace uso de las técnicas de Kernel, en simples palabras estas técnicas permiten realizar transformación lineales de los espacios vectoriales, con lo cual se puede realizar la búsqueda de un hiper-plano que logre segmentar ambas clases y minimice el error. Debido a esto realizamos un experimento que permita encontrar de forma empírica cual de los Kernel y valores de sus respectivas variables maximicen el \textit{Accuracy}, Los Kernels utilizados están implementados en la librería en OpenCV la cual se basa LibSVM creada por Chang~y~Lin~\cite{Chang2011} para obtener resultados de SVM.
 
 
-Como se puede observar en las Tablas~\ref{tabla:svm_rbf},~\ref{tabla:svm_lineal}~y~\ref{tabla:svm_poly}, se obtuvieron resultados muy bajos, en general, los mejores \textit{Accuracy} fueron obtenidos utilizando el Kernel RBF, el cual permite realizar una transformación lineal, donde una recta en el espacio del Kernel puede ser representada por una circunferencia en el plano real de los datos. Revisando los valores de las variables ($\gamma$, \textit{Degree} y $C$-value), observamos que no existe una segmentación clara sobre que valores deben adquirir estas variables para obtener mejores resultados a la hora de entrenar el modelo. En la Sección~\ref{sec:svm}, nombramos distintos kernels que podrían ser utilizados para el problema de clasificación, entre ellos \textit{Histogram Intersection}, el cual tiene una gran efectividad a la hora de generar un modelo de vectores representantes de histogramas, este kernel no está incluido en la implementación de SVM en la librería OpenCV. Por lo cual es importante buscar alguna implementan de SVM que tenga incluido este kernel.
+Como podemos observar en las Tablas~\ref{tabla:svm_rbf},~\ref{tabla:svm_lineal}~y~\ref{tabla:svm_poly}, se obtuvieron resultados muy bajos, y en general no existe mucha variación entre la utilización de un kernel u otro. La Tabla~\ref{tabla:svm_lineal} contiene los mejores valores obtenidos en los experimentos al utilizar un kernel lineal, en simples palabras este kernel no realiza ninguna transformación lineal sobre el espacio, por lo cual la única variable que utiliza es la penalización por una mala clasificación, llamada C-$value$. En general al variar con distintos valores para la penalización no se obtuvieron grandes cambios en el \textit{Accuracy} del modelo. De la misma forma como podemos visualizar en la Tabla~\ref{tabla:svm_poly}, los resultados obtenidos por el kernel polinomial no demuestran un cambio radical con respecto a la variación de los valores de las variables, siendo estas el valor de penalización (C-$value$), el grado del polinomio ($Degree$), el cual indica el grado polinomial del espacio a transformar y por ultimo la variable de suavizado ($\gamma$). Por ultimo al revisar los resultados expuestos en la Tabla~\ref{tabla:svm_rbf}, los cuales fueron obtenidos por el kernel RBF, el cual permite realizar una transformación a espacios circulares, podemos visualizar que al igual que en las tablas anteriores no existe una variación en los resultados obtenidos al variar los valores de las variables (C-$value$ y $\gamma$). Con estos resultados obtenidos concluimos que en general los resultados obtenidos por los distintos kernels no varían mucho entre si, por lo cual para los experimentos generales del sistema utilizamos un kernel RBF, esto debido a que este kernel permitió obtener los mejores resultados.
 
-\begin{table}[tb]
+%Como se puede observar en las Tablas~\ref{tabla:svm_rbf},~\ref{tabla:svm_lineal}~y~\ref{tabla:svm_poly}, se obtuvieron resultados muy bajos, en general, los mejores \textit{Accuracy} fueron obtenidos utilizando el Kernel RBF, el cual permite realizar una transformación lineal, donde una recta en el espacio del Kernel puede ser representada por una circunferencia en el plano real de los datos. Revisando los valores de las variables ($\gamma$, \textit{Degree} y $C$-value), observamos que no existe una segmentación clara sobre que valores deben adquirir estas variables para obtener mejores resultados a la hora de entrenar el modelo. En la Sección~\ref{sec:svm}, nombramos distintos kernels que podrían ser utilizados para el problema de clasificación, entre ellos \textit{Histogram Intersection}, el cual tiene una gran efectividad a la hora de generar un modelo de vectores representantes de histogramas, este kernel no está incluido en la implementación de SVM en la librería OpenCV. Por lo cual es importante buscar alguna implementan de SVM que tenga incluido este kernel.
+\begin{table}[bt]
 	\centering
 	\pgfplotstabletypeset[tablaSVMresults]{Datos/resultados.dat}
 	\caption{Resultados obtenidos utilizando las mejores variables obtenidas en el proceso de experimentos.}
@@ -381,6 +392,51 @@ Como se puede observar en las Tablas~\ref{tabla:svm_rbf},~\ref{tabla:svm_lineal}
 \end{table}
 
 
-Por último como experimento final decidimos realizar una comparación del \textit{Accuracy} obtenido con mejores valores de las variables del algoritmo ($RS$, $WS$, $N$, $K$). Esta comparación puede ser visualizada en la Tabla~\ref{tabla:exp:accuracy}.
+Por último como experimento final decidimos realizar una comparación del \textit{Accuracy} obtenido con los mejores valores de las variables del algoritmo ($RS$, $WS$, $N$, $K$). Al visualizar la Tabla~\ref{tabla:exp:accuracy}, podemos darnos cuenta que los mejores valores de  \textit{Accuracy} obtenidos por nuestro método no alcanzan el 49\% de asertividad, lo cual es un valor bastante bajo con respecto a los mejores resultados obtenidos en el estado del arte, dichos resultados pueden ser visualizados la Tabla~\ref{tabla:exp:accuracy_cmp}, en la cual se muestra el \textit{Accuracy} de distintos métodos de reconocimiento de expresiones faciales en video, cuyos valores de asertividad son mayores al al 88\%: Al comparar estos valores con nuestros resultados podemos deducir que nuestro algoritmo no esta obteniendo resultados significativos con respecto a los mejores métodos. Nosotros creemos que estos malos resultados son ocacionados por la cantidad de ruido que es agregado al extraer los \textit{rayos de flujo} de regiones del rostro que no aportan información. 
 
-En general y al igual que en la mayoría de los experimentos de obtención de \textit{Accuracy}, se obtuvieron resultados muy pobres, esto puede ser debido a una mala aproximación de los valores de las variables de los kernels, o que los kernels que se utilizan no permiten realizar un mapeo exitoso del espacio vectorial observado. Otro posible problema puede ser el tamaño de los conjuntos de entrenamiento y prueba utilizados por el $k$-fold cross validation, debido a que para todos los experimentos se utilizó un 50\% de los videos para el entrenamiento, por lo cual puede existir una necesidad del clasificador por tener más datos de entrenamiento, para así poder obtener un mejor modelo de clasificación.
+
+
+\begin{table}[tb]
+	\centering
+	\begin{tabular}{l c}
+		\hline
+		Autor & \textit{Accuracy}\\
+		\hline
+		\rowcolor{gray!50} 
+		Yeasin~\etal~\cite{Yeasin2004} & 90.0 \% \\
+		
+		Xiang~\etal~\cite{Xiang2008}& 88.8 \%\\
+		
+		\rowcolor{gray!50} 
+		Buenaposada~\etal~\cite{Buenaposada2008} & 89.1 \%\\
+		
+		Zhao~y~Pietikäinen~\cite{Zhao2007}~a & 95.1 \%\\
+		
+		\rowcolor{gray!50} 
+		Zhao~y~Pietikäinen~\cite{Zhao2007}~b & 93.8 \%\\
+		
+		Ji~y~Idrissi~\cite{Ji2012} LBP & 91.6 \%\\
+		
+		\rowcolor{gray!50} 
+		Ji~y~Idrissi~\cite{Ji2012} LBP + VTB & 93.6 \%\\
+		
+		Ji~y~Idrissi~\cite{Ji2012} Moments & 98.5 \%\\
+		
+		\rowcolor{gray!50} 
+		\textit{Rayos de flujo} & 48.6 \%\\
+		\hline
+	\end{tabular}
+	\caption{Tabla comparativa de resultados obtenidos con distintos métodos en el estado del arte.}
+	\label{tabla:exp:accuracy_cmp}
+\end{table}
+
+
+
+
+En resumen, luego de ver los resultados obtenidos en todos los experimentos de este capítulo, llegamos a las siguientes conclusiones: la teoría de extracción de \textit{rayos de flujo} logra modelar los movimientos de las texturas a lo largo del tiempo, este modelado es más efectivo al reproducir el movimiento vertical que el horizontal, por lo cual una posible forma de mejorar el método es solo utilizar la componente vertical de los \textit{rayos} o utilizar el angulo de movimiento que es formado por ambas componentes; el modelado de los \textit{rayos} es mucho mas estable en ambas componentes al utilizar regiones $RS$ y $WS$ más grandes, el problema es que mientras mas grande sean las ventanas mayor sera el tiempo computacional de la extracción; vemos una necesidad de realizar una segmentación de las partes importantes del rostro, esto debido a que la extracción de micro-descriptores esta siendo realizada en todos los pixeles de la imagen, lo cual agrega mucha información no necesaria o ruido, por lo cual creemos que es necesario realizar la extracción solo de las partes importantes del rostro como los ojos, la nariz y la boca; el valor de la variable de normalización $N$ no trae grandes cambios a la hora de obtener mejores resultados, pero la utilización de esta variable es de vital importancia, ya que, nos permite realizar las transformaciones de los \textit{rayos} al mismo espacio, por ende estos pueden ser comparados entre si; en general luego de realizar el agrupamiento en la etapa de creación macro-descriptores y realizar la representación de los movimientos del rostro vista en la Tabla~\ref{tabla:comparacion_clusters}, logramos darnos cuenta que el modelado de los \textit{rayos} y posterior agrupamiento tiende a mostrar patrones con respecto a como se mueven las regiones del rostro, siendo las mas sobresalientes las regiones importantes, pero como puede ser visualizado en la tabla, también existe mucho ruido, el cual no permite realizar una agrupación adecuada, por ende es necesario seguir profundizando en la forma de agrupar los \textit{rayos}, esto debido a que el método de agrupamiento propuesto no demuestra tener resultados satisfactorios con respecto al \textit{Accuracy}, esto puede ser por dos motivos, primero el culpable puede ser la extracción de micro-descriptores, esto debido a que se están agregando muchos \textit{rayos} ruidosos al sistema, o segundo, puede ser por una mala agrupación o inicialización por parte del \textit{Bag of Visual Words}.
+
+%Esta comparación puede ser visualizada en la Tabla~\ref{}. 
+
+%En general y al igual que en la mayoría de los experimentos de obtención de \textit{Accuracy}, se obtuvieron resultados muy pobres, esto puede ser debido a una mala aproximación de los valores de las variables de los kernels, o que los kernels que se utilizan no permiten realizar un mapeo exitoso del espacio vectorial observado. Otro posible problema puede ser el tamaño de los conjuntos de entrenamiento y prueba utilizados por el $k$-fold cross validation, debido a que para todos los experimentos se utilizó un 50\% de los videos para el entrenamiento, por lo cual puede existir una necesidad del clasificador por tener más datos de entrenamiento, para así poder obtener un mejor modelo de clasificación.
+
+
