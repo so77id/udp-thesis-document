@@ -212,7 +212,7 @@
 \newcommand{\udp@logo}[1]{%
   \begin{center}%
     \bfseries%
-    \ifbool{#1}{\getlogo}{\MakeUppercase\udp@university}\par\vspace{10pt}%
+    \ifbool{#1}{\getlogo}{\vspace*{5pt}\MakeUppercase\udp@university}\par\vspace{20pt}%
     \udp@faculty\par%
     \udp@school\par%
     \rule[1pt]{\textwidth}{1pt}%
@@ -223,6 +223,10 @@
 % Define our texts defaults
 \newcommand{\professortext}[1]{\gdef\udp@professor@text{#1}}
 \newcommand{\committeetext}[1]{\gdef\udp@committee@text{#1}}
+
+\newcommand{\email}[1]{\gdef\@email{#1}}
+% default empty email
+\def\@email{}
 
 % Variables to hold items of front matter
 \newcommand{\udp@dedicatory}{}
@@ -454,23 +458,6 @@
   \udp@mainmatterheaders%
 }
 
-% Cover page
-\newcommand{\udp@coverpage}[1]{%
-  \vskip 1em%
-  {\bfseries%
-    \singlespacing%
-    \begin{center}%
-      {\LARGE\@title\par}%
-      \vskip 40pt%
-      {\large\@author}%
-      \vskip 40pt%
-      #1%content
-      \vfill%
-      \@date%
-    \end{center}%
-  }%
-}
-
 % Draw the committee
 \newcommand{\udp@committee}{%
   % guide professor text (profesor guía)
@@ -509,13 +496,33 @@
     \udp@logo{true}%
     % appendix cover page
     \udp@coverpage{%
-      \vskip 2em%
+      \vskip 25pt%
       \udp@appendixtitle%
-      \vskip 10em%
+      \vfill
       \udp@committee
     }%
     \newpage
   }{}% book has no cover page
+}
+
+
+
+% Cover page
+\newcommand{\udp@coverpage}[1]{%
+  \vskip 1em%
+  {\bfseries%
+    \singlespacing%
+    \begin{center}%
+      {\LARGE\@title\par}%
+      \vskip 40pt%
+      {\large\@author}\\%
+      #1%content
+      \vfill%
+      \udp@title@text%
+      \vskip 5em%
+      \@date%
+    \end{center}%
+  }%
 }
 
 \newcommand{\udp@titlepage}{%
@@ -523,9 +530,9 @@
   \udp@logo{true}%
   \ifbool{udp@bookthesis}{% thesis
     \udp@coverpage{%
-      \udp@title@text%
-      \vskip 10em%
-      \udp@committee%
+      \vskip 40pt%
+      % instead of committee just show the professor
+      \udp@professor@text\par\udp@professor%
     }%
   }{% book
     \udp@coverpage{}%
@@ -533,38 +540,6 @@
   \newpage%
 }
 
-
-%% Copyrights
-% copyright date
-\newcommand{\copydate}[1]{\gdef\udp@copydate{#1}}
-
-\newcommand{\udp@cr@pub@text}{Esta publicación forma parte de las publicaciones de la \udp@school, \udp@faculty, \udp@university.}
-\newcommand{\udp@cr@text}{Derechos reservados \copyright\xspace \udp@copydate.\par Todos los derechos reservados. Ninguna parte de esta publicación puede ser reproducida, almacenada o transmitida, de cualquier forma o por cualquier medio, ya sea electrónico, mecánico, fotocopiado, grabado o de otro modo, sin la previa aprobación de la \udp@university.}
-
-\newcommand{\copyrightdisclaimer}[1]{\gdef{\udp@cr@pub@text}{#1}}
-\newcommand{\copyrighttext}[1]{\gdef{\udp@cr@text}{#1}}
-
-\newenvironment{copyrights}{%
-  \newpage%
-  \thispagestyle{empty}%
-  \begin{minipage}{.8\textwidth}%
-    \parindent=0pt% 
-    \udp@cr@pub@text%
-    \vskip 2em%
-    {\@author\par\@title}%
-  \end{minipage}%
-  \vskip 3em%
-  \begin{minipage}{.8\textwidth}%
-}{%
-  \end{minipage}%
-  \vfill%
-  \begin{minipage}{.8\textwidth}%
-  \parindent=0pt%
-  \udp@cr@text%
-  \end{minipage}%
-  \newpage%
-  \setcounter{page}{1}% this is page i (one)
-}
 
 % commands for the signature page
 % signature box
@@ -609,41 +584,77 @@
 \newcommand{\udp@signaturepage}{%
   \cleardoublepage%
   \thispagestyle{empty}%
-  \singlespacing%
   \udp@logo{false}%
-  \vskip 1em%
-  {\bfseries%
-    \begin{center}%
-      {\LARGE\@title\par}%
-      \vskip 2em%
-      {\large\@author}%
-      \vskip 3em%
-      \udp@title@text%
-      % alumni degree
-    \end{center}%
-  }%
-  \vskip 4em%
-  \signbox{\udp@professor\\\udp@professor@text}%
-  % Now the committee
-  \expandafter\ifblank\expandafter{\udp@committeeOne}{%
-    \expandafter\ifblank\expandafter{\udp@committeeTwo}{}{% one empty, but not two: display two
-      \signbox{\udp@committeeTwo\\\udp@committee@text}%
-        \udp@committeeTwo\par%
+  \ifbool{udp@bookthesis}{% thesis
+    \udp@coverpage{%
+      \signbox{\udp@professor\\\udp@professor@text}%
+      % Now the committee
+      \expandafter\ifblank\expandafter{\udp@committeeOne}{%
+        \expandafter\ifblank\expandafter{\udp@committeeTwo}{}{% one empty, but not two: display two
+          \signbox{\udp@committeeTwo\\\udp@committee@text}%
+            \udp@committeeTwo\par%
+        }%
+      }{% one not empty, so check two
+        \expandafter\ifblank\expandafter{\udp@committeeTwo}{% two is empty, display one
+          \signbox{\udp@committeeOne\\\udp@committee@text}%
+        }{% two not empty, display both
+          \signboxdouble{\udp@committeeOne\\\udp@committee@text}{\udp@committeeTwo\\\udp@committee@text}%
+        }%
+      }%
     }%
-  }{% one not empty, so check two
-    \expandafter\ifblank\expandafter{\udp@committeeTwo}{% two is empty, display one
-      \signbox{\udp@committeeOne\\\udp@committee@text}%
-    }{% two not empty, display both
-      \signboxdouble{\udp@committeeOne\\\udp@committee@text}{\udp@committeeTwo\\\udp@committee@text}%
-    }%
+  }{% book
+    \udp@coverpage{}%
   }%
-  \vfill\null%
-  {\bfseries%
-  \begin{center}%
-    \@date\par%
-  \end{center}%
-  }%
-  \newpage
+  \newpage%
+  \authorinfo
+}
+
+% this package includes the letter and info symbols
+\RequirePackage{marvosym}
+% information page
+\newcommand{\authorinfo}{%
+\expandafter\ifblank\expandafter{\@email}{%
+% do nothing
+}{%
+  \thispagestyle{empty}%
+  \vspace*{\fill}%
+  {\footnotesize%
+    \noindent%
+    \Info\ \@author\\[-5pt]
+    \Letter\ \@email%
+  }
+}}%end ifblank, end newcommand
+
+%% Copyrights
+% copyright date
+\newcommand{\copydate}[1]{\gdef\udp@copydate{#1}}
+
+\newcommand{\udp@cr@pub@text}{Esta publicación forma parte de las publicaciones de la \udp@school, \udp@faculty, \udp@university.}
+\newcommand{\udp@cr@text}{Derechos reservados \copyright\xspace \udp@copydate.\par Todos los derechos reservados. Ninguna parte de esta publicación puede ser reproducida, almacenada o transmitida, de cualquier forma o por cualquier medio, ya sea electrónico, mecánico, fotocopiado, grabado o de otro modo, sin la previa aprobación de la \udp@university.}
+
+\newcommand{\copyrightdisclaimer}[1]{\gdef{\udp@cr@pub@text}{#1}}
+\newcommand{\copyrighttext}[1]{\gdef{\udp@cr@text}{#1}}
+
+\newenvironment{copyrights}{%
+  \newpage%
+  \thispagestyle{empty}%
+  \begin{minipage}{.8\textwidth}%
+    \parindent=0pt% 
+    \udp@cr@pub@text%
+    \vskip 2em%
+    {\@author\par\@title}%
+  \end{minipage}%
+  \vskip 3em%
+  \begin{minipage}{.8\textwidth}%
+}{%
+  \end{minipage}%
+  \vfill%
+  \begin{minipage}{.8\textwidth}%
+  \parindent=0pt%
+  \udp@cr@text%
+  \end{minipage}%
+  \newpage%
+  \setcounter{page}{1}% this is page i (one)
 }
 
 % Front environments
@@ -702,6 +713,8 @@
     \else%
     \clearpage%
   \fi%
+  % set metadata
+  \setmetadata
 }
 
 % Logo stuff
@@ -1620,6 +1633,47 @@
 
 \RequirePackage{hyperref}
 \hypersetup{%
-  pdfborder = {0 0 0}
+  pdfborder = {0 0 0},
+%  pdftex,
+%  pdfauthor = {\@author (\@email)},
+%  pdftitle = {\@title},
+%  pdfproducer={LaTeX with hyperref, using UDP thesis (udpthesis.sty)}
 }
+
+\RequirePackage{datetime}
+
+
+\newcommand{\setmetadata}{%
+\ifpdf
+  \expandafter\ifblank\expandafter{\@email}{%
+    \def\@authorinfo{\@author}%
+  }{%
+    \def\@authorinfo{\@author\ (\@email)}%
+  }
+  \pdfinfo{
+     /Author (\@authorinfo)
+     /Title  (\@title)
+     /CreationDate (D:\pdfdate)
+     /Subject (Tesis)
+  }
+\else
+% do nothing with the metadata
+  \ClassWarning{You are running this thesis using other thing that LaTeX. Consider running it using pdflatex to include metadata into the final file.}
+\fi
+}
+
+
+%% Useful definitions
+\RequirePackage{xspace}
+\DeclareRobustCommand\onedot{\futurelet\@let@token\@onedot}
+\def\@onedot{\ifx\@let@token.\else.\null\fi\xspace}
+
+\def\eg{\emph{e.g}\onedot} \def\Eg{\emph{E.g}\onedot}
+\def\ie{\emph{i.e}\onedot} \def\Ie{\emph{I.e}\onedot}
+\def\cf{\emph{cf}\onedot} \def\Cf{\emph{Cf}\onedot}
+\def\etc{\emph{etc}\onedot} \def\vs{\emph{vs}\onedot}
+\def\wrt{w.r.t\onedot} \def\dof{d.o.f\onedot}
+\def\etal{\emph{et al}\onedot}
+\def\adhoc{\emph{ad hoc}\xspace}
+
 \endinput%

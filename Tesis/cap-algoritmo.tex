@@ -2,7 +2,7 @@
 \label{ch:algoritmo}
 \section{Pipeline}
 \label{sec:pipeline}
-Para poder solucionar el problema propuesto en la Sección~\ref{sec:problema}, se propone un algoritmo compuesto por cuatro módulos. \emph{Preprocesamiento de la base de datos}, módulo encargado de quitar todo el ruido de los vídeos de entrenamiento, \emph{extracción de micro-descriptores}, encargado de dividir el vídeo en distintas regiones de interés para crear un micro-descriptor basado en el movimiento interno de éstas, \emph{creación de macro-descriptores}, toma los micro-descriptores y crea un nuevo macro-descriptor por vídeo utilizando técnicas de \textit{clustering}, y por último \emph{entrenamiento y clasificación}, encargado de crear un modelo de clasificación con los descriptores de entrenamiento, para luego utilizar este modelo para la posterior clasificación de nuevos vídeos. Presentamos este modelo en la Figura~\ref{algoritmo:fig:pipeline}.
+Para poder solucionar el problema propuesto en la Sección~\ref{sec:problema}, se propone un algoritmo compuesto por cuatro módulos. \emph{Preprocesamiento de la base de datos}, módulo encargado de quitar todo el ruido de los vídeos de entrenamiento, \emph{extracción de micro-descriptores}, encargado de dividir el video en distintas regiones de interés para crear un micro-descriptor basado en el movimiento interno de éstas, \emph{creación de macro-descriptores}, toma los micro-descriptores y crea un nuevo macro-descriptor por vídeo utilizando técnicas de \textit{clustering}, y por último \emph{entrenamiento y clasificación}, encargado de crear un modelo de clasificación con los descriptores de entrenamiento, para luego utilizar este modelo para la posterior clasificación de nuevos vídeos. Presentamos este modelo en la Figura~\ref{algoritmo:fig:pipeline}, donde podemos visualizar la arquitectura básica de un sistema de reconocimiento de patrones, siendo la adquisición de datos representada por el preprocesamiento de la base de datos, la extracción de características es reemplazada por la extracción de micro-descriptores y la creación de macro-descriptores, y finalmente la etapa de clasificación es el entrenamiento y clasificación de nuestro pipeline.
 
 	\begin{figure}[bt]
 		\centering
@@ -30,12 +30,12 @@ Para poder solucionar el problema propuesto en la Sección~\ref{sec:problema}, s
 		
 	\subsection{Corrección de movimiento}
 	\label{algoritmo:cor_movimiento}
-	Luego de realizar la detección de rostros para cada uno de los cuadros del vídeo, se procede a realizar la corrección del movimiento rígida. Ésta consiste en realizar operaciones de translación y rotación sobre cada uno de los cuadros del vídeo utilizando la imagen del rostro detectado en el primer cuadro como modelo para ajustar los cuadros siguientes.
+	Luego de realizar la detección de rostros para cada uno de los cuadros del vídeo, se procede a realizar la corrección del movimiento rígido. Ésta consiste en realizar operaciones de translación y rotación sobre cada uno de los cuadros del vídeo utilizando la imagen del rostro detectado en el primer cuadro como modelo para ajustar los cuadros siguientes.
 
 
 \section{Extracción de micro-descriptores}
 \label{sec:micro_descriptores}
-	El proceso de extracción de micro-descriptores es el núcleo del algoritmo. Este proceso es el encargado de la extracción de características directas del vídeo o imagen dinámica. Para esto se introduce un nuevo término que es denominado \textit{Rayo de flujo} o simplemente \textit{Rayo}. Éste define el movimiento de los píxeles dentro las regiones de interés (ROI por sus siglas en inglés) en los cuadros del vídeo. Esta etapa se puede dividir en tres grandes bloques, primero, la \emph{codificación}, etapa en la cual el vídeo puede ser codificado utilizando técnicas como LBP o LDN\@. Esta etapa es opcional y sera mayormente profundizada en el Capítulo~\ref{ch:exp_result}. Segundo, \emph{extracción de rayos}, la cual consiste en determinar las regiones de interés de donde se extraerán los \textit{Rayos de flujo}, y su extracción como tal. Y por ultimo, \emph{normalización}, esta etapa se encarga de llevar todos los \textit{Rayos} al mismo espacio vectorial, dado un tamaño fijo. Un diagrama de la extracción de micro-descriptores puede ser visto en la Figura~\ref{algoritmo:fig:micro_descriptores}.
+	El proceso de extracción de micro-descriptores es el núcleo del algoritmo. Este proceso es el encargado de la extracción de características directas del vídeo o imagen dinámica. Para esto se introduce un nuevo término que es denominado \textit{Rayo de flujo} o simplemente \textit{Rayo}. Éste define el movimiento de los píxeles dentro las regiones de interés (ROI por sus siglas en inglés) en los cuadros del vídeo. Esta etapa se puede dividir en tres grandes bloques, primero, la \emph{codificación}, etapa en la cual el video puede ser codificado utilizando técnicas como LBP o LDN\@. Esta etapa es opcional y será mayormente profundizada en el Capítulo~\ref{ch:exp_result}. Segundo, \emph{extracción de rayos}, la cual consiste en determinar las regiones de interés de donde se extraerán los \textit{Rayos de flujo}, y su extracción como tal. Y por último, \emph{normalización}, esta etapa se encarga de llevar todos los \textit{Rayos} al mismo espacio vectorial, dado un tamaño fijo. Un diagrama de la extracción de micro-descriptores puede ser visto en la Figura~\ref{algoritmo:fig:micro_descriptores}.
 
 \afterpage{% corrige el breakpage
 \begin{landscape}
@@ -49,9 +49,9 @@ Para poder solucionar el problema propuesto en la Sección~\ref{sec:problema}, s
 
 	\subsection{Elección de regiones de interés}
 	\label{algoritmo:elecc_roi}
-	De cada vídeos que se quiere procesar, después de realizar el preprocesamiento definido en la Sección~\ref{sec:proc_bdd}, se seleccionan las regiones de interés a las cuales se les extraerá los \textit{Rayos}. Las áreas se seleccionarán utilizando distintos criterios [$\mathds{R}(\cdot)$, ver (\ref{algoritmo:eq:roi})], por ejemplo, pueden utilizarse áreas puntuales con alta expresividad (\eg, los ojos, la boca, la nariz, \etc), o bien áreas generales (\eg, todo el rostro).
+	De cada video que se quiere procesar, después de realizar el preprocesamiento definido en la Sección~\ref{sec:proc_bdd}, se seleccionan las regiones de interés a las cuales se les extraerá los \textit{Rayos}. Las áreas se seleccionarán utilizando distintos criterios [$\mathds{R}(\cdot)$, ver (\ref{algoritmo:eq:roi})], por ejemplo, pueden utilizarse áreas puntuales con alta expresividad (\eg, los ojos, la boca, la nariz, \etc), o bien áreas generales (\eg, todo el rostro).
 	
-	De tal forma, definimos un vídeo como 
+	De tal forma, definimos un video como 
 	\begin{equation}\label{algoritmo:eq:video}		
 		V = \{\text{ROI}_i | 1 \leq i \le I\}, 
 	\end{equation}
@@ -77,7 +77,7 @@ Para poder solucionar el problema propuesto en la Sección~\ref{sec:problema}, s
 	Dado un píxel $(x,y)$ en el cuadro $t$, la extracción de rayos consiste en obtener una \textit{región de soporte}, $\text{RS}(x,y,t)$, una \textit{ventana de búsqueda}, $\text{WS}(x,y,t)$, y encontrar la posición de mejor emparejamiento entre la \textit{región de soporte} y la \textit{ventana de búsqueda}. Esta búsqueda se realiza calculando el error Cuadrático Medio (MSE por sus siglas en inglés), \begin{equation}\label{algoritmo:eq:mse}	
 			\text{MSE}(\text{RS}, \text{RS}') = \sum_{x=1}^{R} \sum_{y=1}^{R} \left(\text{RS}(x,y,t) - \text{RS}'(x',y', t+1)\right)^2,
 		\end{equation} 
-	donde $\text{RS} = \text{RS}(x,y,t)$ es la \textit{región de soporte} del píxel $(x,y)$ en el cuadro $t$, al que esta extrayendo el \textit{rayo}, y $\text{RS}' = \text{RS}'(x',y',t+1) \in \text{WS}(x,y,t)$ es una subregión de la \textit{ventana de búsqueda} del píxel $(x,y)$ en el cuadro $t+1$ de tamaño $L$ (note que la \textit{ventana de búsqueda} del píxel $(x,y)$ en el cuadro $t$ está definida en el cuadro $t+1$).
+	donde $\text{RS} = \text{RS}(x,y,t)$ es la \textit{región de soporte} del píxel $(x,y)$ en el cuadro $t$, al que esta extrayendo el \textit{rayo}, y $\text{RS}' = \text{RS}'(x',y',t+1) \in \text{WS}(x,y,t)$ es una subregión de la \textit{ventana de búsqueda} del píxel $(x,y)$ en el cuadro $t+1$ de tamaño $R$ (note que la \textit{ventana de búsqueda} del píxel $(x,y)$ en el cuadro $t$ está definida en el cuadro $t+1$).
 		
 	Esta operación se realiza para cada uno de los desplazamientos que puedan ser realizados por la \textit{región de soporte} dentro de la \textit{ventana de búsqueda}. De tal forma que buscamos la posición de la región $\text{RS}'$ que minimiza el MSE respecto de la \textit{región de soporte} del píxel $(x,y)$ en el cuadro $t$, $\text{RS}(x,y,t)$, de tal forma que la región $\text{RS}'$ óptima será
 	\begin{equation}
@@ -125,7 +125,7 @@ Para poder solucionar el problema propuesto en la Sección~\ref{sec:problema}, s
 	\begin{equation}
 		Rn = \frac{T}{N},
 	\end{equation}
-	está permite relacionar la cantidad de \textit{Rayos de soporte} $\rho$ del \textit{Rayo} $R(x,y)$ original que formaran parte de los $\rho'$ de $R(x,y)'$ normalizado. Este proceso puede ser visualizado en la Figura~\ref{algoritmo:fig:normalizacion}.
+	está permite relacionar la cantidad de \textit{Rayos de soporte} $\rho$ del \textit{Rayo} $R(x,y)$ original que formarán parte de los $\rho'$ de $R(x,y)'$ normalizado. Este proceso puede ser visualizado en la Figura~\ref{algoritmo:fig:normalizacion}.
 	
 	\begin{figure}[bt]
 		\centering
@@ -138,7 +138,7 @@ Para poder solucionar el problema propuesto en la Sección~\ref{sec:problema}, s
 \newpage	
 \section{Creación de macro-descriptores}
 \label{sec:macro-descriptores}
-El proceso de creación de macro-descriptores es el proceso final de la extracción de características de los vídeos. Luego de obtener un extenso conjunto de \textit{Rayos} para cada uno de los vídeos, es necesario poder crear grupos de \textit{Rayos}, los cuales puedan representar de mejor manera el espacio ya normalizado. Para esto se utilizan técnicas de \textit{clustering}. El proceso de creación de macro-descriptores puede ser visto en las Figuras~\ref{algoritmo:fig:macro_descriptores:entrenamiento} y~\ref{algoritmo:fig:macro_descriptores:clasificacion}
+El proceso de creación de macro-descriptores es el proceso final de la extracción de características de los videos. Luego de obtener un extenso conjunto de \textit{Rayos} para cada uno de los videos, es necesario poder crear grupos de \textit{Rayos}, los cuales puedan representar de mejor manera el espacio ya normalizado. Para esto se utilizan técnicas de \textit{clustering}. El proceso de creación de macro-descriptores puede ser visto en las Figuras~\ref{algoritmo:fig:macro_descriptores:entrenamiento} y~\ref{algoritmo:fig:macro_descriptores:clasificacion}
 
 	\begin{figure}[bt]
 		\centering
@@ -164,7 +164,11 @@ El proceso de creación de macro-descriptores es el proceso final de la extracci
   			\label{algoritmo:eq:dist}
 			k^* = \arg \min_k \{\mathit{d}(R(x,y),C_k)\},
 		\end{equation}
-		donde la función de distancia $\mathit{d}(\cdot,\cdot)$ depende del experimento que se este realizando, las métricas de distancia a utilizar pueden ser vistas en la Sección~\ref{sec:matricas_de_distancia}.
+		donde la función $\mathit{d}(\cdot,\cdot)$ representa la distancia euclidiana 
+		\begin{equation}
+		 d(x,y) = \Big\{\sum_{i} (x_i-y_i)^2\Big\}^{1/2} 
+		\end{equation}
+		
 
 	\begin{figure}[tb]
 		\centering
@@ -198,20 +202,18 @@ de tal forma que $\delta(\cdot,\cdot)$ es una función que cuenta los rayos pert
 	\begin{equation}
 		\mathds{D} = \cat_{i = 1}^{I} D_i, \quad \forall i,
 	\end{equation}	   
-   donde $\cat$ es el operador de concatenación de los vectores $D_i$. Este proceso puede ser visto en la Figura~\ref{algoritmo:fig:macrodescriptores}. El resultado de esta concatenación es el macro-descriptor del vídeo seleccionado.
+   donde $\cat$ es el operador de concatenación de los vectores $D_i$. Este proceso puede ser visto en la Figura~\ref{algoritmo:fig:macrodescriptores}. El resultado de esta concatenación es el macro-descriptor del video seleccionado.
    
 
 
-	En el proceso clasificación, no se recalculan los centroides para un nuevo vídeo, ya que, se guarda el modelo que contiene el resultado del \textit{Bag of Visual Words}, y se procede a calcular~(\ref{algoritmo:eq:dist}), para cada uno de los \textit{Rayos} $R(x,y)$ obtenidos en el proceso de extracción de micro-descriptores. Luego de esto al igual que en el proceso de entrenamiento se crea el macro-descriptor con el mismo método.
+	En el proceso clasificación, no se recalculan los centroides para un nuevo vídeo, ya que, se guarda el modelo que contiene el resultado del \textit{Bag of Visual Words}, y se procede a calcular~(\ref{algoritmo:eq:dist}), formula que permite saber cual es el \textit{cluster} mas cercano para cada uno de los \textit{Rayos} $R(x,y)$ obtenidos en el proceso de extracción de micro-descriptores. Luego de esto al igual que en el proceso de entrenamiento se crea el macro-descriptor con el mismo método.
 	
 	
 \section{Entrenamiento y clasificación}
 \label{sec:clasificacion}
-El entrenamiento y clasificación es etapa del algoritmo, se dedicada a la segmentación del espacio vectorial formado por los macro-descriptores. Para este proceso se utilizarán las \textit{Support Vector Machines}, explicadas en la Sección~\ref{sec:rec_patrones}. Estás se utilizan para entrenar el modelo que luego es utilizado para clasificar las nuevas entradas de vídeo. 
-Para poder probar la efectividad del clasificador se utilizaran técnicas de validación cruzada o $k$\textit{-fold cross-validation} (por sus siglas en inglés). Esta técnica consiste en dividir el conjunto de datos de datos en dos grupos, uno de entrenamiento y uno de prueba, $k$ veces. Esta técnica es utilizada para correr el algoritmo en distintas instancias, y así poder obtener un valor mas real de la precisión. Se mostraran los resultados de esta técnica en la Capítulo~\ref{ch:exp_result}.
+El entrenamiento y clasificación es la etapa del algoritmo que se dedicada a la segmentación del espacio vectorial formado por los macro-descriptores. Para este proceso se utilizarán las \textit{Support Vector Machines}, explicadas en la Sección~\ref{sec:rec_patrones}. Estás se utilizan para entrenar el modelo que luego es utilizado para clasificar las nuevas entradas de vídeo. 
+Para poder probar la efectividad del clasificador se utilizaran técnicas de validación cruzada ($k$\textit{-fold~cross-validation} en inglés). Esta técnica consiste en dividir el conjunto de datos en dos grupos, uno de entrenamiento y uno de prueba, $k$ veces. Esta técnica es utilizada para correr el algoritmo en distintas instancias, y así poder obtener un valor más real de la asertividad (\textit{Accuracy}). Se mostrarán los resultados de esta técnica en la Capítulo~\ref{ch:exp_result}.
 
-
-		
 	\begin{figure}[bt]
 		\centering
     		\includegraphics[width=0.7\textwidth]{Figuras/Diagramas/Entrenamiento.png}

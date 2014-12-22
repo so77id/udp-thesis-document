@@ -3,7 +3,7 @@
 
 \section{Reconocimiento de patrones}
 \label{sec:rec_patrones}
-	No existe una definición universalmente aceptada para el Reconocimiento de Patrones (RP). Esta puede recibir distintas definiciones dependiendo de la disciplina sobre la cual se quiere aplicar. Algunos autores como Duda~y~Hart~\cite{Duda1973} definen el reconocimiento de patrones, junto con reconocimiento de máquina como un campo preocupado de las regularidades del ruido en entornos complejos. Theodoridis~y~Koutroumbas~\cite{Theodoridis2008} lo define como una disciplina científica que apunta a la clasificación de objetos dentro de un conjunto de categorías o clases, y también como una parte integral del sistema de inteligencia de la máquina construida para la toma de decisiones. González y Thomason~\cite{Gonzalez1978} define el RP como la clasificación de la entrada de datos a través de la extracción de importantes características de un conjunto de estos con ruido. 
+	No existe una definición universalmente aceptada para el Reconocimiento de Patrones (RP o PR, pattern recognition en inglés). Esta puede recibir distintas definiciones dependiendo de la disciplina sobre la cual se quiere aplicar. Algunos autores como Duda~y~Hart~\cite{Duda1973} definen el reconocimiento de patrones, junto con reconocimiento de máquina como un campo preocupado de las regularidades del ruido en entornos complejos. Theodoridis~y~Koutroumbas~\cite{Theodoridis2008} lo define como una disciplina científica que apunta a la clasificación de objetos dentro de un conjunto de categorías o clases, y también como una parte integral del sistema de inteligencia de la máquina construida para la toma de decisiones. González y Thomason~\cite{Gonzalez1978} define el PR como la clasificación de la entrada de datos a través de la extracción de importantes características de un conjunto de estos con ruido. 
 
 \begin{figure}[b]
   \centering
@@ -13,18 +13,20 @@
 \end{figure}
 
 
-En este trabajo se define el reconocimiento de patrones como un área de la Inteligencia Artificial (IA) enfocada en la extracción de características de un conjunto de imágenes o vídeos, las cuales definen los patrones que serán utilizados para la creación de un modelo que permita clasificar nuevas entradas. Podemos describir este procedimiento en tres procesos como se puede ver en la Figura~\ref{art:fig:arquitectura}: adquisición de datos, extracción de características y toma de decisiones. 
+En este trabajo se define el reconocimiento de patrones como un área de la Inteligencia Artificial (IA o AI, artificial intelligence en inglés) enfocada en la extracción de características de un conjunto de imágenes o vídeos, las cuales definen los patrones que serán utilizados para la creación de un modelo que permita clasificar nuevas entradas. Podemos describir este procedimiento en tres procesos como se puede ver en la Figura~\ref{art:fig:arquitectura}: adquisición de datos, extracción de características y toma de decisiones. 
 
-	\textbf{Adquisición de datos.} La adquisición de datos es el procedimiento encargado de sensar la información del mundo real, para esto se utilizan distintos sensores dependiendo del área al cual se quiera aplicar el RP. Estos sensores tienen distintas respuestas dependiendo de su calidad o las variables del medio ambiente como la luminosidad, ruido ambiental, \etc. Para este trabajo nos enfocaremos en los sensores de imágenes instalados en las cámaras que capturan los vídeos que luego serán clasificados por nuestro sistema.
+	\textbf{Adquisición de datos.} La adquisición de datos es el procedimiento encargado de sensar la información del mundo real, para esto se utilizan distintos sensores dependiendo del área al cual se quiera aplicar el PR. Estos sensores tienen distintas respuestas dependiendo de su calidad o las variables del medio ambiente como la luminosidad, ruido ambiental, \etc. Para este trabajo nos enfocaremos en los sensores de imágenes instalados en las cámaras que capturan los vídeos que luego serán clasificados por nuestro sistema.
 	
 	\textbf{Extracción de características.} La extracción de características es el primer proceso en el cual interviene la maquina, tiene como objetivo transformar las señales adquiridas por la etapa anterior a una representación vectorial capas de ser interpretada por los clasificadores para la toma de decisiones. Este procedimiento es el que mas cambia a la hora de construir sistemas de reconocimiento de patrones, esto debido a que existe una gran variación de la implementación a realizar dependido del problema que se requiera atacar. Para esta etapa existen distintos métodos que se pueden utilizar para resolver el problema propuesto, estos serán mayormente estudiados en la Sección~\ref{sec:type_fe}.
 	
-	\textbf{Toma de decisiones.} La toma de decisiones es la ultima etapa del RP, esta se encarga de realizar la toma de decisiones utilizando las características extraídas en la etapa anterior. Para esto podemos dividir este bloque en dos sub-procesos, entrenamiento y clasificación. El entrenamiento consiste en tomar una gran cantidad de datos ya clasificados anteriormente de forma correcta por algún experto en el tema, y utilizar estos datos para poder crear un modelo el cual divida el espacio vectorial representado por las características de cada uno de los datos de entrenamiento. La clasificación consiste en utilizar el modelo creado en la etapa de entrenamiento para poder clasificar nuevas entradas no tomadas en cuenta en el entrenamiento. Para la etapa de creación del modelo se pueden utilizar distintas técnicas que permiten dividir el espacio en distintas regiones dependiendo de las etiquetas o clases a las cuales se requiera clasificar, tales como: Redes bayesianas, técnicas de clustering, redes neuronales, Modelos Ocultos de Markov (HMM por sus siglas en inglés). Para el desarrollo de nuestro método utilizaremos las Support Vector Machines~\cite{Cortes1995,Hearst1998}, las cuales permiten realizar una clasificación de muchas clases en un mismo espacio vectorial al mismo tiempo. 
+	\textbf{Toma de decisiones.} La toma de decisiones es la ultima etapa del PR, esta se encarga de realizar la toma de decisiones utilizando las características extraídas en la etapa anterior. Para esto podemos dividir este bloque en dos sub-procesos, entrenamiento y clasificación. El entrenamiento consiste en tomar una gran cantidad de datos ya clasificados anteriormente de forma correcta por algún experto en el tema, y utilizar estos datos para poder crear un modelo el cual divida el espacio vectorial representado por las características de cada uno de los datos de entrenamiento. La clasificación consiste en utilizar el modelo creado en la etapa de entrenamiento para poder clasificar nuevas entradas no tomadas en cuenta en el entrenamiento. Para la etapa de creación del modelo se pueden utilizar distintas técnicas que permiten dividir el espacio en distintas regiones dependiendo de las etiquetas o clases a las cuales se requiera clasificar, tales como: Redes bayesianas, técnicas de clustering, redes neuronales, Modelos ocultos de Markov (HMM, hidden Markov models en inglés). Para el desarrollo de nuestro método utilizaremos las maquinas de soporte vectorial~\cite{Cortes1995,Hearst1998} (SVM, Support Vector Machines en inglés), las cuales permiten realizar una clasificación de muchas clases en un mismo espacio vectorial al mismo tiempo. 
 
 
 	\subsection{Support Vector Machines}
 	\label{sec:svm}
-	Las Máquinas de Vectores de Soportes (SVM sus siglas en inglés) son herramientas fundamentales en sistemas de aprendizaje automático, se basan en  implementar reglas de decisión complejas, por medio de un kernel que permite mapear los puntos de entrenamiento a un espacio de mayor dimensión este truco puede ser visto en la Figura~\ref{art:fig:kernel_trick}. Estas máquinas son utilizadas para la clasificación y análisis de regresión permitiendo generar un modelo de predicción dado un conjunto de datos de entrada, y posteriormente utilizar este modelo para clasificar nuevos datos.
+	Las Máquinas de Vectores de Soportes (SVM por sus siglas en inglés) son herramientas fundamentales en sistemas de aprendizaje automático, se basan en  implementar reglas de decisión complejas, por medio de un kernel que permite mapear los puntos de entrenamiento a un espacio de mayor dimensión, esta técnica es llamada \textit{kernel trick}, y consiste en realizar una transformación del espacio vectorial a analizar, donde se pueda encontrar una recta o hiperplano que permita dividir las muestras en dos grupos, este \textit{kernel trick}, puede ser visualizado en la Figura~\ref{art:fig:kernel_trick}, en donde vemos que por medio de un kernel radial, se logra encontrar una recta que separe las muestras en dos grupos. 
+	
+	Las máquinas son utilizadas para la clasificación y análisis de regresión permitiendo generar un modelo de predicción dado un conjunto de datos de entrada, y posteriormente utilizar este modelo para clasificar nuevos datos.
 	
 	\begin{figure}[tb]
 		\centering
@@ -40,35 +42,35 @@ En este trabajo se define el reconocimiento de patrones como un área de la Inte
 		\label{art:fig:support_vectors}
 	\end{figure}
 		
-	La idea general de las SVM es solucionar un problema de clasificación de dos clases mediante una barrera de decisión, para encontrar esta barrera se realiza la elección de vectores de soporte, los cuales serán los encargados de ayudar a solucionar el problema de optimización, esta eleccion puede ser vista en la Figura~\ref{art:fig:support_vectors}. Estos métodos evolucionaron con el tiempo y se utilizan para poder solucionar el problema de clasificación de múltiples clases.
+	La idea general de SVM es solucionar un problema de clasificación de dos clases mediante una barrera de decisión, para encontrar esta barrera se realiza la elección de vectores de soporte, los cuales serán los encargados de ayudar a solucionar el problema de optimización, esta elección puede ser vista en la Figura~\ref{art:fig:support_vectors}, donde las muestras encerradas en circulo representa a los vectores de soporte, los cuales ayudan a encontrar la barrera de decisión o hiperplano que separa las muestras en dos grupos, de tal forma que todos los vectores de soporte tienen la misma distancia a dicha barrera. Estos métodos evolucionaron con el tiempo y se utilizan para poder solucionar el problema de clasificación de múltiples clases.
 
-	Existen distintos tipos de Kernels que permiten encontrar hiper-planos mas eficientes dependiendo de la representación de los datos de entrenamiento, algunos de los mas conocidos son:
+	Existen distintos tipos de Kernels que permiten encontrar hiperplanos mas eficientes dependiendo de la representación de los datos de entrenamiento, algunos de los mas conocidos son:
 	
-	\textbf{Lineal}: Kernel lineal, no realiza ninguna transformación vectorial,
+	\textbf{Lineal}: Kernel lineal, no realiza ninguna transformación vectorial, es utilizado cuando las muestras son linealmente separables,
 	\begin{equation}
 	\kappa(x_i,x_j) = x_{i}^{T}x_j;
 	\label{k:lineal}
 	\end{equation}
 	
-	\textbf{RBF}: Kernel radial, es la mejor opcion la mayoria de las veces,
+	\textbf{RBF}: Kernel radial, es la mejor opción la mayoría de las veces, permite realizar una transformación a un espacio curvo, en el cual una recta o hiperplano de este espacio curvo es representada por circunferencia en el plano cartesiano, en este kernel se tiene una variable de suavizado llamada $\gamma$,
 	\begin{equation}
 	\kappa(x_i,x_j) = e^{-\gamma||x_i - x_j||^2 }, \gamma > 0;
 	\label{k:RBF}
 	\end{equation}
 	
-	\textbf{Poly}: Kernel polinomial, mapea en función del grado del polinomio,
+	\textbf{Poly}: Kernel polinomial, mapea en función del grado del polinomio, en general realiza una transformación a un espacio vectorial, en el cual una recta o hiperplano es representada por un polinomio de grado $degree$ en el plano cartesiano, la variable $coef0$ representa un corrimiento y $\gamma$ el suavizado,
 	\begin{equation}
 	\kappa(x_i,x_j) = (\gamma x_{i}^{T}x_j + coef0)^{degree}, \gamma > 0;
 	\label{k:Poly}
 	\end{equation}
 	
-	\textbf{Chi-Square}: Kernel basado en la distribución Chi-Square.
-	\begin{equation}
-	\kappa(x_i,x_j) = e^{-\gamma X^{2}(x_i,x_j)}, X^{2}(x_i,x_j) = \frac{(x_i - x_j)^2}{(x_i + x_j)}, \gamma > 0;
-	\label{k:Sigmoid}
-	\end{equation}
+%	\textbf{Chi-Square}: Kernel basado en la distribución Chi-Square.
+%	\begin{equation}
+%	\kappa(x_i,x_j) = e^{-\gamma X^{2}(x_i,x_j)}, X^{2}(x_i,x_j) = \frac{(x_i - x_j)^2}{(x_i + x_j)}, \gamma > 0;
+%	\label{k:chi-square}
+%	\end{equation}
 	
-	\textbf{Histogram Intersection}: Utilizado para la clasificación de histogramas.
+	\textbf{Histogram Intersection}: Utilizado para la clasificación de histogramas, es generalmente utilizado cuando las muestras representan histogramas.
 	\begin{equation}
 	\kappa(x_i,x_j) = \min(x_i,x_j).
 	\label{k:Inter}
@@ -96,14 +98,14 @@ Ekman y Friesen definen que existen seis expresiones universales~\cite{Ekman2003
 	\item Alegría (Happiness): se produce mediante la contracción del músculo que va del pómulo al labio superior y del orbicular que rodea al ojo. También se elevan las mejillas. 
 	\item Asco (Disgust): Existe una ligera contracción del músculo que frunce la nariz y estrecha los ojos. El gesto de la nariz arrugada es simultáneo al de la elevación del labio superior. 
 	\item Ira (Anger): Se produce con una mirada fija, cejas juntas y hacia abajo, y existe una tendencia a apretar los dientes. 
-	\item Miedo (Fear): Es la expresión que se presenta después del sorpresa. Donde se observa los párpados superiores elevados al máximo e inferiores tensos. Las cejas levantadas se acercan y los labios se alargan hacia atrás. 
+	\item Miedo (Fear): Se observa los párpados superiores elevados al máximo e inferiores tensos. Las cejas levantadas se acercan y los labios se alargan hacia atrás. 
 	\item Sorpresa (Surprise): Los párpados superiores suben, pero los inferiores no están tensos, la mandíbula suele caer. 
 	\item Tristeza (Sadness): Se manifiesta cuando los párpados superiores caen y las cejas se angulan hacia arriba. El entrecejo se arruga y los labios se estiran de forma horizontal.
 \end{enumerate}
 
 
 \subsection{Métodos de reconocimiento de expresiones faciales}
-El reconocimiento de expresiones faciales lo podemos dividir en dos grandes tipos, según las características que se enfocan: la extracción de características geométricas y de características de apariencia, ver otros estudios ~\cite{Pantic2000,Zeng2009} para mas información acerca de los tipos de métodos de reconocimiento de expresiones faciales. A su vez cada una de estas subdivisiones tiene métodos que ayudan a reconocer las expresiones en imágenes o en vídeos.
+Los Métodos de reconocimiento de expresiones faciales pueden ser divididos en dos grupos: métodos geométricos y métodos de apariencia, los geométricos consisten en extraer características de la geometría del rostro, por el contrario, los métodos de apariencia se encargan de extraer características de las texturas de la imagen y encontrar patrones ocultos. Para mas información acerca de los métodos de reconocimiento de expresiones faciales  ver otros estudios como los realizados por Pantic~y~Rothkrantz~\cite{Pantic2000} o Zeng~\etal~\cite{Zeng2009}. A su vez cada uno de estos grupos tiene métodos que ayudan a reconocer las expresiones en imágenes o en vídeos. Para esta investigación nos centramos en estudiar solo los métodos basados en apariencia.
 
 \subsubsection{Métodos basados en características geométricas}
 \label{sec:met_geo}
@@ -115,7 +117,7 @@ Luego de encontrar las regiones importantes del rostro que se está analizando s
 \label{sec:met_apa}
 Se basan en detectar los movimientos de las texturas en la imagen, en el caso de imágenes con rostros humanos, cambios o deformaciones en la piel (\eg arrugas, protuberancias, surcos, \etc). En si son métodos que no se basan en encontrar ciertos puntos específicos del rostro, sino que encuentran regiones importantes de las texturas a analizar. Existen distintas aplicaciones de estos métodos, tanto sobre imágenes estáticas como para vídeo o imágenes dinámicas.  
 
-	\subsubsection{Métodos sobre imágenes}
+	\subsubsection{Métodos basados en características sobre imágenes}
 	\label{sec:met_imagen}
 		Son métodos enfocados en encontrar ciertas regularidades existentes entre las texturas de la imagen a analizar, ejemplos:
 
@@ -130,13 +132,13 @@ Se basan en detectar los movimientos de las texturas en la imagen, en el caso de
   \label{art:fig:lbp}
 \end{figure}
 
-Luego de realizar el proceso en todos los píxeles se procede a realizar un histograma de los valores el cual es definido como el descriptor de la imagen, siendo este utilizado una para posterior clasificación.
+Luego de realizar el proceso en todos los pixeles de la imagen se procede a realizar un histograma de los nuevos valores, este histograma es el descriptor de la imagen, el cual es utilizado para entrenar los modelos o simplemente ser clasificado.
 
 Otros métodos que utilizan LBP antes de la obtención del descriptor dividen la imagen en $n$ secciones de igual o distintas áreas, y realizan el cálculo del histograma para cada una de estas secciones. Luego concatenan cada uno de los histogramas en un orden específico y se obtiene un macro descriptor más detallado de la imagen~\cite{Ahonen2006}.
 
 		\subsubsection{Local Directional Number Pattern}
 		\label{sec:ldn}
-		Método introducido por Ramírez \etal~\cite{RamirezRivera2013}, consiste en realizar una codificación de los píxeles utilizando toda la vecindad. Utiliza el operador de Kirsch~\cite{Kirsch1971}, el cual permite encontrar las gradientes o bordes de la imagen las ocho direcciones. El método realiza un proceso de máscara para cada uno de los detectores de bordes de Kirsch, luego para cada píxel a codificar se obtiene el índice de la mascara que obtuvo la mayor intensidad al ser aplicada, a su vez también se obtiene el índice de la mascara que obtuvo el menor valor. Luego estos índices son transformados a una base binaria de tres dígitos y concatenados obteniendo una cadena binaria de seis dígitos, esta es nuevamente transformada a decimal y este valor decimal (entre $0$ y $63$) es el nuevo valor que representa el píxel, este proceso puede ser visto en la Figura~\ref{art:fig:ldn}.
+		Método introducido por Ramírez \etal~\cite{RamirezRivera2013}, consiste en realizar una codificación de los píxeles utilizando toda la vecindad. Utiliza el operador de Kirsch~\cite{Kirsch1971}, el cual permite encontrar las gradientes o bordes de la imagen las ocho direcciones. El método realiza un proceso de máscara para cada uno de los detectores de bordes de Kirsch, luego para cada píxel a codificar se obtiene el índice de la mascara que obtuvo la mayor intensidad al ser aplicada, a su vez también se obtiene el índice de la mascara que obtuvo el menor valor. Luego estos índices son transformados a una base binaria de tres dígitos y concatenados obteniendo una cadena binaria de seis dígitos, esta es nuevamente transformada a decimal y este valor decimal (entre $0$ y $63$) es el nuevo valor que representa el píxel, este proceso puede ser visto en la Figura~\ref{art:fig:ldn}, donde en la parte izquierda de la imagen podemos ver el proceso de aplicación de las ocho mascaras de Kirsch a la imagen, luego para cada pixel a codificar se escogen el mayor y menor valor resultante en las mascaras, los cuales con concatenados y el resultado es la codificación del píxel o nuevo valor resultante.
 		
 \begin{figure}[tb]
   \centering
@@ -147,15 +149,15 @@ Otros métodos que utilizan LBP antes de la obtención del descriptor dividen la
 
 		Luego de codificar toda la imagen, se realiza un histograma de la imagen, este es utilizado como descriptor para la posterior clasificación. También la imagen puede ser segmentada por una grilla, en la cual se calcula un histograma para cada una de las grillas, y luego se concatenan en un orden específico.
 
-	\subsubsection{Métodos sobre imágenes dinámicas}	
+	\subsubsection{Métodos basados en características sobre imágenes dinámicas o videos}	
 	\label{sec:met_videos}
-	Para estos métodos se introduce la variable temporal $t$, la cual es la encargada de regir el movimiento de los píxeles a lo largo del tiempo, al igual que los métodos sobre imágenes estáticas, estos métodos resuelven el problema siendo planteado de la misma forma, pero ahora dependiendo el modelo a utilizar es como se soluciona el problema de la variable $t$.
+	Para estos métodos se introduce la variable temporal $t$, la cual es la encargada de regir el movimiento de los píxeles a lo largo del tiempo, al igual que los métodos sobre imágenes estáticas, estos métodos resuelven el problema planteado de forma similar, pero adaptando las técnicas a la nueva variable.
 
 		\subsubsection{Volume Local Binary Patterns.}
 		\label{sec:vlbp}
-		Método introducido por Zhao y Pietikäinen~\cite{Zhao2006}, basado en LBP para imágenes dinámicas, el cual se basa en tres variables: $L$ la cantidad de cuadros que entran en la creación del patrón, $P$ el tamaño del vecindario a seleccionar y $R$ el radio del cual se escogen los vecinos. 
+		Método introducido por Zhao y Pietikäinen~\cite{Zhao2006,Zhao2007a,Zhao2007}, basado en LBP para imágenes dinámicas, el cual se basa en tres variables: $L$ la cantidad de cuadros que entran en la creación del patrón, $P$ el tamaño del vecindario a seleccionar y $R$ el radio del cual se escogen los vecinos. 
 El método VLBP consiste en realizar una codificación basada en LBP, ahora incluyendo la variable temporal $L$ que indica desde qué cuadro se comienza a realizar la resta del píxel seleccionado con el central.
-Éste es un proceso muy costoso debido a que mientras mayor sea la cantidad de vecinos a seleccionar, mayor será la cantidad de dígitos binarios, lo cual implica un mayor espectro de números resultantes en la codificación~\cite{Zhao2007a,Zhao2007}. Este proceso puede ser visto en la Figura~\ref{art:fig:vlbp}.
+Éste es un proceso muy costoso debido a que mientras mayor sea la cantidad de vecinos a seleccionar, mayor será la cantidad de dígitos binarios, lo cual implica un mayor espectro de números resultantes en la codificación. Este proceso puede ser visto en la Figura~\ref{art:fig:vlbp}.
 
 \begin{figure}[tb]
   \centering
@@ -185,20 +187,18 @@ Para poder obtener el patrón de la imagen se realiza el mismo proceso de resta 
 
 	\subsection{Framework Viola-Jones}
 	\label{sec:viola-jones}
-	Introducido por Viola y Jones~\cite{Jones2003}, es un método que utiliza clasificación en cascada, y un entrenador de clasificadores débiles basado en AdaBoost. Este algoritmo consiste en subdividir la imagen a analizar en pequeñas sub-imágenes, las cuales son entregadas a una serie de clasificadores (etapas), cada uno con un conjunto de características visuales. El método consiste en que cada sub-imagen es evaluada por la serie de clasificadores, si en una es encontrado un rostro, esta sub-imagen es entregada al siguiente clasificador, el cual revisa de forma mas rigurosa la imagen. Si la imagen es aceptada por todos los clasificadores, esta esa clasificada como un rostro.
+	Introducido por Viola y Jones~\cite{Jones2003}, es un método que utiliza clasificación en cascada, y un entrenador de clasificadores débiles basado en AdaBoost~\cite{Freund1995}. Este algoritmo consiste en subdividir la imagen a analizar en pequeñas sub-imágenes, las cuales son entregadas a una serie de clasificadores débiles (etapas), cada uno con un conjunto de características visuales. El método consiste en que cada sub-imagen es evaluada por los clasificadores débiles de la cascada, si en una es encontrado un rostro, esta sub-imagen es entregada al siguiente clasificador, el cual revisa de forma mas rigurosa la imagen. Si la imagen es aceptada por todos los clasificadores, esta es clasificada como un rostro.
 	
 	\subsection{Corrección de movimiento rígido}
 	\label{sec:rigid}
-	Los métodos de corrección de movimiento rígido consisten en utilizar técnicas de rotación y traslación de regiones de la imagen, esto para poder ajustar el movimiento de todos los cuadros del vídeo sobre una región especifica. Este tipo de corrección no alteran el tamaño de la imagen, solo su ubicación y el ángulo su rotación.
+	Los métodos de corrección de movimiento rígido consisten en utilizar técnicas de rotación y traslación de regiones de la imagen, esto para poder ajustar el movimiento de todos los cuadros del video sobre una región especifica. Este tipo de corrección no alteran el tamaño de la imagen, sólo su ubicación y el ángulo su rotación.
 
-%\section{Optical flow}
-%\label{sec:optical_flow}
 
 \section{Bag of Visual Words}
 \label{sec:bag_of_words}
-\textit{Bag of visual words}, es una técnica utilizada para la clasificación de documentos, y consiste en la creación de un descriptor de cada documento a partir de la frecuencia de aparición de cada una de las palabras que este en la bolsa. Esta bolsa es construida como un diccionario que contiene todas las palabras que aparecen en los documentos a clasificar.
+\textit{Bag of visual words}, es una técnica utilizada para la clasificación de documentos, consiste en la creación de un descriptor de cada documento a partir de la frecuencia de aparición de cada una de las palabras que este en la bolsa. Esta bolsa es construida como un diccionario que contiene todas las palabras que aparecen en los documentos a clasificar.
 
-Recientemente esta técnica también es utilizada para la clasificación de imágenes y es conocida como Bag of Visual Words. Para poder utilizar la misma teoría, las palabras son reemplazadas por características extraídas de las imágenes. El problema es que la cantidad de características es muy alta y con una muy baja probabilidad de ser iguales entre ellas, por lo cual es necesario agrupar en conjuntos de características, las cuales son utilizados para construir los descriptores de las imágenes. Estos conjuntos de características son representados por un vector o centroide, el cual es el representante del grupo, luego de esto se procede a construir la bolsa de palabras agrupando todos estos centros como el vocabulario visual de las imágenes. Para poder encontrar los centroides de cada uno de los grupos es necesario utilizar técnicas de agrupamiento o clustering como $k$-means. Implementaciones de esta técnica en clasificación de imágenes pueden ser vistas en distintas investigaciones~\cite{Csurka2004,Dollar2005,Sivic2009}.
+Recientemente esta técnica también es utilizada para la clasificación de imágenes y es conocida como Bag of Visual Words. Para poder utilizar la misma teoría, las palabras son reemplazadas por características extraídas de las imágenes. El problema es que la cantidad de características es muy alta y con una muy baja probabilidad de ser iguales entre ellas, por lo cual es necesario agrupar en conjuntos de características, las cuales son utilizados para construir los descriptores de las imágenes. Estos conjuntos de características son representados por un vector o centroide, el cual es el representante del grupo, luego de esto se procede a construir la bolsa de palabras agrupando todos estos centros como el vocabulario visual de las imágenes. Para poder encontrar los centroides de cada uno de los grupos es necesario utilizar técnicas de agrupamiento o \textit{clustering} como $k$-means. Implementaciones de esta técnica en clasificación de imágenes pueden ser vistas en distintas investigaciones~\cite{Csurka2004,Dollar2005,Sivic2009}.
 
 	\subsection{$K$-means}
 	\label{sec:k-means}
@@ -207,53 +207,53 @@ Recientemente esta técnica también es utilizada para la clasificación de imá
 	Uno de los grandes problemas de este algoritmo, es la elección de los centroides iniciales, esto debido a que cada instancia puede encontrar distintos máximos locales, por lo cual esto se puede solucionar de forma que se corren distintas instancias con los mismos datos, y luego se calcula un promedio para cada uno de los $k$ centros.
 	Otro de los grandes problemas de este método es la elección de la métrica de distancia a utilizar, ya que dependiendo de el tipo de los vectores a utilizar existen distintas formas de calcular la distancia, lo cual cambia los resultados de los resultados.
 			
-	\subsubsection{Métricas de distancia}
-	\label{sec:matricas_de_distancia}
-	Las métricas de distancia se utilizan para saber que tan cerca o lejos esta un vector de otro, por lo cual esto permite poder tener la distancia entre dos vectores pertenecientes al mismo espacio vectorial. 
-	Sean dos vectores $p$-dimensionales $x$,$y$ de un subespacio de $\mathds{R}^p$. Entonces, se pueden definir las siguientes medidas de distancia entre $x$ e $y$~\cite{Pereira2010}:
+	%\subsubsection{Métricas de distancia}
+	%\label{sec:matricas_de_distancia}
+	%Las métricas de distancia se utilizan para saber que tan cerca o lejos esta un vector de otro, por lo cual esto permite poder tener la distancia entre dos vectores pertenecientes al mismo espacio vectorial. 
+	%Sean dos vectores $p$-dimensionales $x$,$y$ de un subespacio de $\mathds{R}^p$. Entonces, se pueden definir las siguientes medidas de distancia entre $x$ e $y$~\cite{Pereira2010}:
 	
-\paragraph{Distancia Euclidiana}\label{deuclidiana}
+%\paragraph{Distancia Euclidiana}\label{deuclidiana}
 
-\begin{equation}
-d(x,y) = \Big\{\sum_{i} (x_i-y_i)^2\Big\}^{1/2}
-\end{equation}
-
-
-\paragraph{Distancia Euclidiana cuadrada}\label{deuclidianacuad}
-
-\begin{equation}
-d(x,y) = \sum_{i} (x_i-y_i)^2
-\end{equation}
+%\begin{equation}
+%d(x,y) = \Big\{\sum_{i} (x_i-y_i)^2\Big\}^{1/2}
+%\end{equation}
 
 
-\paragraph{Distancia de Manhattan}\label{dmanhattan}
+%\paragraph{Distancia Euclidiana %cuadrada}\label{deuclidianacuad}
 
-\begin{equation}
-d(x,y) = \sum_{i} \vert x_i-y_i\vert
-\end{equation}
-
-\paragraph{Distancia de Minkowski}\label{dminkowski}
-
-\begin{equation}
-d(x,y) =\Big\{ \sum_{i} \vert x_i-y_i\vert^{1/l}\Big\}^l
-\end{equation}
+%\begin{equation}
+%d(x,y) = \sum_{i} (x_i-y_i)^2
+%\end{equation}
 
 
-\paragraph{Distancia de potencia}\label{dpotencia}
+%\paragraph{Distancia de Manhattan}\label{dmanhattan}
 
-\begin{equation}
-d(x,y) = \Big\{\sum_{i} (x_i-y_i)^p\Big\}^{1/r}
-\end{equation}
+%\begin{equation}
+%d(x,y) = \sum_{i} \vert x_i-y_i\vert
+%\end{equation}
 
-\paragraph{Distancia del coseno}\label{dcoseno}
+%\paragraph{Distancia de Minkowski}\label{dminkowski}
 
-\begin{equation}
-d(x,y) = \frac{\sum_{i} (x_iy_i)}{\sqrt{\sum_{i} x_i^2}\sqrt{\sum_{i} y_i^2}}
-\end{equation}
+%\begin{equation}
+%d(x,y) =\Big\{ \sum_{i} \vert x_i-y_i\vert^{1/l}\Big\}^l
+%\end{equation}
 
 
-\paragraph{Correlaci\'on de Pearson}\label{dpearson}
+%\paragraph{Distancia de potencia}\label{dpotencia}
 
-\begin{equation}
-d(x,y) = \frac{\sum_{i} (x_i-\bar{x})(y_i-\bar{y})}{\sqrt{\sum_{i} (x_i-\bar{x})^2}\sqrt{\sum_{i} (y_i-\bar{y})^2}}
-\end{equation}
+%\begin{equation}
+%d(x,y) = \Big\{\sum_{i} (x_i-y_i)^p\Big\}^{1/r}
+%\end{equation}
+
+%\paragraph{Distancia del coseno}\label{dcoseno}
+
+%\begin{equation}
+%d(x,y) = \frac{\sum_{i} (x_iy_i)}{\sqrt{\sum_{i} %x_i^2}\sqrt{\sum_{i} y_i^2}}
+%\end{equation}
+
+
+%\paragraph{Correlaci\'on de Pearson}\label{dpearson}
+
+%\begin{equation}
+%d(x,y) = \frac{\sum_{i} %(x_i-\bar{x})(y_i-\bar{y})}{\sqrt{\sum_{i} %(x_i-\bar{x})^2}\sqrt{\sum_{i} (y_i-\bar{y})^2}}
+%\end{equation}
