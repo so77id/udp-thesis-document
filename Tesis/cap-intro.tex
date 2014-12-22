@@ -58,13 +58,14 @@ Luego de extraer cada uno de los micro-descriptores, se procede a crear utilizar
 Luego de obtener los macro-des\-crip\-tores para cada uno de los vídeos, se procede a la etapa de entrenamiento y posterior clasificación. Para poder entrenar y clasificar con los macro-descriptores obtenidos en la etapa anterior, se utilizan las Maquinas de Vectores de Soporte (Support Vector Machines por sus siglas en ingles). Esta técnica permite dividir el espacio vectorial representado por los descriptores de entrenamiento, para luego ser probado por los descriptores que se obtienen en la clasificación o prueba del modelo creado. Para poder probar la efectividad de la clasificación se utiliza la técnica de validación cruzada, la cual permite realizar distintas pruebas de entrenamiento y clasificación, para obtener cual es el porcentaje de efectividad del método. Esta etapa será profundizada en la Sección~\ref{sec:clasificacion}.
 
 \subsection{Ventajas potenciales del método}
+\label{intro:ventajas}
 En esta investigación se introduce un nuevo micro-descriptor llamado \textit{Rayo de flujo}, en simples palabras, 
 un \textit{rayo de flujo} es el conjunto de variaciones que tiene un píxel determinado a lo largo del vídeo, esto será explicado en mayor profundidad en la Sección~\ref{sec:micro_descriptores}.
 
 Éste, al ser un enfoque nuevo no visto en otras investigaciones, las distintas ventajas potenciales serán evaluadas a lo largo de la investigación, en general nos centraremos en demostrar o desmentir las siguientes incógnitas:
 
 \begin{itemize}
-	\item ¿Permitirán los \textit{rayos} solucionar el problema de la variable temporal?
+	\item ¿Permitirán los \textit{rayos} realizar un modelado espacio-temporal?
 	\item Al ser un modelado espacio-temporal de los píxeles, los \textit{rayos}, ¿permitirán ver cual es el comportamiento de los pixeles a través del tiempo?
 	\item ¿Permitirán los \textit{rayos} modelar micro-patrones en los movimientos del rostro que no pueden ser vistos a simple vista por los humanos?, de ser cierto, ¿estos micro-patrones aportarán mayor información al modelo de clasificación?.
 	\item ¿Existe la posibilidad de que cada una de las expresiones faciales universales pueda tener asociado un conjunto de \textit{rayos} que la definan?. 
