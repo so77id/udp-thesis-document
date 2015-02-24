@@ -1,0 +1,18 @@
+\documentclass[letterpaper, 12pt, final]{article}
+\usepackage{graphicx}
+\usepackage{animate}
+\usepackage{media9}
+
+\begin{document}
+
+\begin{figure}
+    \centering
+    \makeatletter\edef\animcnt{\the\@anim@num}\makeatother%
+    \animategraphics[label=myAnim,loop,width=\textwidth]{2}{./videos/animation_}{0}{11}
+
+    \mediabutton[jsaction={anim.myAnim.playFwd();}]{\fbox{\strut Play}}
+    \mediabutton[jsaction={anim.myAnim.pause();}]{\fbox{\strut Pause}}
+    \caption{Some animation for MWE}
+\end{figure}
+
+\end{document}

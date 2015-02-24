@@ -263,7 +263,7 @@
    			
    			\begin{figure}[bt]
    				\centering
-   				\includegraphics[width=9cm]{imagenes/lbp_histogram.png}
+   				\includegraphics[width=3cm]{../Tesis/Figuras/resultados/E1/E1_LBP.png}
    			\end{figure}	  
    		\end{frame}
     
@@ -508,8 +508,6 @@
   			flashvars={
   				source=./videos/MMI.mp4
   				& loop=true
-  				& autoPlay=true
-  				& autoRewind=true
   			}
   			]{}{VPlayer.swf}
   		\end{center}		
@@ -776,8 +774,6 @@
 			flashvars={
 				source=./videos/v1.mp4
 				& loop=true
-				& autoPlay=true
-				& autoRewind=true
 				}
 				]{}{VPlayer.swf}
 		\end{center}		
@@ -794,7 +790,6 @@
 			flashvars={
 				source=./videos/v2.mp4
 				& loop=true
-				& autoPlay=true
 			}
 			]{}{VPlayer.swf}
 		\end{center}		
@@ -815,6 +810,23 @@
 			]{}{VPlayer.swf}
 		\end{center}		
 	\end{frame}	
+	
+		\begin{frame}{Experimentos en la extracción de micro-descriptores}{Modelado de \textit{rayos de flujo} en videos de expresiones faciales}
+			%\movie[[width=3cm,height=2cm]{}{videos/v1.avi}
+			\begin{center}
+				\includemedia[
+				width=0.7\linewidth,
+				height=0.6\linewidth,
+				activate=pageopen,
+				addresource=./videos/track.mp4,
+				flashvars={
+					source=./videos/track.mp4
+					& loop=true
+				}
+				]{}{VPlayer.swf}
+			\end{center}		
+		\end{frame}
+	
 	
 	\subsection{Experimentos en la creación de macro-descriptores}
 	\begin{frame}{Experimentos en la creación de macro-descriptores}{Representación visual de distribución de \textit{clusters} en el rostro}
@@ -917,18 +929,18 @@
 			\item Texturas de la imagen del rostro son de vital importancia.
 			\item Ruido por extracción en regiones que no aportan información.
 			\item \textit{Clustering} localizado en regiones importantes del rostro.
-			\item Utilizar solo regiones del rostro: nariz, boca, ceja, etc
+			\item Utilizar solo regiones del rostro: nariz, boca, ceja, ojos.
 			
 		\end{itemize}
 	\end{frame}      
 
 \section{Trabajos futuros}
-        \begin{frame}{Trabajos futuros}{Experimentos}
+        \begin{frame}{Trabajos futuros}{}
 			\begin{enumerate}
-				\item Utilizar solo la variable vertical
-				\item Utilizar el angulo de movimiento
-				\item Utilizar solo regiones importantes del rostro (Nariz, boca, ojos y cejas)
-				\item Mezclar con FACS de Ekman
+				\item Utilizar solo la variable vertical.
+				\item Utilizar el angulo de movimiento.
+				\item Utilizar solo regiones importantes del rostro (Nariz, boca, ojos y cejas).
+				\item Mezclar con FACS de Ekman.
 			\end{enumerate}					        
         \end{frame}
     
